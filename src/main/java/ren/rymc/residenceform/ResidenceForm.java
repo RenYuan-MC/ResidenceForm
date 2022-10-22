@@ -7,12 +7,11 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import ren.rymc.residenceform.form.MainForm;
-import ren.rymc.residenceform.debug.Debug;
 import ren.rymc.residenceform.metrics.Metrics;
 import ren.rymc.residenceform.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public final class ResidenceForm extends JavaPlugin {
@@ -47,7 +46,6 @@ public final class ResidenceForm extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) return true;
-        if (args[0].equals("debug")) return Debug.debugCommand(sender,args);
         Utils.toLowerCase(args);
         if(args[0].equals("ui")){
             if (!(sender instanceof Player)) return true;
@@ -60,8 +58,7 @@ public final class ResidenceForm extends JavaPlugin {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         Utils.toLowerCase(args);
-        if (args.length == 1) return new ArrayList<>(Arrays.asList("debug","ui"));
-        if (args[0].equals("debug")) return Debug.debugTab(sender,args);
+        if (args.length == 1) return new ArrayList<>(Collections.singletonList("ui"));
         return new ArrayList<>();
     }
 }

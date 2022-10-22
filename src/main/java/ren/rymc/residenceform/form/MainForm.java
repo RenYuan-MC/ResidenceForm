@@ -315,11 +315,10 @@ public class MainForm {
                                     String command = response.getToggle(2) ? "contract" : "expand";
                                     Location location = player.getLocation();
                                     player.teleport(Facing.translateLocation(location,Facing.facing(response.getDropdown(0))));
-                                    Bukkit.dispatchCommand(player,"res " + command + " " + input.trim());
+                                    Bukkit.dispatchCommand(player,"res " + command + " " + residence.getName() + " " + input.trim());
                                     player.teleport(location);
-                                }else{
-                                    sendResSettingForm(player,residence);
                                 }
+                                sendResSensitiveOperationForm(player,residence);
                             }
                         })
         );
