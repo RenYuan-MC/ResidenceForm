@@ -26,7 +26,7 @@ public class MainForm {
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
                 SimpleForm.builder()
                         .title("领地菜单")
-                        .content("§7领地基岩版菜单 ResidenceForm v0.1.5")
+                        .content("§7领地基岩版菜单 ResidenceForm")
                         .button("领地管理")
                         .button("插件信息")
                         .responseHandler((f, r) -> {
@@ -52,6 +52,8 @@ public class MainForm {
                         .button("玩家权限设置")
                         .button("信任玩家管理")
                         .button("领地扩展/缩小")
+                        .button("领地传送点设置")
+                        .button("踢出领地内玩家")
                         .button("返回领地选择")
                         .responseHandler((f, r) -> {
                             SimpleFormResponse response = f.parseResponse(r);
@@ -61,7 +63,61 @@ public class MainForm {
                                 if (id == 1) sendResPSetForm(player,residence);
                                 if (id == 2) sendResTrustedPlayerSettingForm(player,residence);
                                 if (id == 3) sendResExtendAndContractForm(player,residence);
-                                if (id == 4) sendResSettingForm(player);
+                                if (id == 4) sendResTpSetForm(player,residence);
+                                if (id == 5) sendResKickForm(player,residence);
+                                if (id == 6) sendResSettingForm(player);
+                            }
+                        })
+        );
+    }
+
+    public static void sendResKickForm(Player player,ClaimedResidence residence){
+        if (residence == null) return;
+        UUID uuid = player.getUniqueId();
+        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
+        if (!ResidenceUtils.hasManagePermission(player,residence) && !player.isOp()) return;
+        String[] playerNameList = ResidenceUtils.getPlayersInResidence(residence);
+        playerNameList[0] = "请选择玩家";
+        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
+                CustomForm.builder()
+                        .title("§8踢出领地内玩家")
+                        .dropdown("领地内玩家列表",playerNameList)
+                        .input("如上方表格使用过于麻烦请使用下方输入框", "需要完整玩家名称")
+                        .responseHandler((f, r) -> {
+                            CustomFormResponse response = f.parseResponse(r);
+                            if (response.isCorrect()) {
+                                String input = response.getInput(1);
+                                String targetPlayer = null;
+                                if (input != null && !input.trim().equals("") && !input.trim().contains(" ")){
+                                    targetPlayer = input;
+                                }else if(response.getDropdown(0) != 0){
+                                    targetPlayer = playerNameList[response.getDropdown(0)];
+                                }
+                                ResidenceUtils.kickPlayer(targetPlayer,residence);
+                                sendResSettingForm(player,residence);
+                            }
+                        })
+        );
+    }
+
+    public static void sendResTpSetForm(Player player,ClaimedResidence residence){
+        if (residence == null) return;
+        UUID uuid = player.getUniqueId();
+        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
+        if (!ResidenceUtils.hasManagePermission(player,residence) && !player.isOp()) return;
+        Location location = player.getLocation();
+        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
+                SimpleForm.builder()
+                        .title("领地传送点设置")
+                        .content("将你所在的位置设置为领地传送点\n\n领地: " + residence.getName() + "\n你的坐标:" + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + "\n\n")
+                        .button("将传送点设置为当前坐标")
+                        .button("返回领地管理")
+                        .responseHandler((f, r) -> {
+                            SimpleFormResponse response = f.parseResponse(r);
+                            if (response.isCorrect()) {
+                                int id = response.getClickedButtonId();
+                                if (id == 0) residence.setTpLoc(player,false);
+                                sendResSettingForm(player);
                             }
                         })
         );
@@ -71,6 +127,7 @@ public class MainForm {
         if (residence == null) return;
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
+        if (!ResidenceUtils.hasManagePermission(player,residence) && !player.isOp()) return;
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
                 CustomForm.builder()
                         .title("§8领地 §l" + residence.getName() +" §r§8扩展/缩小")

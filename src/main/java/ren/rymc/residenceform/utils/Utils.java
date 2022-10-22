@@ -1,7 +1,6 @@
 package ren.rymc.residenceform.utils;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -30,6 +29,13 @@ public class Utils {
 
     public static List<String> getOnlinePlayerNameArrayList(){
         return new ArrayList<>(Arrays.asList(arraysFilter(getOnlinePlayerNameList(), "")));
+    }
+
+    public static Player getPlayerExtract(String name){
+        for (Player player : Bukkit.getOnlinePlayers()){
+            if(player.getName().equalsIgnoreCase(name)) return player;
+        }
+        return null;
     }
 }
 

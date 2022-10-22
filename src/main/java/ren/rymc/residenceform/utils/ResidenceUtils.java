@@ -46,9 +46,9 @@ public class ResidenceUtils {
         for (Map.Entry<String, Boolean> one : residence.getPermissions().getFlags().entrySet()) {
             if (flags.contains(one.getKey())) resFlags.put(one.getKey(), one.getValue());
         }
-        Set<String> PosibleResPFlags = FlagPermissions.getAllPosibleFlags();
+        Set<String> PossibleResPFlags = FlagPermissions.getAllPosibleFlags();
         Map<String, Boolean> temp = new HashMap<>();
-        for (String one : PosibleResPFlags) {
+        for (String one : PossibleResPFlags) {
             if (globalFlags.containsKey(one)) temp.put(one, globalFlags.get(one));
         }
         globalFlags = temp;
@@ -122,4 +122,23 @@ public class ResidenceUtils {
         }
         return list;
     }
+
+    public static void kickPlayer(String targetPlayer,ClaimedResidence residence){
+        Player player = Utils.getPlayerExtract(targetPlayer);
+        if (player == null) return;
+        if (!residence.getPlayersInResidence().contains(player)) return;
+        player.closeInventory();
+        player.teleport(residence.getOutsideFreeLoc(player.getLocation(), player));
+    }
+
+    public static String[] getPlayersInResidence(ClaimedResidence residence){
+        List<Player> players = residence.getPlayersInResidence();
+        String[] playerNames = new String[players.size()+1];
+        playerNames[0] = "";
+        for (int i = 0, j = players.size(); i < j; i++) {
+            playerNames[i+1] = players.get(i).getName();
+        }
+        return playerNames;
+    }
+
 }

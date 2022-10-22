@@ -56,7 +56,7 @@ public enum Facing {
     public static String[] facingList(){
         Facing[] facings = values();
         String[] list = new String[facings.length - 1];
-        for (int i = 0; i < facings.length; i++) {
+        for (int i = 0, j = facings.length; i < j; i++) {
             if (facings[i].getID() == -1) continue;
             list[i] = facings[i].getName();
         }
