@@ -6,7 +6,7 @@
 
     <groupId>ren.rymc</groupId>
     <artifactId>ResidenceForm</artifactId>
-    <version>0.1.7-SNAPSHOT</version>
+    <version>0.1.8-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>ResidenceForm</name>

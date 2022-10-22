@@ -8,11 +8,11 @@
 * 领地扩展/缩小 ( res expand/contract )
 * 领地传送点设置 ( res tpset )
 * 领地踢出 ( res kick )
-## 待实现的功能
 * 领地传送 ( res tp )
 * 领地删除 ( res remove )
 * 领地转移 ( res give )
 * 领地重命名 ( res rename )
+## 待实现的功能
 * 领地创建选择 ( res select )
 * 领地创建草稿 ( 独有功能 )
 * 领地创建 ( res create )

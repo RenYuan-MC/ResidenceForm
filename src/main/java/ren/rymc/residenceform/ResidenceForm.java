@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import ren.rymc.residenceform.form.MainForm;
 import ren.rymc.residenceform.debug.Debug;
+import ren.rymc.residenceform.metrics.Metrics;
 import ren.rymc.residenceform.utils.Utils;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public final class ResidenceForm extends JavaPlugin {
     public void onEnable() {
         instance = this;
         loadCommands();
+        Metrics metrics = new Metrics(this, 16703);
+        metrics.addCustomChart(new Metrics.SimplePie("chart_id", () -> "My value"));
     }
 
     private void loadCommands(){
