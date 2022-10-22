@@ -27,14 +27,51 @@ public class MainForm {
                 SimpleForm.builder()
                         .title("领地菜单")
                         .content("§7领地基岩版菜单 ResidenceForm")
+                        .button("领地传送")
                         .button("领地管理")
                         .button("插件信息")
                         .responseHandler((f, r) -> {
                             SimpleFormResponse response = f.parseResponse(r);
                             if (response.isCorrect()) {
                                 int id = response.getClickedButtonId();
-                                if (id == 0) sendResSettingForm(player);
-                                if (id == 1) PluginInfo.sendPluginInfoForm(player);
+                                if (id == 0) sendResTeleportForm(player);
+                                if (id == 1) sendResSettingForm(player);
+                                if (id == 2) PluginInfo.sendPluginInfoForm(player);
+                            }
+                        })
+        );
+    }
+
+    public static void sendResTeleportForm(Player player){
+        UUID uuid = player.getUniqueId();
+        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
+        HashMap<String, ClaimedResidence> residenceList = ResidenceUtils.getNormalResidenceList(player);
+        String[] resList = new String[residenceList.size() + 1];
+        int i = 1;
+        resList[0] = "选择领地或使用下方输入框";
+        for (Map.Entry<String, ClaimedResidence> entry : residenceList.entrySet()) {
+            resList[i++] = entry.getKey();
+        }
+        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
+                CustomForm.builder()
+                        .title("§8领地传送")
+                        .dropdown("你可以使用此下拉框",resList)
+                        .input("或使用此输入框","完整领地名称")
+                        .responseHandler((f, r) -> {
+                            CustomFormResponse response = f.parseResponse(r);
+                            if (response.isCorrect()) {
+                                String input = response.getInput(1);
+                                String residence = null;
+                                if (input != null && !input.trim().equals("") && !input.trim().contains(" ")){
+                                    residence = input.trim();
+                                }else if(response.getDropdown(0) != 0){
+                                    residence = resList[response.getDropdown(0)];
+                                }
+                                if (residence == null) {
+                                    sendMainResidenceForm(player);
+                                } else {
+                                    Bukkit.dispatchCommand(player,"res tp " + residence);
+                                }
                             }
                         })
         );

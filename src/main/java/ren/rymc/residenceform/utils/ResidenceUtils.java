@@ -96,15 +96,18 @@ public class ResidenceUtils {
     }
 
     public static HashMap<String,ClaimedResidence> getResidenceList(Player player){
+        HashMap<String,ClaimedResidence> hashMap = new HashMap<>();
+        for (Map.Entry<String, ClaimedResidence> entry : getNormalResidenceList(player).entrySet()) {
+            if (hasManagePermission(player,entry.getValue())) hashMap.put(entry.getKey(),entry.getValue());
+        }
+        return hashMap;
+    }
+    public static HashMap<String,ClaimedResidence> getNormalResidenceList(Player player){
         Residence res = Residence.getInstance();
         TreeMap<String, ClaimedResidence> ownedResidences = res.getPlayerManager().getResidencesMap(player.getName(), true, false, null);
         ownedResidences.putAll(res.getRentManager().getRentsMap(player.getName(), false, null));
         ownedResidences.putAll(res.getPlayerManager().getTrustedResidencesMap(player.getName(), true, false, null));
-        HashMap<String,ClaimedResidence> hashMap = new HashMap<>();
-        for (Map.Entry<String, ClaimedResidence> entry : ownedResidences.entrySet()) {
-            if (hasManagePermission(player,entry.getValue())) hashMap.put(entry.getKey(),entry.getValue());
-        }
-        return hashMap;
+        return new HashMap<>(ownedResidences);
     }
 
     public static boolean hasManagePermission(Player player,ClaimedResidence residence){
