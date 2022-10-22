@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import ren.rymc.residenceform.Form.MainForm;
+import ren.rymc.residenceform.form.MainForm;
 import ren.rymc.residenceform.debug.Debug;
 import ren.rymc.residenceform.utils.Utils;
 

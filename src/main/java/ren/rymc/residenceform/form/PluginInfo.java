@@ -1,4 +1,4 @@
-package ren.rymc.residenceform.Form;
+package ren.rymc.residenceform.form;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

@@ -1,4 +1,4 @@
-package ren.rymc.residenceform.Form;
+package ren.rymc.residenceform.form;
 
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.containers.Flags;

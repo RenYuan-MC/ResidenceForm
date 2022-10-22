@@ -24,11 +24,11 @@ public class ResidenceUtils {
             String name = one.getKey();
             Flags flag = Flags.getFlag(name);
             if (flag != null && !flag.isGlobalyEnabled()) continue;
-            if (!flags.contains(one.getKey())) continue;
-            if (resFlags.containsKey(one.getKey())) {
-                TempPermMap.put(one.getKey(), resFlags.get(one.getKey()) ? FlagPermissions.FlagState.TRUE : FlagPermissions.FlagState.FALSE);
+            if (!flags.contains(name)) continue;
+            if (resFlags.containsKey(name)) {
+                TempPermMap.put(name, resFlags.get(name) ? FlagPermissions.FlagState.TRUE : FlagPermissions.FlagState.FALSE);
             } else {
-                TempPermMap.put(one.getKey(), FlagPermissions.FlagState.NEITHER);
+                TempPermMap.put(name, FlagPermissions.FlagState.NEITHER);
             }
         }
         TempPermMap.remove("admin");
