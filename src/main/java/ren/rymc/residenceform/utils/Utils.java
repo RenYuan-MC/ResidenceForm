@@ -150,15 +150,15 @@ public class Utils {
         return null;
     }
 
-    public static String blockLocToString(Location location){
+    public static String blockLocToString(Location location) {
         return location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ();
     }
 
-    public static Location stringToBlockLoc(String string, World world){
-        String[] args = string.replace(" ","").split(",");
+    public static Location stringToBlockLoc(String string, World world) {
+        String[] args = string.replace(" ", "").split(",");
         try {
-            return new Location(world,Double.parseDouble(args[0]),Double.parseDouble(args[1]),Double.parseDouble(args[2]));
-        }catch (NumberFormatException exception){
+            return new Location(world, Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]));
+        } catch (NumberFormatException exception) {
             return null;
         }
     }

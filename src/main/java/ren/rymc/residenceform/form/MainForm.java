@@ -53,7 +53,7 @@ public class MainForm {
         );
     }
 
-    public static void sendResCreateSelectForm(Player player){
+    public static void sendResCreateSelectForm(Player player) {
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
         PermissionGroup group = Residence.getInstance().getPlayerManager().getResidencePlayer(player).getGroup();
@@ -64,12 +64,12 @@ public class MainForm {
         if (loc1 == null || loc2 == null) content = "未创建选区\n\n";
         else content =
                 "顶点坐标1: " + Utils.blockLocToString(loc1) + "\n" +
-                "顶点坐标2: " + Utils.blockLocToString(loc2) + "\n" +
-                "世界: " + (loc1.getWorld() == null ? "未知" : loc1.getWorld().getName()) + "\n" +
-                "长: " + selection.getBaseArea().getXSize() + "\n" +
-                "宽: " + selection.getBaseArea().getZSize() + "\n" +
-                "高: " + selection.getBaseArea().getYSize() + "\n" +
-                "价格: " + selection.getBaseArea().getCost(group) + "\n\n";
+                        "顶点坐标2: " + Utils.blockLocToString(loc2) + "\n" +
+                        "世界: " + (loc1.getWorld() == null ? "未知" : loc1.getWorld().getName()) + "\n" +
+                        "长: " + selection.getBaseArea().getXSize() + "\n" +
+                        "宽: " + selection.getBaseArea().getZSize() + "\n" +
+                        "高: " + selection.getBaseArea().getYSize() + "\n" +
+                        "价格: " + selection.getBaseArea().getCost(group) + "\n\n";
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
                 SimpleForm.builder()
                         .title("领地创建菜单")
@@ -101,7 +101,7 @@ public class MainForm {
         );
     }
 
-    public static void sendResCreateForm(Player player){
+    public static void sendResCreateForm(Player player) {
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
         PermissionGroup group = Residence.getInstance().getPlayerManager().getResidencePlayer(player).getGroup();
@@ -109,20 +109,21 @@ public class MainForm {
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
                 CustomForm.builder()
                         .title("§8领地创建")
-                        .input("此次创建将花费: "+ selection.getBaseArea().getCost(group) + " 金币\n\n请给你要创建的领地起个名字", "支持大小写英文,数字,下划线和连字符")
+                        .input("此次创建将花费: " + selection.getBaseArea().getCost(group) + " 金币\n\n请给你要创建的领地起个名字", "支持大小写英文,数字,下划线和连字符")
                         .responseHandler((f, r) -> {
                             CustomFormResponse response = f.parseResponse(r);
                             if (response.isCorrect()) {
                                 String input = response.getInput(0);
-                                if (input != null && !input.trim().equals("")){
-                                    Bukkit.dispatchCommand(player,"res create " + input);
+                                if (input != null && !input.trim().equals("")) {
+                                    Bukkit.dispatchCommand(player, "res create " + input);
                                     Residence.getInstance().getSelectionManager().clearSelection(player);
                                 }
                             }
                         })
         );
     }
-    public static void sendResTempSelectionRemoveForm(Player player){
+
+    public static void sendResTempSelectionRemoveForm(Player player) {
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
         String[] tempResList = TempSelection.getPlayerTempSelectionNameList(player);
@@ -136,11 +137,11 @@ public class MainForm {
                             if (response.isCorrect()) {
                                 if (response.getDropdown(0) != 0) {
                                     TempSelection tempSelection = TempSelection.getTempSelection(player, tempResList[response.getDropdown(0)]);
-                                    if(tempSelection == null) {
+                                    if (tempSelection == null) {
                                         sendResCreateSelectForm(player);
                                         return;
                                     }
-                                    TempSelection.removeTempSelection(player,tempSelection.getName());
+                                    TempSelection.removeTempSelection(player, tempSelection.getName());
                                 }
                                 sendResCreateSelectForm(player);
                             }
@@ -148,7 +149,7 @@ public class MainForm {
         );
     }
 
-    public static void sendResTempSelectionImportForm(Player player){
+    public static void sendResTempSelectionImportForm(Player player) {
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
         String[] tempResList = TempSelection.getPlayerTempSelectionNameList(player);
@@ -162,14 +163,14 @@ public class MainForm {
                             if (response.isCorrect()) {
                                 if (response.getDropdown(0) != 0) {
                                     TempSelection tempSelection = TempSelection.getTempSelection(player, tempResList[response.getDropdown(0)]);
-                                    if(tempSelection == null) {
+                                    if (tempSelection == null) {
                                         sendResCreateSelectForm(player);
                                         return;
                                     }
                                     SelectionManager.Selection selection = Residence.getInstance().getSelectionManager().getSelection(player);
                                     Location loc1 = tempSelection.getLoc1();
                                     Location loc2 = tempSelection.getLoc2();
-                                    if(loc1 == null || loc2 == null) {
+                                    if (loc1 == null || loc2 == null) {
                                         sendResCreateSelectForm(player);
                                         return;
                                     }
@@ -182,7 +183,7 @@ public class MainForm {
         );
     }
 
-    public static void sendResTempSelectionForm(Player player){
+    public static void sendResTempSelectionForm(Player player) {
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
@@ -193,7 +194,7 @@ public class MainForm {
                             CustomFormResponse response = f.parseResponse(r);
                             if (response.isCorrect()) {
                                 String input = response.getInput(0);
-                                if (input != null && !input.trim().equals("")){
+                                if (input != null && !input.trim().equals("")) {
                                     SelectionManager.Selection selection = Residence.getInstance().getSelectionManager().getSelection(player);
                                     TempSelection tempSelection = new TempSelection(player, input, selection.getBaseLoc1(), selection.getBaseLoc2());
                                     TempSelection.addTempSelection(tempSelection);
@@ -205,7 +206,7 @@ public class MainForm {
         );
     }
 
-    public static void sendResSelectExpandAndContractForm(Player player){
+    public static void sendResSelectExpandAndContractForm(Player player) {
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
@@ -231,7 +232,7 @@ public class MainForm {
         );
     }
 
-    public static void sendResManualSelectForm(Player player){
+    public static void sendResManualSelectForm(Player player) {
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
@@ -244,13 +245,13 @@ public class MainForm {
                             if (response.isCorrect()) {
                                 String input1 = response.getInput(0);
                                 String input2 = response.getInput(2);
-                                if (input1 == null || input2 == null){
+                                if (input1 == null || input2 == null) {
                                     sendResCreateSelectForm(player);
                                     return;
                                 }
-                                Location loc1 = Utils.stringToBlockLoc(input1,player.getWorld());
+                                Location loc1 = Utils.stringToBlockLoc(input1, player.getWorld());
                                 Location loc2 = Utils.stringToBlockLoc(input2, player.getWorld());
-                                if (loc1 == null || loc2 == null){
+                                if (loc1 == null || loc2 == null) {
                                     sendResCreateSelectForm(player);
                                     return;
                                 }
@@ -264,22 +265,22 @@ public class MainForm {
         );
     }
 
-    public static void sendResPlayerSelectForm(Player player){
+    public static void sendResPlayerSelectForm(Player player) {
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
                 CustomForm.builder()
                         .title("§8以你为中心创建领地")
                         .input("长", "数字(整数)")
-                        .input("宽","数字(整数)")
-                        .input("高","数字(整数)")
+                        .input("宽", "数字(整数)")
+                        .input("高", "数字(整数)")
                         .responseHandler((f, r) -> {
                             CustomFormResponse response = f.parseResponse(r);
                             if (response.isCorrect()) {
                                 String X = response.getInput(0);
                                 String Y = response.getInput(2);
                                 String Z = response.getInput(1);
-                                Bukkit.dispatchCommand(player,"res select " + X + " " + Y + " " + Z);
+                                Bukkit.dispatchCommand(player, "res select " + X + " " + Y + " " + Z);
                                 sendResCreateSelectForm(player);
                             }
                         })
