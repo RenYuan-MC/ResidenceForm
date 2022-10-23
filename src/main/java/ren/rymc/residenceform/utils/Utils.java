@@ -6,6 +6,8 @@ import com.bekvon.bukkit.residence.containers.ResidencePlayer;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.FlagPermissions;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -146,6 +148,19 @@ public class Utils {
             if (player.getName().equalsIgnoreCase(name)) return player;
         }
         return null;
+    }
+
+    public static String blockLocToString(Location location){
+        return location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ();
+    }
+
+    public static Location stringToBlockLoc(String string, World world){
+        String[] args = string.replace(" ","").split(",");
+        try {
+            return new Location(world,Double.parseDouble(args[0]),Double.parseDouble(args[1]),Double.parseDouble(args[2]));
+        }catch (NumberFormatException exception){
+            return null;
+        }
     }
 
 }

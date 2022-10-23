@@ -2,8 +2,10 @@ package ren.rymc.residenceform.form;
 
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.containers.Flags;
+import com.bekvon.bukkit.residence.permissions.PermissionGroup;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.FlagPermissions;
+import com.bekvon.bukkit.residence.selection.SelectionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -16,6 +18,7 @@ import org.geysermc.floodgate.api.FloodgateApi;
 import org.geysermc.floodgate.api.player.FloodgatePlayer;
 import ren.rymc.residenceform.ResidenceForm;
 import ren.rymc.residenceform.utils.Facing;
+import ren.rymc.residenceform.utils.TempSelection;
 import ren.rymc.residenceform.utils.Utils;
 
 import java.util.HashMap;
@@ -33,6 +36,7 @@ public class MainForm {
                         .content("§7领地基岩版菜单 ResidenceForm")
                         .button("领地传送")
                         .button("领地管理")
+                        .button("领地创建")
                         .button("领地工具")
                         .button("插件信息")
                         .responseHandler((f, r) -> {
@@ -41,8 +45,242 @@ public class MainForm {
                                 int id = response.getClickedButtonId();
                                 if (id == 0) sendResTeleportForm(player);
                                 if (id == 1) sendResSettingForm(player);
-                                if (id == 2) sendResToolsForm(player);
-                                if (id == 3) sendPluginInfoForm(player);
+                                if (id == 2) sendResCreateSelectForm(player);
+                                if (id == 3) sendResToolsForm(player);
+                                if (id == 4) sendPluginInfoForm(player);
+                            }
+                        })
+        );
+    }
+
+    public static void sendResCreateSelectForm(Player player){
+        UUID uuid = player.getUniqueId();
+        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
+        PermissionGroup group = Residence.getInstance().getPlayerManager().getResidencePlayer(player).getGroup();
+        SelectionManager.Selection selection = Residence.getInstance().getSelectionManager().getSelection(player);
+        String content;
+        Location loc1 = selection.getBaseLoc1();
+        Location loc2 = selection.getBaseLoc2();
+        if (loc1 == null || loc2 == null) content = "未创建选区\n\n";
+        else content =
+                "顶点坐标1: " + Utils.blockLocToString(loc1) + "\n" +
+                "顶点坐标2: " + Utils.blockLocToString(loc2) + "\n" +
+                "世界: " + (loc1.getWorld() == null ? "未知" : loc1.getWorld().getName()) + "\n" +
+                "长: " + selection.getBaseArea().getXSize() + "\n" +
+                "宽: " + selection.getBaseArea().getZSize() + "\n" +
+                "高: " + selection.getBaseArea().getYSize() + "\n" +
+                "价格: " + selection.getBaseArea().getCost(group) + "\n\n";
+        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
+                SimpleForm.builder()
+                        .title("领地创建菜单")
+                        .content("\n\n当前选区:\n" + content)
+                        .button("开启/关闭自动选区")
+                        .button("以你为中心选区")
+                        .button("手动输入选区坐标")
+                        .button("扩展/缩小选区")
+                        .button("创建领地")
+                        .button("将此选区保存为草稿")
+                        .button("导入领地草稿")
+                        .button("删除领地草稿")
+                        .button("返回领地主菜单")
+                        .responseHandler((f, r) -> {
+                            SimpleFormResponse response = f.parseResponse(r);
+                            if (response.isCorrect()) {
+                                int id = response.getClickedButtonId();
+                                if (id == 0) Bukkit.dispatchCommand(player, "res select auto");
+                                if (id == 1) sendResPlayerSelectForm(player);
+                                if (id == 2) sendResManualSelectForm(player);
+                                if (id == 3) sendResSelectExpandAndContractForm(player);
+                                if (id == 4) sendResCreateForm(player);
+                                if (id == 5) sendResTempSelectionForm(player);
+                                if (id == 6) sendResTempSelectionImportForm(player);
+                                if (id == 7) sendResTempSelectionRemoveForm(player);
+                                if (id == 8) sendMainResidenceForm(player);
+                            }
+                        })
+        );
+    }
+
+    public static void sendResCreateForm(Player player){
+        UUID uuid = player.getUniqueId();
+        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
+        PermissionGroup group = Residence.getInstance().getPlayerManager().getResidencePlayer(player).getGroup();
+        SelectionManager.Selection selection = Residence.getInstance().getSelectionManager().getSelection(player);
+        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
+                CustomForm.builder()
+                        .title("§8领地创建")
+                        .input("此次创建将花费: "+ selection.getBaseArea().getCost(group) + " 金币\n\n请给你要创建的领地起个名字", "支持大小写英文,数字,下划线和连字符")
+                        .responseHandler((f, r) -> {
+                            CustomFormResponse response = f.parseResponse(r);
+                            if (response.isCorrect()) {
+                                String input = response.getInput(0);
+                                if (input != null && !input.trim().equals("")){
+                                    Bukkit.dispatchCommand(player,"res create " + input);
+                                    Residence.getInstance().getSelectionManager().clearSelection(player);
+                                }
+                            }
+                        })
+        );
+    }
+    public static void sendResTempSelectionRemoveForm(Player player){
+        UUID uuid = player.getUniqueId();
+        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
+        String[] tempResList = TempSelection.getPlayerTempSelectionNameList(player);
+        tempResList[0] = "请选择你要删除的领地草稿";
+        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
+                CustomForm.builder()
+                        .title("§8领地草稿删除")
+                        .dropdown("领地草稿列表", tempResList)
+                        .responseHandler((f, r) -> {
+                            CustomFormResponse response = f.parseResponse(r);
+                            if (response.isCorrect()) {
+                                if (response.getDropdown(0) != 0) {
+                                    TempSelection tempSelection = TempSelection.getTempSelection(player, tempResList[response.getDropdown(0)]);
+                                    if(tempSelection == null) {
+                                        sendResCreateSelectForm(player);
+                                        return;
+                                    }
+                                    TempSelection.removeTempSelection(player,tempSelection.getName());
+                                }
+                                sendResCreateSelectForm(player);
+                            }
+                        })
+        );
+    }
+
+    public static void sendResTempSelectionImportForm(Player player){
+        UUID uuid = player.getUniqueId();
+        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
+        String[] tempResList = TempSelection.getPlayerTempSelectionNameList(player);
+        tempResList[0] = "请选择你要导入的领地草稿";
+        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
+                CustomForm.builder()
+                        .title("§8领地草稿导入")
+                        .dropdown("领地草稿列表", tempResList)
+                        .responseHandler((f, r) -> {
+                            CustomFormResponse response = f.parseResponse(r);
+                            if (response.isCorrect()) {
+                                if (response.getDropdown(0) != 0) {
+                                    TempSelection tempSelection = TempSelection.getTempSelection(player, tempResList[response.getDropdown(0)]);
+                                    if(tempSelection == null) {
+                                        sendResCreateSelectForm(player);
+                                        return;
+                                    }
+                                    SelectionManager.Selection selection = Residence.getInstance().getSelectionManager().getSelection(player);
+                                    Location loc1 = tempSelection.getLoc1();
+                                    Location loc2 = tempSelection.getLoc2();
+                                    if(loc1 == null || loc2 == null) {
+                                        sendResCreateSelectForm(player);
+                                        return;
+                                    }
+                                    selection.setBaseLoc1(loc1);
+                                    selection.setBaseLoc2(loc2);
+                                }
+                                sendResCreateSelectForm(player);
+                            }
+                        })
+        );
+    }
+
+    public static void sendResTempSelectionForm(Player player){
+        UUID uuid = player.getUniqueId();
+        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
+        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
+                CustomForm.builder()
+                        .title("§8领地选区草稿保存")
+                        .input("领地草稿会在服务器重启后消失\n一个账号最多保存5个\n\n请为此草稿设置一个名称", "不能为空")
+                        .responseHandler((f, r) -> {
+                            CustomFormResponse response = f.parseResponse(r);
+                            if (response.isCorrect()) {
+                                String input = response.getInput(0);
+                                if (input != null && !input.trim().equals("")){
+                                    SelectionManager.Selection selection = Residence.getInstance().getSelectionManager().getSelection(player);
+                                    TempSelection tempSelection = new TempSelection(player, input, selection.getBaseLoc1(), selection.getBaseLoc2());
+                                    TempSelection.addTempSelection(tempSelection);
+                                    Residence.getInstance().getSelectionManager().clearSelection(player);
+                                }
+                                sendResCreateSelectForm(player);
+                            }
+                        })
+        );
+    }
+
+    public static void sendResSelectExpandAndContractForm(Player player){
+        UUID uuid = player.getUniqueId();
+        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
+        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
+                CustomForm.builder()
+                        .title("§8领地选区扩展/缩小")
+                        .dropdown("你当前面对的方向: " + Facing.facing(player.getLocation().getYaw()).getName() + "\n\n扩展/缩小的方向", Facing.facingList())
+                        .input("扩展范围", "数字,不填则返回上一级菜单")
+                        .toggle("模式(关闭为扩展,开启为缩小)")
+                        .responseHandler((f, r) -> {
+                            CustomFormResponse response = f.parseResponse(r);
+                            if (response.isCorrect()) {
+                                String input = response.getInput(1);
+                                if (input != null && !input.trim().equals("") && !input.trim().contains(" ")) {
+                                    String command = response.getToggle(2) ? "contract" : "expand";
+                                    Location location = player.getLocation();
+                                    player.teleport(Facing.translateLocation(location, Facing.facing(response.getDropdown(0))));
+                                    Bukkit.dispatchCommand(player, "res select " + command + " " + input.trim());
+                                    player.teleport(location);
+                                }
+                                sendResCreateSelectForm(player);
+                            }
+                        })
+        );
+    }
+
+    public static void sendResManualSelectForm(Player player){
+        UUID uuid = player.getUniqueId();
+        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
+        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
+                CustomForm.builder()
+                        .title("§8手动输入坐标")
+                        .input("顶点坐标1(格式: X, Y, Z)", "数字")
+                        .input("顶点坐标2(格式: X, Y, Z)", "数字")
+                        .responseHandler((f, r) -> {
+                            CustomFormResponse response = f.parseResponse(r);
+                            if (response.isCorrect()) {
+                                String input1 = response.getInput(0);
+                                String input2 = response.getInput(2);
+                                if (input1 == null || input2 == null){
+                                    sendResCreateSelectForm(player);
+                                    return;
+                                }
+                                Location loc1 = Utils.stringToBlockLoc(input1,player.getWorld());
+                                Location loc2 = Utils.stringToBlockLoc(input2, player.getWorld());
+                                if (loc1 == null || loc2 == null){
+                                    sendResCreateSelectForm(player);
+                                    return;
+                                }
+                                SelectionManager sm = Residence.getInstance().getSelectionManager();
+                                sm.clearSelection(player);
+                                sm.getSelection(player).setBaseLoc1(loc1);
+                                sm.getSelection(player).setBaseLoc2(loc2);
+                                sendResCreateSelectForm(player);
+                            }
+                        })
+        );
+    }
+
+    public static void sendResPlayerSelectForm(Player player){
+        UUID uuid = player.getUniqueId();
+        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
+        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
+                CustomForm.builder()
+                        .title("§8以你为中心创建领地")
+                        .input("长", "数字(整数)")
+                        .input("宽","数字(整数)")
+                        .input("高","数字(整数)")
+                        .responseHandler((f, r) -> {
+                            CustomFormResponse response = f.parseResponse(r);
+                            if (response.isCorrect()) {
+                                String X = response.getInput(0);
+                                String Y = response.getInput(2);
+                                String Z = response.getInput(1);
+                                Bukkit.dispatchCommand(player,"res select " + X + " " + Y + " " + Z);
+                                sendResCreateSelectForm(player);
                             }
                         })
         );
@@ -111,7 +349,7 @@ public class MainForm {
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
                 SimpleForm.builder()
                         .title("插件信息")
-                        .content("§7领地基岩版兼容 ResidenceForm\n作者: RENaa_FD\n版本: 测试版本 v0.2.0\n官网: https//rymc.ren/\nQQ群: 1029946156\n\n")
+                        .content("§7领地基岩版兼容 ResidenceForm\n作者: RENaa_FD\n版本: 预发布版 v1.0.0-rc1\n官网: https//rymc.ren/\nQQ群: 1029946156\n\n")
                         .button("API信息")
                         .button("BUG报告")
                         .button("开源协议")
