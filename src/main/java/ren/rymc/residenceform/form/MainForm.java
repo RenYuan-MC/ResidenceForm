@@ -350,7 +350,7 @@ public class MainForm {
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
                 SimpleForm.builder()
                         .title("插件信息")
-                        .content("§7领地基岩版兼容 ResidenceForm\n作者: RENaa_FD\n版本: 预发布版 v1.0.0-rc1\n官网: https//rymc.ren/\nQQ群: 1029946156\n\n")
+                        .content("§7领地基岩版兼容 ResidenceForm\n作者: RENaa_FD\n版本: 正式版 v1.0.0\n官网: https//rymc.ren/\nQQ群: 1029946156\n\n")
                         .button("API信息")
                         .button("BUG报告")
                         .button("开源协议")
