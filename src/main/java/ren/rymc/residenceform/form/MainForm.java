@@ -62,8 +62,7 @@ public class MainForm {
         Location loc1 = selection.getBaseLoc1();
         Location loc2 = selection.getBaseLoc2();
         if (loc1 == null || loc2 == null) content = "未创建选区\n\n";
-        else content =
-                "顶点坐标1: " + Utils.blockLocToString(loc1) + "\n" +
+        else content =  "顶点坐标1: " + Utils.blockLocToString(loc1) + "\n" +
                         "顶点坐标2: " + Utils.blockLocToString(loc2) + "\n" +
                         "世界: " + (loc1.getWorld() == null ? "未知" : loc1.getWorld().getName()) + "\n" +
                         "长: " + selection.getBaseArea().getXSize() + "\n" +
