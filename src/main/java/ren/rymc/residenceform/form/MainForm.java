@@ -44,10 +44,10 @@ public class MainForm {
                             if (response.isCorrect()) {
                                 int id = response.getClickedButtonId();
                                 if (id == 0) sendResTeleportForm(player);
-                                if (id == 1) sendResSettingForm(player);
-                                if (id == 2) sendResCreateSelectForm(player);
-                                if (id == 3) sendResToolsForm(player);
-                                if (id == 4) sendPluginInfoForm(player);
+                                else if (id == 1) sendResSettingForm(player);
+                                else if (id == 2) sendResCreateSelectForm(player);
+                                else if (id == 3) sendResToolsForm(player);
+                                else if (id == 4) sendPluginInfoForm(player);
                             }
                         })
         );
@@ -87,14 +87,14 @@ public class MainForm {
                             if (response.isCorrect()) {
                                 int id = response.getClickedButtonId();
                                 if (id == 0) Bukkit.dispatchCommand(player, "res select auto");
-                                if (id == 1) sendResPlayerSelectForm(player);
-                                if (id == 2) sendResManualSelectForm(player);
-                                if (id == 3) sendResSelectExpandAndContractForm(player);
-                                if (id == 4) sendResCreateForm(player);
-                                if (id == 5) sendResTempSelectionForm(player);
-                                if (id == 6) sendResTempSelectionImportForm(player);
-                                if (id == 7) sendResTempSelectionRemoveForm(player);
-                                if (id == 8) sendMainResidenceForm(player);
+                                else if (id == 1) sendResPlayerSelectForm(player);
+                                else if (id == 2) sendResManualSelectForm(player);
+                                else if (id == 3) sendResSelectExpandAndContractForm(player);
+                                else if (id == 4) sendResCreateForm(player);
+                                else if (id == 5) sendResTempSelectionForm(player);
+                                else if (id == 6) sendResTempSelectionImportForm(player);
+                                else if (id == 7) sendResTempSelectionRemoveForm(player);
+                                else if (id == 8) sendMainResidenceForm(player);
                             }
                         })
         );
@@ -301,8 +301,8 @@ public class MainForm {
                             if (response.isCorrect()) {
                                 int id = response.getClickedButtonId();
                                 if (id == 0) Bukkit.dispatchCommand(player, "res show");
-                                if (id == 1) sendResInfoForm(player);
-                                if (id == 2) sendMainResidenceForm(player);
+                                else if (id == 1) sendResInfoForm(player);
+                                else if (id == 2) sendMainResidenceForm(player);
                             }
                         })
         );
@@ -359,9 +359,9 @@ public class MainForm {
                             if (response.isCorrect()) {
                                 int id = response.getClickedButtonId();
                                 if (id == 0) sendAPIInfoForm(player);
-                                if (id == 1) sendBugReportForm(player);
-                                if (id == 2) sendLicenseForm(player);
-                                if (id == 3) MainForm.sendMainResidenceForm(player);
+                                else if (id == 1) sendBugReportForm(player);
+                                else if (id == 2) sendLicenseForm(player);
+                                else if (id == 3) MainForm.sendMainResidenceForm(player);
                             }
                         })
         );
@@ -498,12 +498,12 @@ public class MainForm {
                             if (response.isCorrect()) {
                                 int id = response.getClickedButtonId();
                                 if (id == 0) sendResSetForm(player, residence);
-                                if (id == 1) sendResPSetForm(player, residence);
-                                if (id == 2) sendResTrustedPlayerSettingForm(player, residence);
-                                if (id == 3) sendResTpSetForm(player, residence);
-                                if (id == 4) sendResKickForm(player, residence);
-                                if (id == 5) sendResSensitiveOperationForm(player, residence);
-                                if (id == 6) sendResSettingForm(player);
+                                else if (id == 1) sendResPSetForm(player, residence);
+                                else if (id == 2) sendResTrustedPlayerSettingForm(player, residence);
+                                else if (id == 3) sendResTpSetForm(player, residence);
+                                else if (id == 4) sendResKickForm(player, residence);
+                                else if (id == 5) sendResSensitiveOperationForm(player, residence);
+                                else if (id == 6) sendResSettingForm(player);
                             }
                         })
         );
@@ -535,10 +535,10 @@ public class MainForm {
                             if (response.isCorrect()) {
                                 int id = response.getClickedButtonId();
                                 if (id == 0) sendResRenameForm(player, residence);
-                                if (id == 1) sendResExtendAndContractForm(player, residence);
-                                if (id == 2) sendResGiveForm(player, residence);
-                                if (id == 3) sendResRemoveForm(player, residence);
-                                if (id == 4) sendResSettingForm(player, residence);
+                                else if (id == 1) sendResExtendAndContractForm(player, residence);
+                                else if (id == 2) sendResGiveForm(player, residence);
+                                else if (id == 3) sendResRemoveForm(player, residence);
+                                else if (id == 4) sendResSettingForm(player, residence);
                             }
                         })
         );
@@ -752,7 +752,7 @@ public class MainForm {
                             if (response.isCorrect()) {
                                 int id = response.getClickedButtonId();
                                 if (id == 0) sendResTrustedPlayerAddForm(player, residence);
-                                if (id == 1) sendResSettingForm(player, residence);
+                                else if (id == 1) sendResSettingForm(player, residence);
                             }
                         })
         );
