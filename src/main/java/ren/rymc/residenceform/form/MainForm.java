@@ -136,11 +136,7 @@ public class MainForm {
                             if (response.isCorrect()) {
                                 if (response.getDropdown(0) != 0) {
                                     TempSelection tempSelection = TempSelection.getTempSelection(player, tempResList[response.getDropdown(0)]);
-                                    if (tempSelection == null) {
-                                        sendResCreateSelectForm(player);
-                                        return;
-                                    }
-                                    TempSelection.removeTempSelection(player, tempSelection.getName());
+                                    if (tempSelection != null) TempSelection.removeTempSelection(player, tempSelection.getName());
                                 }
                                 sendResCreateSelectForm(player);
                             }
@@ -159,25 +155,19 @@ public class MainForm {
                         .dropdown("领地草稿列表", tempResList)
                         .responseHandler((f, r) -> {
                             CustomFormResponse response = f.parseResponse(r);
-                            if (response.isCorrect()) {
+                            check: if (response.isCorrect()) {
                                 if (response.getDropdown(0) != 0) {
                                     TempSelection tempSelection = TempSelection.getTempSelection(player, tempResList[response.getDropdown(0)]);
-                                    if (tempSelection == null) {
-                                        sendResCreateSelectForm(player);
-                                        return;
-                                    }
+                                    if (tempSelection == null) break check;
                                     SelectionManager.Selection selection = Residence.getInstance().getSelectionManager().getSelection(player);
                                     Location loc1 = tempSelection.getLoc1();
                                     Location loc2 = tempSelection.getLoc2();
-                                    if (loc1 == null || loc2 == null) {
-                                        sendResCreateSelectForm(player);
-                                        return;
-                                    }
+                                    if (loc1 == null || loc2 == null) break check;
                                     selection.setBaseLoc1(loc1);
                                     selection.setBaseLoc2(loc2);
                                 }
-                                sendResCreateSelectForm(player);
                             }
+                            sendResCreateSelectForm(player);
                         })
         );
     }
@@ -241,25 +231,19 @@ public class MainForm {
                         .input("顶点坐标2(格式: X, Y, Z)", "数字")
                         .responseHandler((f, r) -> {
                             CustomFormResponse response = f.parseResponse(r);
-                            if (response.isCorrect()) {
+                            check: if (response.isCorrect()) {
                                 String input1 = response.getInput(0);
                                 String input2 = response.getInput(2);
-                                if (input1 == null || input2 == null) {
-                                    sendResCreateSelectForm(player);
-                                    return;
-                                }
+                                if (input1 == null || input2 == null) break check;
                                 Location loc1 = Utils.stringToBlockLoc(input1, player.getWorld());
                                 Location loc2 = Utils.stringToBlockLoc(input2, player.getWorld());
-                                if (loc1 == null || loc2 == null) {
-                                    sendResCreateSelectForm(player);
-                                    return;
-                                }
+                                if (loc1 == null || loc2 == null) break check;
                                 SelectionManager sm = Residence.getInstance().getSelectionManager();
                                 sm.clearSelection(player);
                                 sm.getSelection(player).setBaseLoc1(loc1);
                                 sm.getSelection(player).setBaseLoc2(loc2);
-                                sendResCreateSelectForm(player);
                             }
+                            sendResCreateSelectForm(player);
                         })
         );
     }
@@ -379,12 +363,7 @@ public class MainForm {
                         .title("插件API信息")
                         .content("§7ResidenceForm开发时使用的插件版本:\nFloodgate: 2.0-SNAPSHOT\nResidence: 5.0.3.0\n\n服务器插件版本:\nFloodgate: " + floodgateVersion + "\nResidence: " + residenceVersion + "\n\n")
                         .button("返回")
-                        .responseHandler((f, r) -> {
-                            SimpleFormResponse response = f.parseResponse(r);
-                            if (response.isCorrect()) {
-                                sendPluginInfoForm(player);
-                            }
-                        })
+                        .responseHandler((f, r) -> sendPluginInfoForm(player))
         );
     }
 
@@ -396,12 +375,7 @@ public class MainForm {
                         .title("BUG报告")
                         .content("§7如你在使用本插件时发现相关BUG请前往插件开源仓库或QQ群报告\n\n地址: https://github.com/RenYuan-MC/ResidenceForm\nQQ群: 1029946156\n\n")
                         .button("返回")
-                        .responseHandler((f, r) -> {
-                            SimpleFormResponse response = f.parseResponse(r);
-                            if (response.isCorrect()) {
-                                sendPluginInfoForm(player);
-                            }
-                        })
+                        .responseHandler((f, r) -> sendPluginInfoForm(player))
         );
     }
 
@@ -434,12 +408,7 @@ public class MainForm {
                                 "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE " +
                                 "SOFTWARE.\n")
                         .button("返回")
-                        .responseHandler((f, r) -> {
-                            SimpleFormResponse response = f.parseResponse(r);
-                            if (response.isCorrect()) {
-                                sendPluginInfoForm(player);
-                            }
-                        })
+                        .responseHandler((f, r) -> sendPluginInfoForm(player))
         );
     }
 
@@ -571,7 +540,7 @@ public class MainForm {
                                                             int id = response1.getClickedButtonId();
                                                             if (id == 0)
                                                                 Residence.getInstance().getResidenceManager().removeResidence(residence);
-                                                            if (id == 1)
+                                                            else if (id == 1)
                                                                 sendResSensitiveOperationForm(player, residence);
                                                         }
                                                     })
