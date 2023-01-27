@@ -837,7 +837,7 @@ public class MainForm {
                 CustomForm.builder()
                         .title("§8领地 §l" + residence.getName() + " §r§8玩家权限设置")
                         .dropdown("在线玩家列表", playerNameList)
-                        .input("如玩家不在线或上方表格使用过于麻烦请使用下方输入框", "需要完整玩家名称(包括大小写)")
+                        .input("如玩家不在线或上方表格不便使用请使用输入框", "需要完整玩家名称(包括大小写)")
                         .responseHandler((f, r) -> {
                             CustomFormResponse response = f.parseResponse(r);
                             if (response.isCorrect()) {
