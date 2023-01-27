@@ -233,7 +233,7 @@ public class MainForm {
                             CustomFormResponse response = f.parseResponse(r);
                             check: if (response.isCorrect()) {
                                 String input1 = response.getInput(0);
-                                String input2 = response.getInput(1 );
+                                String input2 = response.getInput(1);
                                 if (input1 == null || input2 == null) break check;
                                 Location loc1 = Utils.stringToBlockLoc(input1, player.getWorld());
                                 Location loc2 = Utils.stringToBlockLoc(input2, player.getWorld());
