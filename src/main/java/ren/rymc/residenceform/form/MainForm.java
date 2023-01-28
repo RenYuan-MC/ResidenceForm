@@ -4,6 +4,7 @@ import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.containers.Flags;
 import com.bekvon.bukkit.residence.permissions.PermissionGroup;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
+import com.bekvon.bukkit.residence.protection.CuboidArea;
 import com.bekvon.bukkit.residence.protection.FlagPermissions;
 import com.bekvon.bukkit.residence.selection.SelectionManager;
 import org.bukkit.Bukkit;
@@ -104,11 +105,12 @@ public class MainForm {
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
         PermissionGroup group = Residence.getInstance().getPlayerManager().getResidencePlayer(player).getGroup();
-        SelectionManager.Selection selection = Residence.getInstance().getSelectionManager().getSelection(player);
+        CuboidArea baseArea = Residence.getInstance().getSelectionManager().getSelection(player).getBaseArea();
+        if (baseArea == null) return;
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
                 CustomForm.builder()
                         .title("§8领地创建")
-                        .input("此次创建将花费: " + selection.getBaseArea().getCost(group) + " 金币\n\n请给你要创建的领地起个名字", "支持大小写英文,数字,下划线和连字符")
+                        .input("此次创建将花费: " + baseArea.getCost(group) + " 金币\n\n请给你要创建的领地起个名字", "支持大小写英文,数字,下划线和连字符")
                         .responseHandler((f, r) -> {
                             CustomFormResponse response = f.parseResponse(r);
                             if (response.isCorrect()) {
