@@ -1,5 +1,6 @@
 package ren.rymc.residenceform;
 
+import ltd.rymc.form.residence.forms.MainResidenceForm;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -39,7 +40,7 @@ public final class ResidenceForm extends JavaPlugin {
     @SuppressWarnings("NullableProblems")
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) MainForm.sendMainResidenceForm((Player) sender);
+        if (sender instanceof Player) new MainResidenceForm((Player) sender, null).send();
         return true;
     }
 }

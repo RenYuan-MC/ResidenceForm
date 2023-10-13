@@ -1,4 +1,4 @@
-package ren.rymc.residenceform.utils;
+package ltd.rymc.form.residence.forms.select.temp;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -26,12 +26,7 @@ public class TempSelection {
         tempSelectionList.add(selection);
     }
 
-    public static void removeTempSelection(Player player, String name) {
-        TempSelection tempSelection = null;
-        for (TempSelection selection : getPlayerTempSelectionList(player)) {
-            if (selection.getName().equals(name)) tempSelection = selection;
-        }
-        if (tempSelection == null) return;
+    public static void removeTempSelection(TempSelection tempSelection) {
         tempSelectionList.remove(tempSelection);
     }
 
@@ -43,21 +38,12 @@ public class TempSelection {
         return list;
     }
 
-    public static String[] getPlayerTempSelectionNameList(Player player) {
-        List<TempSelection> list = getPlayerTempSelectionList(player);
-        String[] selectionNameList = new String[list.size() + 1];
-        selectionNameList[0] = "";
+    public static String[] translateToNameList(List<TempSelection> list) {
+        String[] selectionNameList = new String[list.size()];
         for (int i = 0, j = list.size(); i < j; i++) {
-            selectionNameList[i + 1] = list.get(i).getName();
+            selectionNameList[i] = list.get(i).getName();
         }
         return selectionNameList;
-    }
-
-    public static TempSelection getTempSelection(Player player, String name) {
-        for (TempSelection tempSelection : getPlayerTempSelectionList(player)) {
-            if (tempSelection.getName().equals(name)) return tempSelection;
-        }
-        return null;
     }
 
     public String getName() {

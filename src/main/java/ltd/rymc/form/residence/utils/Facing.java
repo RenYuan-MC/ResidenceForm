@@ -1,4 +1,4 @@
-package ren.rymc.residenceform.utils;
+package ltd.rymc.form.residence.utils;
 
 import org.bukkit.Location;
 
