@@ -1,4 +1,4 @@
-package ren.rymc.residenceform.metrics;
+package ltd.rymc.form.residence.metrics;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;

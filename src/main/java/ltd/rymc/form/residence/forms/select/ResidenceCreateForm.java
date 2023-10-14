@@ -5,7 +5,7 @@ import com.bekvon.bukkit.residence.permissions.PermissionGroup;
 import com.bekvon.bukkit.residence.protection.CuboidArea;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
-import ltd.rymc.form.residence.utils.Utils;
+import ltd.rymc.form.residence.utils.InputUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
@@ -31,7 +31,7 @@ public class ResidenceCreateForm extends RCustomForm {
     public void onValidResult(CustomForm form, CustomFormResponse response) {
         String input = response.asInput(0);
 
-        if (!Utils.checkInput(input)) {
+        if (!InputUtils.checkInput(input)) {
             sendPrevious();
             return;
         }

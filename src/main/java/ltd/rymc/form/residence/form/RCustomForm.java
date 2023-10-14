@@ -56,6 +56,10 @@ public class RCustomForm implements RForm {
         builder.dropdown(text,dropdown);
     }
 
+    public void stepSlider(String text, int state, String... states){
+        builder.stepSlider(text, state, states);
+    }
+
     public void dropdown(String text,String empty, String... dropdown){
         String[] tmp = new String[dropdown.length +1];
         System.arraycopy(dropdown, 0, tmp, 1, dropdown.length);

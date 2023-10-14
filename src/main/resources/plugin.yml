@@ -1,12 +1,8 @@
 name: ResidenceForm
 version: '${project.version}'
-main: ren.rymc.residenceform.ResidenceForm
+main: ltd.rymc.form.residence.ResidenceForm
 api-version: 1.13
 depend: [ floodgate, Residence ]
 authors: [ RENaa_FD ]
 description: 领地Form菜单支持
 website: https://rymc.ren/
-commands:
-  rform:
-    description: "领地Form菜单支持主命令"
-    usage: ""

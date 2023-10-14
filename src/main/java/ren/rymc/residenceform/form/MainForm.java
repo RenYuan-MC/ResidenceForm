@@ -5,20 +5,19 @@ import com.bekvon.bukkit.residence.containers.Flags;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.FlagPermissions;
 import ltd.rymc.form.residence.forms.MainResidenceForm;
-import ltd.rymc.form.residence.forms.select.ResidenceCreateSelectForm;
+import ltd.rymc.form.residence.utils.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.geysermc.cumulus.CustomForm;
 import org.geysermc.cumulus.SimpleForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.floodgate.api.FloodgateApi;
 import org.geysermc.floodgate.api.player.FloodgatePlayer;
-import ren.rymc.residenceform.ResidenceForm;
+import ltd.rymc.form.residence.ResidenceForm;
 import ltd.rymc.form.residence.utils.Facing;
-import ren.rymc.residenceform.utils.Utils;
+import ltd.rymc.form.residence.utils.ResidenceUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,209 +25,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class MainForm {
-
-    public static void sendResSelectExpandAndContractForm(Player player) {
-        UUID uuid = player.getUniqueId();
-        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
-        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
-                CustomForm.builder()
-                        .title("§8领地选区扩展/缩小")
-                        .dropdown("你当前面对的方向: " + Facing.facing(player.getLocation().getYaw()).getName() + "\n\n扩展/缩小的方向", Facing.facingList())
-                        .input("扩展范围", "数字,不填则返回上一级菜单")
-                        .toggle("模式(关闭为扩展,开启为缩小)")
-                        .responseHandler((f, r) -> {
-                            CustomFormResponse response = f.parseResponse(r);
-                            if (response.isCorrect()) {
-                                String input = response.getInput(1);
-                                if (input != null && !input.trim().equals("") && !input.trim().contains(" ")) {
-                                    String command = response.getToggle(2) ? "contract" : "expand";
-                                    Location location = player.getLocation();
-                                    player.teleport(Facing.translateLocation(location, Facing.facing(response.getDropdown(0))));
-                                    Bukkit.dispatchCommand(player, "res select " + command + " " + input.trim());
-                                    player.teleport(location);
-                                }
-                                new ResidenceCreateSelectForm(player,new MainResidenceForm(player,null)).send();
-                            }
-                        })
-        );
-    }
-
-    public static void sendResToolsForm(Player player) {
-        UUID uuid = player.getUniqueId();
-        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
-        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
-                SimpleForm.builder()
-                        .title("领地菜单")
-                        .content("§7领地基岩版菜单 ResidenceForm")
-                        .button("查看当前领地边界")
-                        .button("领地信息查询")
-                        .button("返回领地主菜单")
-                        .responseHandler((f, r) -> {
-                            SimpleFormResponse response = f.parseResponse(r);
-                            if (response.isCorrect()) {
-                                int id = response.getClickedButtonId();
-                                if (id == 0) Bukkit.dispatchCommand(player, "res show");
-                                else if (id == 1) sendResInfoForm(player);
-                                else if (id == 2) new MainResidenceForm(player, null).send();
-                            }
-                        })
-        );
-    }
-
-    public static void sendResInfoForm(Player player) {
-        UUID uuid = player.getUniqueId();
-        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
-        HashMap<String, ClaimedResidence> residenceList = Utils.getNormalResidenceList(player);
-        String[] resList = new String[residenceList.size() + 1];
-        int i = 1;
-        resList[0] = "选择领地或使用下方输入框";
-        for (Map.Entry<String, ClaimedResidence> entry : residenceList.entrySet()) {
-            resList[i++] = entry.getKey();
-        }
-        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
-                CustomForm.builder()
-                        .title("§8领地信息查询")
-                        .dropdown("你可以使用此下拉框", resList)
-                        .input("或使用此输入框", "完整领地名称")
-                        .responseHandler((f, r) -> {
-                            CustomFormResponse response = f.parseResponse(r);
-                            if (response.isCorrect()) {
-                                String input = response.getInput(1);
-                                String residence = null;
-                                if (input != null && !input.trim().equals("") && !input.trim().contains(" ")) {
-                                    residence = input.trim();
-                                } else if (response.getDropdown(0) != 0) {
-                                    residence = resList[response.getDropdown(0)];
-                                }
-                                if (residence == null) {
-                                    new MainResidenceForm(player, null).send();
-                                } else {
-                                    Bukkit.dispatchCommand(player, "res info " + residence);
-                                }
-                            }
-                        })
-        );
-    }
-
-    public static void sendPluginInfoForm(Player player) {
-        UUID uuid = player.getUniqueId();
-        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
-        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
-                SimpleForm.builder()
-                        .title("插件信息")
-                        .content("§7领地基岩版兼容 ResidenceForm\n作者: RENaa_FD\n版本: 正式版 v1.0.0\n官网: https//rymc.ren/\nQQ群: 1029946156\n\n")
-                        .button("API信息")
-                        .button("BUG报告")
-                        .button("开源协议")
-                        .button("返回主菜单")
-                        .responseHandler((f, r) -> {
-                            SimpleFormResponse response = f.parseResponse(r);
-                            if (response.isCorrect()) {
-                                int id = response.getClickedButtonId();
-                                if (id == 0) sendAPIInfoForm(player);
-                                else if (id == 1) sendBugReportForm(player);
-                                else if (id == 2) sendLicenseForm(player);
-                                else if (id == 3) new MainResidenceForm(player, null).send();
-                            }
-                        })
-        );
-    }
-
-    public static void sendAPIInfoForm(Player player) {
-        UUID uuid = player.getUniqueId();
-        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
-        Plugin residencePlugin = Bukkit.getPluginManager().getPlugin("Residence");
-        String residenceVersion = residencePlugin == null ? "未知" : residencePlugin.getDescription().getVersion();
-        Plugin floodgatePlugin = Bukkit.getPluginManager().getPlugin("floodgate");
-        String floodgateVersion = floodgatePlugin == null ? "未知" : floodgatePlugin.getDescription().getVersion();
-        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
-                SimpleForm.builder()
-                        .title("插件API信息")
-                        .content("§7ResidenceForm开发时使用的插件版本:\nFloodgate: 2.0-SNAPSHOT\nResidence: 5.0.3.0\n\n服务器插件版本:\nFloodgate: " + floodgateVersion + "\nResidence: " + residenceVersion + "\n\n")
-                        .button("返回")
-                        .responseHandler((f, r) -> sendPluginInfoForm(player))
-        );
-    }
-
-    public static void sendBugReportForm(Player player) {
-        UUID uuid = player.getUniqueId();
-        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
-        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
-                SimpleForm.builder()
-                        .title("BUG报告")
-                        .content("§7如你在使用本插件时发现相关BUG请前往插件开源仓库或QQ群报告\n\n地址: https://github.com/RenYuan-MC/ResidenceForm\nQQ群: 1029946156\n\n")
-                        .button("返回")
-                        .responseHandler((f, r) -> sendPluginInfoForm(player))
-        );
-    }
-
-    public static void sendLicenseForm(Player player) {
-        UUID uuid = player.getUniqueId();
-        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
-        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
-                SimpleForm.builder()
-                        .title("ResidenceForm 开源协议")
-                        .content("§7" +
-                                "MIT License\n" +
-                                "\n" +
-                                "Copyright (c) 2022 RenYuan-MC\n" +
-                                "\n" +
-                                "Permission is hereby granted, free of charge, to any person obtaining a copy " +
-                                "of this software and associated documentation files (the \"Software\"), to deal " +
-                                "in the Software without restriction, including without limitation the rights " +
-                                "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell " +
-                                "copies of the Software, and to permit persons to whom the Software is " +
-                                "furnished to do so, subject to the following conditions:\n" +
-                                "\n" +
-                                "The above copyright notice and this permission notice shall be included in all " +
-                                "copies or substantial portions of the Software.\n" +
-                                "\n" +
-                                "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR " +
-                                "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, " +
-                                "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE " +
-                                "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER " +
-                                "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, " +
-                                "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE " +
-                                "SOFTWARE.\n")
-                        .button("返回")
-                        .responseHandler((f, r) -> sendPluginInfoForm(player))
-        );
-    }
-
-    public static void sendResTeleportForm(Player player) {
-        UUID uuid = player.getUniqueId();
-        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
-        HashMap<String, ClaimedResidence> residenceList = Utils.getNormalResidenceList(player);
-        String[] resList = new String[residenceList.size() + 1];
-        int i = 1;
-        resList[0] = "选择领地或使用下方输入框";
-        for (Map.Entry<String, ClaimedResidence> entry : residenceList.entrySet()) {
-            resList[i++] = entry.getKey();
-        }
-        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
-                CustomForm.builder()
-                        .title("§8领地传送")
-                        .dropdown("你可以使用此下拉框", resList)
-                        .input("或使用此输入框", "完整领地名称")
-                        .responseHandler((f, r) -> {
-                            CustomFormResponse response = f.parseResponse(r);
-                            if (response.isCorrect()) {
-                                String input = response.getInput(1);
-                                String residence = null;
-                                if (input != null && !input.trim().equals("") && !input.trim().contains(" ")) {
-                                    residence = input.trim();
-                                } else if (response.getDropdown(0) != 0) {
-                                    residence = resList[response.getDropdown(0)];
-                                }
-                                if (residence == null) {
-                                    new MainResidenceForm(player, null).send();
-                                } else {
-                                    Bukkit.dispatchCommand(player, "res tp " + residence);
-                                }
-                            }
-                        })
-        );
-    }
 
     public static void sendResSettingForm(Player player, ClaimedResidence residence) {
         if (residence == null) return;
@@ -244,7 +40,7 @@ public class MainForm {
                         .button("领地传送点设置")
                         .button("踢出领地内玩家")
                         .button("敏感操作")
-                        .button("返回领地选择")
+                        .button("返回上一级菜单")
                         .responseHandler((f, r) -> {
                             SimpleFormResponse response = f.parseResponse(r);
                             if (response.isCorrect()) {
@@ -255,7 +51,7 @@ public class MainForm {
                                 else if (id == 3) sendResTpSetForm(player, residence);
                                 else if (id == 4) sendResKickForm(player, residence);
                                 else if (id == 5) sendResSensitiveOperationForm(player, residence);
-                                else if (id == 6) sendResSettingForm(player);
+                                else if (id == 6) new MainResidenceForm(player,null).send();
                             }
                         })
         );
@@ -406,8 +202,8 @@ public class MainForm {
         if (residence == null) return;
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
-        if (!Utils.hasManagePermission(player, residence) && !player.isOp()) return;
-        String[] playerNameList = Utils.getPlayersInResidence(residence);
+        if (!ResidenceUtils.hasManagePermission(player, residence) && !player.isOp()) return;
+        String[] playerNameList = ResidenceUtils.getPlayersInResidence(residence);
         playerNameList[0] = "请选择玩家";
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
                 CustomForm.builder()
@@ -424,7 +220,7 @@ public class MainForm {
                                 } else if (response.getDropdown(0) != 0) {
                                     targetPlayer = playerNameList[response.getDropdown(0)];
                                 }
-                                Utils.kickPlayer(targetPlayer, residence);
+                                ResidenceUtils.kickPlayer(targetPlayer, residence);
                                 sendResSettingForm(player, residence);
                             }
                         })
@@ -435,7 +231,7 @@ public class MainForm {
         if (residence == null) return;
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
-        if (!Utils.hasManagePermission(player, residence) && !player.isOp()) return;
+        if (!ResidenceUtils.hasManagePermission(player, residence) && !player.isOp()) return;
         Location location = player.getLocation();
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
                 SimpleForm.builder()
@@ -488,7 +284,7 @@ public class MainForm {
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
         StringBuilder stringBuilder = new StringBuilder();
-        List<String> trustedPlayers = Utils.getResTrustedPlayerString(residence);
+        List<String> trustedPlayers = ResidenceUtils.getResTrustedPlayerString(residence);
         for (int i = 0, trustedPlayersSize = trustedPlayers.size(); i < trustedPlayersSize; i++) {
             String playerName = trustedPlayers.get(i);
             stringBuilder.append(playerName).append(i == trustedPlayersSize - 1 ? "" : ", ");
@@ -514,8 +310,8 @@ public class MainForm {
         if (residence == null) return;
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
-        if (!Utils.hasManagePermission(player, residence) && !player.isOp()) return;
-        String[] playerNameList = Utils.getOnlinePlayerNameList();
+        if (!ResidenceUtils.hasManagePermission(player, residence) && !player.isOp()) return;
+        String[] playerNameList = PlayerUtils.getOnlinePlayerNameList();
         playerNameList[0] = "请选择玩家";
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
                 CustomForm.builder()
@@ -540,52 +336,19 @@ public class MainForm {
 
     }
 
-    public static void sendResSettingForm(Player player) {
-        UUID uuid = player.getUniqueId();
-        if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
-        HashMap<String, ClaimedResidence> residenceList = Utils.getResidenceList(player);
-        String[] resList = new String[residenceList.size() + 1];
-        int i = 1;
-        resList[0] = "请选择领地(此项为你所在的领地)";
-        for (Map.Entry<String, ClaimedResidence> entry : residenceList.entrySet()) {
-            resList[i++] = entry.getKey();
-        }
-        FloodgateApi.getInstance().getPlayer(uuid).sendForm(
-                CustomForm.builder()
-                        .title("§8领地管理选择")
-                        .dropdown("领地列表", resList)
-                        .responseHandler((f, r) -> {
-                            CustomFormResponse response = f.parseResponse(r);
-                            if (response.isCorrect()) {
-                                if (response.getDropdown(0) == 0) {
-                                    Residence res = Residence.getInstance();
-                                    ClaimedResidence resClaim = res.getResidenceManager().getByLoc(player);
-                                    if (resClaim == null || (!Utils.hasManagePermission(player, resClaim) && !player.isOp())) {
-                                        new MainResidenceForm(player, null).send();
-                                        return;
-                                    }
-                                    sendResSettingForm(player, resClaim);
-                                } else {
-                                    sendResSettingForm(player, residenceList.get(resList[response.getDropdown(0)]));
-                                }
-                            }
-                        })
-        );
-    }
-
 
     public static void sendResSetForm(Player player, ClaimedResidence residence) {
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
         if (residence == null) return;
-        if (!Utils.hasManagePermission(player, residence) && !player.isOp()) return;
-        HashMap<String, FlagPermissions.FlagState> flags = Utils.getResidenceFlags(player, residence);
+        if (!ResidenceUtils.hasManagePermission(player, residence) && !player.isOp()) return;
+        HashMap<String, FlagPermissions.FlagState> flags = ResidenceUtils.getResidenceFlags(player, residence);
         CustomForm.Builder builder = CustomForm.builder();
         builder.title("§8领地 §l" + residence.getName() + " §r§8权限设置");
         int i = 0;
         HashMap<Integer, String> permissionList = new HashMap<>();
         for (Map.Entry<String, FlagPermissions.FlagState> entry : flags.entrySet()) {
-            int flagPermission = Utils.flagToInt(entry.getValue());
+            int flagPermission = ResidenceUtils.flagToInt(entry.getValue());
             permissionList.put(i++, entry.getKey());
             Flags flag = Flags.getFlag(entry.getKey());
             String flagDec = flag != null ? "\n§e" + flag.getDesc() : "";
@@ -596,7 +359,7 @@ public class MainForm {
             if (response.isCorrect()) {
                 HashMap<String, FlagPermissions.FlagState> newFlags = new HashMap<>();
                 for (int j = 0; j < permissionList.size(); j++) {
-                    newFlags.put(permissionList.get(j), Utils.intToFlag(response.getStepSlide(j)));
+                    newFlags.put(permissionList.get(j), ResidenceUtils.intToFlag(response.getStepSlide(j)));
                 }
                 for (Map.Entry<String, FlagPermissions.FlagState> entry : flags.entrySet()) {
                     FlagPermissions.FlagState flagState = newFlags.get(entry.getKey());
@@ -613,8 +376,8 @@ public class MainForm {
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
         if (residence == null) return;
-        if (!Utils.hasManagePermission(player, residence) && !player.isOp()) return;
-        String[] playerNameList = Utils.getOnlinePlayerNameList();
+        if (!ResidenceUtils.hasManagePermission(player, residence) && !player.isOp()) return;
+        String[] playerNameList = PlayerUtils.getOnlinePlayerNameList();
         playerNameList[0] = "请选择玩家";
         FloodgateApi.getInstance().getPlayer(uuid).sendForm(
                 CustomForm.builder()
@@ -641,14 +404,14 @@ public class MainForm {
         UUID uuid = player.getUniqueId();
         if (!FloodgateApi.getInstance().isFloodgatePlayer(uuid)) return;
         if (residence == null) return;
-        if (!Utils.hasManagePermission(player, residence) && !player.isOp()) return;
-        HashMap<String, FlagPermissions.FlagState> flags = Utils.getResidencePlayerFlags(player, targetPlayer, residence);
+        if (!ResidenceUtils.hasManagePermission(player, residence) && !player.isOp()) return;
+        HashMap<String, FlagPermissions.FlagState> flags = ResidenceUtils.getResidencePlayerFlags(player, targetPlayer, residence);
         CustomForm.Builder builder = CustomForm.builder();
         builder.title("§8领地 §l" + residence.getName() + " §r§8玩家 §l" + targetPlayer + " §r§8的权限设置");
         int i = 0;
         HashMap<Integer, String> permissionList = new HashMap<>();
         for (Map.Entry<String, FlagPermissions.FlagState> entry : flags.entrySet()) {
-            int flagPermission = Utils.flagToInt(entry.getValue());
+            int flagPermission = ResidenceUtils.flagToInt(entry.getValue());
             permissionList.put(i++, entry.getKey());
             Flags flag = Flags.getFlag(entry.getKey());
             String flagDec = flag != null ? "\n§e" + flag.getDesc() : "";
@@ -659,7 +422,7 @@ public class MainForm {
             if (response.isCorrect()) {
                 HashMap<String, FlagPermissions.FlagState> newFlags = new HashMap<>();
                 for (int j = 0; j < permissionList.size(); j++) {
-                    newFlags.put(permissionList.get(j), Utils.intToFlag(response.getStepSlide(j)));
+                    newFlags.put(permissionList.get(j), ResidenceUtils.intToFlag(response.getStepSlide(j)));
                 }
                 for (Map.Entry<String, FlagPermissions.FlagState> entry : flags.entrySet()) {
                     FlagPermissions.FlagState flagState = newFlags.get(entry.getKey());

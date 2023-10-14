@@ -13,7 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
-import ren.rymc.residenceform.form.MainForm;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceCreateSelectForm extends RSimpleForm {
     private static final Residence residence = Residence.getInstance();
@@ -62,12 +62,17 @@ public class ResidenceCreateSelectForm extends RSimpleForm {
         if (id == 0) Bukkit.dispatchCommand(bukkitPlayer, "res select auto");
         else if (id == 1) new ResidencePlayerSelectForm(bukkitPlayer,this).send();
         else if (id == 2) new ResidenceManualSelectForm(bukkitPlayer, this).send();
-        else if (id == 3) MainForm.sendResSelectExpandAndContractForm(bukkitPlayer);
+        else if (id == 3) new ResidenceSelectExpandAndContractForm(bukkitPlayer, this).send();
         else if (id == 4) new ResidenceCreateForm(bukkitPlayer,this).send();
         else if (id == 5) new TempSelectionForm(bukkitPlayer,this).send();
         else if (id == 6) new TempSelectionImportForm(bukkitPlayer,this).send();
         else if (id == 7) new TempSelectionRemoveForm(bukkitPlayer,this).send();
         else if (id == 8) sendPrevious();
+    }
+
+    @Override
+    public void onClosedOrInvalidResult(SimpleForm form, FormResponseResult<SimpleFormResponse> response) {
+        sendPrevious();
     }
 
     @Override

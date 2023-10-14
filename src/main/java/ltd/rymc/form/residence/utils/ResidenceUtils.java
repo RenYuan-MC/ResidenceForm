@@ -1,4 +1,4 @@
-package ren.rymc.residenceform.utils;
+package ltd.rymc.form.residence.utils;
 
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.containers.Flags;
@@ -6,13 +6,11 @@ import com.bekvon.bukkit.residence.containers.ResidencePlayer;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.FlagPermissions;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public class Utils {
+public class ResidenceUtils {
     public static HashMap<String, FlagPermissions.FlagState> getResidenceFlags(Player player, ClaimedResidence residence) {
         if (residence == null) return new HashMap<>();
         List<String> flags = residence.getPermissions().getPosibleFlags(player, true, false);
@@ -115,7 +113,7 @@ public class Utils {
     }
 
     public static void kickPlayer(String targetPlayer, ClaimedResidence residence) {
-        Player player = Utils.getPlayerExtract(targetPlayer);
+        Player player = PlayerUtils.getPlayerExtract(targetPlayer);
         if (player == null) return;
         if (!residence.getPlayersInResidence().contains(player)) return;
         player.closeInventory();
@@ -131,36 +129,4 @@ public class Utils {
         }
         return playerNames;
     }
-
-    public static String[] getOnlinePlayerNameList() {
-        Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
-        String[] playerNames = new String[onlinePlayers.size() + 1];
-        playerNames[0] = "";
-        int i = 1;
-        for (Player player : onlinePlayers) {
-            playerNames[i++] = player.getName();
-        }
-        return playerNames;
-    }
-
-    public static Player getPlayerExtract(String name) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player.getName().equalsIgnoreCase(name)) return player;
-        }
-        return null;
-    }
-
-    public static String blockLocToString(Location location) {
-        return location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ();
-    }
-
-    public static Location stringToBlockLoc(String string, World world) {
-        String[] args = string.replace(" ", "").split(",");
-        try {
-            return new Location(world, Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]));
-        } catch (NumberFormatException exception) {
-            return null;
-        }
-    }
-
 }

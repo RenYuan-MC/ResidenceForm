@@ -4,7 +4,7 @@ import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.selection.SelectionManager;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
-import ltd.rymc.form.residence.utils.Utils;
+import ltd.rymc.form.residence.utils.InputUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
@@ -19,7 +19,7 @@ public class TempSelectionForm extends RCustomForm {
     @Override
     public void onValidResult(CustomForm form, CustomFormResponse response) {
         String input = response.asInput(0);
-        if (!Utils.checkInput(input)) {
+        if (!InputUtils.checkInput(input)) {
             sendPrevious();
             return;
         }
