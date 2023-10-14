@@ -3,6 +3,7 @@ package ltd.rymc.form.residence.forms.teleport;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
+import ltd.rymc.form.residence.utils.ArraysUtils;
 import ltd.rymc.form.residence.utils.InputUtils;
 import ltd.rymc.form.residence.utils.ResidenceUtils;
 import org.bukkit.Bukkit;
@@ -26,7 +27,7 @@ public class ResidenceTeleportForm extends RCustomForm {
     }
 
     private String[] generateResidenceNames(){
-        String[] names = residenceMap.keySet().toArray(new String[residenceMap.size() + 1]);
+        String[] names = ArraysUtils.rotate(residenceMap.keySet().toArray(new String[0]),1);
         names[0] = "选择领地或使用下方输入框";
         return names;
     }

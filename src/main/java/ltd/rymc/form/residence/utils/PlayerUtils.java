@@ -3,17 +3,14 @@ package ltd.rymc.form.residence.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
+import java.util.List;
 
 public class PlayerUtils {
 
-    public static String[] getOnlinePlayerNameList() {
-        Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
-        String[] playerNames = new String[onlinePlayers.size() + 1];
-        playerNames[0] = "";
-        int i = 1;
-        for (Player player : onlinePlayers) {
-            playerNames[i++] = player.getName();
+    public static String[] translateToNameList(List<Player> players) {
+        String[] playerNames = new String[players.size()];
+        for (int i = 0, playersSize = players.size(); i < playersSize; i++) {
+            playerNames[i] = players.get(i).getName();
         }
         return playerNames;
     }
