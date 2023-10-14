@@ -1,5 +1,6 @@
 package ltd.rymc.form.residence.form;
 
+import ltd.rymc.form.residence.utils.ArraysUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
@@ -61,8 +62,7 @@ public class RCustomForm implements RForm {
     }
 
     public void dropdown(String text,String empty, String... dropdown){
-        String[] tmp = new String[dropdown.length +1];
-        System.arraycopy(dropdown, 0, tmp, 1, dropdown.length);
+        String[] tmp = ArraysUtils.rotate(dropdown, 1);
         tmp[0] = empty;
         builder.dropdown(text,tmp);
     }

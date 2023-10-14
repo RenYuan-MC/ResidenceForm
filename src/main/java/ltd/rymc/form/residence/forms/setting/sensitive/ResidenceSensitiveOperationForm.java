@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
-import ren.rymc.residenceform.form.MainForm;
 
 public class ResidenceSensitiveOperationForm extends RSimpleForm {
     private final ClaimedResidence claimedResidence;
@@ -36,10 +35,10 @@ public class ResidenceSensitiveOperationForm extends RSimpleForm {
     @SuppressWarnings("ConstantValue")
     public void onValidResult(SimpleForm form, SimpleFormResponse response) {
         int id = response.clickedButtonId();
-        if (id == 0) MainForm.sendResRenameForm(bukkitPlayer, claimedResidence);
-        else if (id == 1) MainForm.sendResExtendAndContractForm(bukkitPlayer, claimedResidence);
-        else if (id == 2) MainForm.sendResGiveForm(bukkitPlayer, claimedResidence);
-        else if (id == 3) MainForm.sendResRemoveForm(bukkitPlayer, claimedResidence);
+        if (id == 0) new ResidenceRenameForm(bukkitPlayer,this,claimedResidence).send();
+        else if (id == 1) new ResidenceExpandAndContractForm(bukkitPlayer,this,claimedResidence).send();
+        else if (id == 2) new ResidenceGiveForm(bukkitPlayer,this,claimedResidence).send();
+        else if (id == 3) new ResidenceRemoveForm(bukkitPlayer,this,claimedResidence).send();
         else if (id == 4) sendPrevious();
     }
 
