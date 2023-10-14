@@ -10,6 +10,7 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 public class ResidenceNoPermissionForm extends RSimpleForm {
     public ResidenceNoPermissionForm(Player player, RForm previousForm) {
         super(player, previousForm);
+        title("领地菜单");
         content("你没有权限\n\n");
         button("返回");
     }

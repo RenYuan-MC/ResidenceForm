@@ -19,7 +19,7 @@ public class ResidenceSettingSelectForm extends RCustomForm {
     String[] names;
     public ResidenceSettingSelectForm(Player player, RForm previousForm) {
         super(player, previousForm);
-        residenceMap = ResidenceUtils.getNormalResidenceList(player);
+        residenceMap = ResidenceUtils.getResidenceList(player);
         names = generateResidenceNames();
         title("§8领地传送");
         dropdown("领地列表", names);

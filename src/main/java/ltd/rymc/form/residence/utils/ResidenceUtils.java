@@ -119,14 +119,4 @@ public class ResidenceUtils {
         player.closeInventory();
         player.teleport(residence.getOutsideFreeLoc(player.getLocation(), player));
     }
-
-    public static String[] getPlayersInResidence(ClaimedResidence residence) {
-        List<Player> players = residence.getPlayersInResidence();
-        String[] playerNames = new String[players.size() + 1];
-        playerNames[0] = "";
-        for (int i = 0, j = players.size(); i < j; i++) {
-            playerNames[i + 1] = players.get(i).getName();
-        }
-        return playerNames;
-    }
 }

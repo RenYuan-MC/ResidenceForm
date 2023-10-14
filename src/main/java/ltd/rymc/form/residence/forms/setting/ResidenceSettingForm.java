@@ -3,6 +3,7 @@ package ltd.rymc.form.residence.forms.setting;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
+import ltd.rymc.form.residence.forms.setting.sensitive.ResidenceSensitiveOperationForm;
 import ltd.rymc.form.residence.forms.setting.set.ResidencePlayerSetSelectForm;
 import ltd.rymc.form.residence.forms.setting.set.ResidenceSetForm;
 import ltd.rymc.form.residence.forms.setting.set.ResidenceTeleportSetForm;
@@ -11,7 +12,6 @@ import ltd.rymc.form.residence.utils.ResidenceUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
-import ren.rymc.residenceform.form.MainForm;
 
 public class ResidenceSettingForm extends RSimpleForm {
     private final ClaimedResidence claimedResidence;
@@ -45,7 +45,7 @@ public class ResidenceSettingForm extends RSimpleForm {
         else if (id == 2) new ResidenceTrustedPlayerSettingForm(bukkitPlayer,this,claimedResidence).send();
         else if (id == 3) new ResidenceTeleportSetForm(bukkitPlayer,this,claimedResidence).send();
         else if (id == 4) new ResidenceKickForm(bukkitPlayer,this, claimedResidence).send();
-        else if (id == 5) MainForm.sendResSensitiveOperationForm(bukkitPlayer, claimedResidence);
+        else if (id == 5) new ResidenceSensitiveOperationForm(bukkitPlayer,this,claimedResidence).send();
         else if (id == 6) sendPrevious();
     }
 
