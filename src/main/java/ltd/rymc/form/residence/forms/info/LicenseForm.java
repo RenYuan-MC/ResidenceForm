@@ -33,7 +33,7 @@ public class LicenseForm extends RSimpleForm {
     public LicenseForm(Player player, RForm previousForm) {
         super(player, previousForm);
         title("ResidenceForm 开源协议");
-        content("&7" + LICENSE);
+        content("§7" + LICENSE);
         button("返回上一级菜单");
     }
 

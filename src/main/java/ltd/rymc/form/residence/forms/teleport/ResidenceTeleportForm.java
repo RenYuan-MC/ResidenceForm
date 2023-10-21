@@ -56,7 +56,7 @@ public class ResidenceTeleportForm extends RCustomForm {
             return;
         }
 
-        Bukkit.dispatchCommand(bukkitPlayer, "res teleport " + residence);
+        Bukkit.dispatchCommand(bukkitPlayer, "res tp " + residence);
 
     }
 
