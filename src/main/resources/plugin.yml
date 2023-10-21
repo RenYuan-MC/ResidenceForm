@@ -6,3 +6,4 @@ depend: [ floodgate, Residence ]
 authors: [ RENaa_FD ]
 description: 领地Form菜单支持
 website: https://rymc.ren/
+folia-supported: true
