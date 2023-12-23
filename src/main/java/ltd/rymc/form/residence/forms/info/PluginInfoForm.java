@@ -5,6 +5,7 @@ import ltd.rymc.form.residence.form.RSimpleForm;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class PluginInfoForm extends RSimpleForm {
     public PluginInfoForm(Player player, RForm previousForm) {
@@ -33,5 +34,10 @@ public class PluginInfoForm extends RSimpleForm {
         else if (id == 1) new BugReportForm(bukkitPlayer,this).send();
         else if (id == 2) new LicenseForm(bukkitPlayer,this).send();
         else if (id == 3) sendPrevious();
+    }
+
+    @Override
+    public void onClosedOrInvalidResult(SimpleForm form, FormResponseResult<SimpleFormResponse> response) {
+        sendPrevious();
     }
 }

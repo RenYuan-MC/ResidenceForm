@@ -24,7 +24,7 @@ public class ResidenceConfirmForm extends RSimpleForm {
     @SuppressWarnings("ConstantValue")
     public void onValidResult(SimpleForm form, SimpleFormResponse response) {
         if (response.clickedButtonId() == 0) runnable.run();
-        sendPrevious();
+        else sendPrevious();
     }
 
     @Override

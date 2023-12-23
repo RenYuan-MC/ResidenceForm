@@ -12,6 +12,7 @@ import ltd.rymc.form.residence.utils.ResidenceUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceSettingForm extends RSimpleForm {
     private final ClaimedResidence claimedResidence;
@@ -52,5 +53,10 @@ public class ResidenceSettingForm extends RSimpleForm {
     @Override
     public void refresh() {
         content("当前管理领地: " + claimedResidence.getName());
+    }
+
+    @Override
+    public void onClosedOrInvalidResult(SimpleForm form, FormResponseResult<SimpleFormResponse> response) {
+        sendPrevious();
     }
 }

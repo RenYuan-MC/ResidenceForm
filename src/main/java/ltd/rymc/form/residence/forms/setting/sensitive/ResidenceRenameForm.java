@@ -9,6 +9,7 @@ import ltd.rymc.form.residence.utils.InputUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceRenameForm extends RCustomForm {
     private final ClaimedResidence claimedResidence;
@@ -36,6 +37,11 @@ public class ResidenceRenameForm extends RCustomForm {
         }
 
         Residence.getInstance().getResidenceManager().renameResidence(bukkitPlayer, claimedResidence.getName(), input.trim(), false);
+        sendPrevious();
+    }
+
+    @Override
+    public void onClosedOrInvalidResult(CustomForm form, FormResponseResult<CustomFormResponse> response) {
         sendPrevious();
     }
 }

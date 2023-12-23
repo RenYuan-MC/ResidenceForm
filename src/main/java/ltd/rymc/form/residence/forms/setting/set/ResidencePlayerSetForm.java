@@ -10,6 +10,7 @@ import ltd.rymc.form.residence.utils.ResidenceUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,10 +43,10 @@ public class ResidencePlayerSetForm extends RCustomForm {
             int flagPermission = ResidenceUtils.flagToInt(flags.get(flagName));
             Flags flag = Flags.getFlag(flagName);
 
-            String flagDec = flag != null ? "\n§e" + flag.getDesc() : "";
+            String flagDesc = flag != null ? "\n§e" + flag.getDesc() : "";
 
             stepSlider("\n" +
-                       "§a" + flagName + " §f权限" + flagDec + "\n" +
+                       "§a" + flagName + " §f权限" + flagDesc + "\n" +
                        "§f权限状态§8",
                     flagPermission,
                     " §6禁用",
@@ -71,6 +72,11 @@ public class ResidencePlayerSetForm extends RCustomForm {
             claimedResidence.getPermissions().setPlayerFlag(targetPlayer, flagName, flagState);
         }
 
+        sendPrevious();
+    }
+
+    @Override
+    public void onClosedOrInvalidResult(CustomForm form, FormResponseResult<CustomFormResponse> response) {
         sendPrevious();
     }
 }

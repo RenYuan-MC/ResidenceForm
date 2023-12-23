@@ -10,6 +10,7 @@ import ltd.rymc.form.residence.utils.ResidenceUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 
 import java.util.List;
 
@@ -62,6 +63,11 @@ public class ResidenceKickForm extends RCustomForm {
 
         ResidenceUtils.kickPlayer(targetPlayer, claimedResidence);
 
+        sendPrevious();
+    }
+
+    @Override
+    public void onClosedOrInvalidResult(CustomForm form, FormResponseResult<CustomFormResponse> response) {
         sendPrevious();
     }
 }

@@ -8,6 +8,7 @@ import ltd.rymc.form.residence.utils.InputUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class TempSelectionForm extends RCustomForm {
     public TempSelectionForm(Player player, RForm previousForm) {
@@ -29,6 +30,11 @@ public class TempSelectionForm extends RCustomForm {
         TempSelection.addTempSelection(tempSelection);
         Residence.getInstance().getSelectionManager().clearSelection(bukkitPlayer);
 
+        sendPrevious();
+    }
+
+    @Override
+    public void onClosedOrInvalidResult(CustomForm form, FormResponseResult<CustomFormResponse> response) {
         sendPrevious();
     }
 }

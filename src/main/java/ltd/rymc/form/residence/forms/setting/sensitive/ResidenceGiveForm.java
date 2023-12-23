@@ -9,6 +9,7 @@ import ltd.rymc.form.residence.utils.InputUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceGiveForm extends RCustomForm {
 
@@ -54,5 +55,10 @@ public class ResidenceGiveForm extends RCustomForm {
                     residence.getResidenceManager().giveResidence(bukkitPlayer, input.trim(), claimedResidence, false, false);
                 }
         );
+    }
+
+    @Override
+    public void onClosedOrInvalidResult(CustomForm form, FormResponseResult<CustomFormResponse> response) {
+        sendPrevious();
     }
 }

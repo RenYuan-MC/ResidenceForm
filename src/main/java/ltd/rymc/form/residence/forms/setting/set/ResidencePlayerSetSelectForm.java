@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,11 @@ public class ResidencePlayerSetSelectForm extends RCustomForm {
             return;
         }
 
+        sendPrevious();
+    }
+
+    @Override
+    public void onClosedOrInvalidResult(CustomForm form, FormResponseResult<CustomFormResponse> response) {
         sendPrevious();
     }
 }

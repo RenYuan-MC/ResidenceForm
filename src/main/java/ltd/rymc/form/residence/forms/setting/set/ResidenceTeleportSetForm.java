@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceTeleportSetForm extends RSimpleForm {
     private final ClaimedResidence claimedResidence;
@@ -43,6 +44,11 @@ public class ResidenceTeleportSetForm extends RSimpleForm {
     @SuppressWarnings("ConstantValue")
     public void onValidResult(SimpleForm form, SimpleFormResponse response) {
         if (response.clickedButtonId() == 0) claimedResidence.setTpLoc(bukkitPlayer, false);
+        sendPrevious();
+    }
+
+    @Override
+    public void onClosedOrInvalidResult(SimpleForm form, FormResponseResult<SimpleFormResponse> response) {
         sendPrevious();
     }
 }
