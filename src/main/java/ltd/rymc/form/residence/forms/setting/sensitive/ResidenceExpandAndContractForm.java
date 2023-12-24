@@ -4,7 +4,7 @@ import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
-import ltd.rymc.form.residence.utils.Facing;
+import ltd.rymc.form.residence.utils.facing.Facing;
 import ltd.rymc.form.residence.utils.InputUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

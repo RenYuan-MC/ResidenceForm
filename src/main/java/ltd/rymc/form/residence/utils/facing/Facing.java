@@ -1,4 +1,4 @@
-package ltd.rymc.form.residence.utils;
+package ltd.rymc.form.residence.utils.facing;
 
 import org.bukkit.Location;
 

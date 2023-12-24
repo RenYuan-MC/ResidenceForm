@@ -1,21 +1,16 @@
 package ltd.rymc.form.residence;
 
 import co.aikar.commands.PaperCommandManager;
-import com.bekvon.bukkit.residence.CommandFiller;
-import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.commands.form;
-import com.bekvon.bukkit.residence.containers.CommandStatus;
 import ltd.rymc.form.residence.commands.ResidenceFormCommand;
 import ltd.rymc.form.residence.metrics.Metrics;
-import net.Zrips.CMILib.FileHandler.ConfigReader;
+import ltd.rymc.form.residence.utils.hook.ResidenceHook;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.lang.reflect.Field;
-import java.util.Map;
 
 public final class ResidenceForm extends JavaPlugin {
 
     private static ResidenceForm instance;
+    private static PaperCommandManager commandManager;
 
     public static ResidenceForm getInstance() {
         return instance;
@@ -24,31 +19,20 @@ public final class ResidenceForm extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        PaperCommandManager manager = new PaperCommandManager(this);
-        manager.registerCommand(new ResidenceFormCommand());
+        commandManager = new PaperCommandManager(this);
+
         new Metrics(this, 16703);
-        try {
-            hookResidence();
+
+        commandManager.registerCommand(new ResidenceFormCommand());
+        if (ResidenceHook.hook(new form(), 3300)){
             getLogger().info("Residence hooked!");
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            getLogger().warning("Residence hook failed! # \n " + e.getMessage());
+        } else {
+            getLogger().warning("Residence hook failed!");
         }
     }
 
-    private void hookResidence() throws NoSuchFieldException, IllegalAccessException {
-        Residence plugin = Residence.getInstance();
-        CommandFiller commandFiller = plugin.getCommandFiller();
-        Field commandListField = commandFiller.getClass().getDeclaredField("CommandList");
-        commandListField.setAccessible(true);
-        @SuppressWarnings("unchecked")
-        Map<String, CommandStatus> commandList =  (Map<String, CommandStatus>) commandListField.get(commandFiller);
-        commandList.put("form", new CommandStatus(true, 3300, "", new String[0]));
-        ConfigReader config = plugin.getLocaleManager().getLocaleConfig();
-        config.setFullPath(plugin.getLocaleManager().path + "form.");
-        new form().getLocale();
-        config.resetP();
-        config.save();
-        plugin.parseHelpEntries();
+    public PaperCommandManager getCommandManager() {
+        return commandManager;
     }
 
 }

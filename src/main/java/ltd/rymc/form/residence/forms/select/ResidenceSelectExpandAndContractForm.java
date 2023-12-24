@@ -2,7 +2,7 @@ package ltd.rymc.form.residence.forms.select;
 
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
-import ltd.rymc.form.residence.utils.Facing;
+import ltd.rymc.form.residence.utils.facing.Facing;
 import ltd.rymc.form.residence.utils.InputUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
