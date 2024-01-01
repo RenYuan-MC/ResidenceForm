@@ -1,5 +1,7 @@
 ## ResidenceForm 领地Form支持
 为领地添加基岩版Form菜单以让基岩版玩家可以更好的使用领地
+## 使用方式
+指令/rform或/res form打开领地菜单然后使用
 ## 已实现的功能
 * 领地选择
 * 领地公共权限管理 ( res set )
@@ -28,3 +30,5 @@
 ## 前置
 * Floodgate (2.2.0版本以上) - 用于基岩版菜单
 * Residence (5.0版本以上) - 领地插件
+## 数据统计
+![](https://bstats.org/signatures/bukkit/ResidenceForm.svg)
