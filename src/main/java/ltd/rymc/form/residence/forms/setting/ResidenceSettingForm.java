@@ -25,15 +25,14 @@ public class ResidenceSettingForm extends RSimpleForm {
             return;
         }
 
-        title("领地管理菜单");
+        title(lang().settingTitle());
         buttons(
-                "公共权限设置",
-                "玩家权限设置",
-                "信任玩家管理",
+                lang().settingPermissionSet(),
+                lang().settingPlayerPermissionSet(),
+                lang().settingTrustedPlayerManage(),
                 "领地传送点设置",
                 "踢出领地内玩家",
-                "敏感操作",
-                "返回上一级菜单"
+                "敏感操作"
         );
     }
 
@@ -47,7 +46,6 @@ public class ResidenceSettingForm extends RSimpleForm {
         else if (id == 3) new ResidenceTeleportSetForm(bukkitPlayer,this,claimedResidence).send();
         else if (id == 4) new ResidenceKickForm(bukkitPlayer,this, claimedResidence).send();
         else if (id == 5) new ResidenceSensitiveOperationForm(bukkitPlayer,this,claimedResidence).send();
-        else if (id == 6) sendPrevious();
     }
 
     @Override

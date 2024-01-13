@@ -21,14 +21,14 @@ public class ResidenceTeleportForm extends RCustomForm {
         super(player, previousForm);
         residenceMap = ResidenceUtils.getNormalResidenceList(player);
         names = generateResidenceNames();
-        title("§8领地传送");
-        dropdown("你可以使用此下拉框", names);
-        input("或使用此输入框", "完整领地名称");
+        title(lang().teleportTitle());
+        dropdown(lang().formDropdown(), names);
+        input(lang().formInput(), lang().formFullResName());
     }
 
     private String[] generateResidenceNames(){
         String[] names = ArraysUtils.rotate(residenceMap.keySet().toArray(new String[0]),1);
-        names[0] = "选择领地或使用下方输入框";
+        names[0] = lang().formChooseRes();
         return names;
     }
 

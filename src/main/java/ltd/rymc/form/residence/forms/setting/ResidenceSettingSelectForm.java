@@ -21,13 +21,13 @@ public class ResidenceSettingSelectForm extends RCustomForm {
         super(player, previousForm);
         residenceMap = ResidenceUtils.getResidenceList(player);
         names = generateResidenceNames();
-        title("§8领地传送");
-        dropdown("领地列表", names);
+        title(lang().settingSelectTitle());
+        dropdown(lang().settingSelectDropdown(), names);
     }
 
     private String[] generateResidenceNames(){
         String[] names = ArraysUtils.rotate(residenceMap.keySet().toArray(new String[0]),1);
-        names[0] = "请选择领地(此项为你所在的领地)";
+        names[0] = lang().settingSelectChoose();
         return names;
     }
 

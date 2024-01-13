@@ -1,5 +1,7 @@
 package ltd.rymc.form.residence.form;
 
+import ltd.rymc.form.residence.ResidenceForm;
+import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.utils.ArraysUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
@@ -86,5 +88,9 @@ public class RCustomForm implements RForm {
     public void sendPrevious() {
         if (player == null || previousForm == null) return;
         previousForm.send();
+    }
+
+    public Language lang(){
+        return ResidenceForm.getLanguage();
     }
 }

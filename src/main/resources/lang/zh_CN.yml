@@ -1,0 +1,34 @@
+# 语言文件 ResidenceForm Lang zh_CN ver 2.1.0 by RENaa_FD
+
+# 插件重载
+reload: "插件已重载！"
+
+# 菜单公共部分
+form-dropdown: "你可以使用此下拉框"
+form-input: "或使用此输入框"
+form-full-res-name: "完整领地名称"
+form-choose-res: "选择领地或使用下方输入框"
+
+# 主菜单
+main-title: "领地菜单"
+main-content: "§7领地基岩版菜单 ResidenceForm"
+main-teleport: "领地传送"
+main-manage: "领地管理"
+main-create: "领地创建"
+main-tool: "领地工具"
+main-info: "插件信息"
+
+# 传送菜单
+teleport-title: "§8领地传送"
+
+# 设置菜单
+setting-select-title: "§8领地选择"
+setting-select-dropdown: "领地列表"
+setting-select-choose: "请选择领地(此项为你所在的领地)"
+setting-title: "领地管理菜单"
+setting-permission-set: "公共权限设置"
+setting-player-permission-set: "玩家权限设置"
+setting-trusted-player-manage: "信任玩家管理"
+setting-teleport-set: "领地传送点设置"
+setting-residence-kick: "踢出领地内玩家"
+setting-sensitive-operation: "敏感操作"

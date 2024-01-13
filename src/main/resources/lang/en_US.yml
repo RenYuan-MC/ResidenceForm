@@ -1,0 +1,27 @@
+# Language File ResidenceForm Lang en_US ver 2.1.0 by RENaa_FD
+
+# plugin reload
+reload: "Plugin reloaded!"
+
+# 菜单公共部分
+form-dropdown: "你可以使用此下拉框"
+form-input: "或使用此输入框"
+form-full-res-name: "完整领地名称"
+form-choose-res: "选择领地或使用下方输入框"
+
+# Main form
+main-title: "领地菜单"
+main-content: "§7领地基岩版菜单 ResidenceForm"
+main-teleport: "领地传送"
+main-manage: "领地管理"
+main-create: "领地创建"
+main-tool: "领地工具"
+main-info: "插件信息"
+
+# Teleport Form
+teleport-title: "§8领地传送"
+
+# 设置菜单
+setting-select-title: "§8领地传送"
+setting-select-dropdown: "领地列表"
+setting-select-choose: "请选择领地(此项为你所在的领地)"

@@ -1,5 +1,6 @@
 package ltd.rymc.form.residence.forms;
 
+import ltd.rymc.form.residence.ResidenceForm;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
 import ltd.rymc.form.residence.forms.info.PluginInfoForm;
@@ -14,15 +15,16 @@ import org.geysermc.cumulus.response.SimpleFormResponse;
 public class MainResidenceForm extends RSimpleForm {
     public MainResidenceForm(Player player, RForm previousForm) {
         super(player, previousForm);
-        title("领地菜单");
-        content("§7领地基岩版菜单 ResidenceForm");
+        title(lang().mainTitle());
+        content(lang().mainContent());
         buttons(
-                "领地传送",
-                "领地管理",
-                "领地创建",
-                "领地工具",
-                "插件信息"
+                lang().mainTeleport(),
+                lang().mainManage(),
+                lang().mainCreate(),
+                lang().mainTool()
         );
+
+        if (ResidenceForm.getMainConfig().displayPluginInfo()) button(lang().mainInfo());
     }
 
     @Override
