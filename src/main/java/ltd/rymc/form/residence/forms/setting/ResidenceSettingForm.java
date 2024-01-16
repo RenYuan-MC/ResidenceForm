@@ -1,6 +1,7 @@
 package ltd.rymc.form.residence.forms.setting;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
+import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
 import ltd.rymc.form.residence.forms.setting.sensitive.ResidenceSensitiveOperationForm;
@@ -25,14 +26,17 @@ public class ResidenceSettingForm extends RSimpleForm {
             return;
         }
 
-        title(lang().settingTitle());
+        Language.Forms.Manage.Main language = lang().forms().manage().main();
+        Language.Forms.Manage.Main.Buttons buttons = language.buttons();
+
+        title(language.title());
         buttons(
-                lang().settingPermissionSet(),
-                lang().settingPlayerPermissionSet(),
-                lang().settingTrustedPlayerManage(),
-                "领地传送点设置",
-                "踢出领地内玩家",
-                "敏感操作"
+                buttons.set(),
+                buttons.playerSet(),
+                buttons.trustedPlayer(),
+                buttons.teleportSet(),
+                buttons.kick(),
+                buttons.sensitive()
         );
     }
 
@@ -50,7 +54,7 @@ public class ResidenceSettingForm extends RSimpleForm {
 
     @Override
     public void refresh() {
-        content("当前管理领地: " + claimedResidence.getName());
+        content(String.format(lang().forms().manage().main().content(), claimedResidence.getName()));
     }
 
     @Override

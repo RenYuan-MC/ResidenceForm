@@ -2,6 +2,7 @@ package ltd.rymc.form.residence.forms.setting.sensitive;
 
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
+import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
@@ -25,9 +26,11 @@ public class ResidenceRemoveForm extends RCustomForm {
             return;
         }
 
-        title("§8领地 §l" + claimedResidence.getName() + " §r§8转移");
-        input("请输入玩家名", "完整玩家名(含大小写)");
-        input("请再次输入玩家名以确认", "请再次输入玩家名");
+        Language.Forms.Manage.Sensitive.Remove language = lang().forms().manage().sensitive().remove();
+
+        title(String.format(language.title(), claimedResidence.getName()));
+        input(language.input1(), language.input2());
+        input(language.input3(), language.input4());
     }
 
 
@@ -40,10 +43,12 @@ public class ResidenceRemoveForm extends RCustomForm {
             return;
         }
 
+        String title = lang().forms().manage().sensitive().remove().title();
+
         new ResidenceConfirmForm(
                 bukkitPlayer,
                 previousForm,
-                "§8领地 §l" + claimedResidence.getName() + " §r§8删除",
+                String.format(title, claimedResidence.getName()),
                 () -> {
 
                     if (!claimedResidence.isOwner(bukkitPlayer) && !bukkitPlayer.isOp()) {

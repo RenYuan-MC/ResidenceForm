@@ -1,5 +1,6 @@
 package ltd.rymc.form.residence.forms.setting.sensitive;
 
+import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
 import org.bukkit.entity.Player;
@@ -12,11 +13,15 @@ public class ResidenceConfirmForm extends RSimpleForm {
     public ResidenceConfirmForm(Player player, RForm previousForm, String title, Runnable runnable) {
         super(player, previousForm);
         this.runnable = runnable;
+
+        Language.Forms.Manage.Sensitive.Confirm language = lang().forms().manage().sensitive().confirm();
+        Language.Forms.Manage.Sensitive.Confirm.Buttons buttons = language.buttons();
+
         title(title);
-        content("你确定?此操作不可撤回!\n\n");
+        content(language.content());
         buttons(
-                "确定",
-                "再想想"
+                buttons.accept(),
+                buttons.deny()
         );
     }
 

@@ -1,25 +1,25 @@
 package ltd.rymc.form.residence.utils.facing;
 
+import ltd.rymc.form.residence.ResidenceForm;
+import ltd.rymc.form.residence.configs.Language;
 import org.bukkit.Location;
 
 public enum Facing {
-    North(0, -90.0f, "东", true),
-    South(1, 0.0f, "南", true),
-    West(2, 90.0f, "西", true),
-    East(3, 180.0f, "北", true),
-    Up(4, -90.0f, "上", false),
-    Down(5, 90.0f, "下", false),
-    Unknown(-1, 0.0f, "未知", false);
+    East(0, -90.0f, true),
+    South(1, 0.0f, true),
+    West(2, 90.0f, true),
+    North(3, 180.0f, true),
+    Up(4, -90.0f, false),
+    Down(5, 90.0f, false),
+    Unknown(-1, 0.0f, false);
 
     private final int ID;
     private final float yawOrPitch;
-    private final String name;
     private final boolean isYaw;
 
-    Facing(int ID, float yawOrPitch, String name, boolean isYaw) {
+    Facing(int ID, float yawOrPitch, boolean isYaw) {
         this.ID = ID;
         this.yawOrPitch = yawOrPitch;
-        this.name = name;
         this.isYaw = isYaw;
     }
 
@@ -33,8 +33,8 @@ public enum Facing {
     public static Facing facing(float yaw) {
         if (45.0 < yaw && yaw <= 135.0) return Facing.West;
         if (-45.0 < yaw && yaw <= 45.0) return Facing.South;
-        if (-135.0 < yaw && yaw <= -45.0) return Facing.North;
-        if (135.0 < yaw && yaw <= -135.0) return Facing.East;
+        if (-135.0 < yaw && yaw <= -45.0) return Facing.East;
+        if (135.0 < yaw && yaw <= -135.0) return Facing.North;
         return Facing.Unknown;
     }
 
@@ -65,7 +65,24 @@ public enum Facing {
     }
 
     public String getName() {
-        return name;
+        Language.Forms.Facing language = ResidenceForm.getLanguage().forms().facing();
+        switch (this) {
+            case North:
+                return language.north();
+            case South:
+                return language.south();
+            case West:
+                return language.west();
+            case East:
+                return language.east();
+            case Up:
+                return language.up();
+            case Down:
+                return language.down();
+            default:
+                return language.unknown();
+        }
+
     }
 
     public boolean isYaw() {

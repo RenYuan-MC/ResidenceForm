@@ -3,32 +3,248 @@
 # 插件重载
 reload: "插件已重载！"
 
-# 菜单公共部分
-form-dropdown: "你可以使用此下拉框"
-form-input: "或使用此输入框"
-form-full-res-name: "完整领地名称"
-form-choose-res: "选择领地或使用下方输入框"
+forms:
 
-# 主菜单
-main-title: "领地菜单"
-main-content: "§7领地基岩版菜单 ResidenceForm"
-main-teleport: "领地传送"
-main-manage: "领地管理"
-main-create: "领地创建"
-main-tool: "领地工具"
-main-info: "插件信息"
+  # 主菜单
+  main:
+    title: "领地菜单"
+    content: "§7领地基岩版菜单"
+    buttons:
+      teleport: "领地传送"
+      manage: "领地管理"
+      create: "领地创建"
+      tool: "领地工具"
+      info: "插件信息"
 
-# 传送菜单
-teleport-title: "§8领地传送"
+  # 传送菜单
+  teleport:
+    title: "§8领地传送"
+    dropdown: "你可以使用此下拉框"
+    input1: "或使用此输入框"
+    input2: "完整领地名称"
+    choose: "选择领地或使用下方输入框"
 
-# 设置菜单
-setting-select-title: "§8领地选择"
-setting-select-dropdown: "领地列表"
-setting-select-choose: "请选择领地(此项为你所在的领地)"
-setting-title: "领地管理菜单"
-setting-permission-set: "公共权限设置"
-setting-player-permission-set: "玩家权限设置"
-setting-trusted-player-manage: "信任玩家管理"
-setting-teleport-set: "领地传送点设置"
-setting-residence-kick: "踢出领地内玩家"
-setting-sensitive-operation: "敏感操作"
+  # 管理菜单
+  manage:
+
+    # 领地选择
+    select:
+      title: "§8领地选择"
+      dropdown: "领地列表"
+      choose: "请选择领地(此项为你所在的领地)"
+
+    # 管理菜单主菜单
+    main:
+      title: "领地管理菜单"
+      content: "当前管理领地: %s"
+      buttons:
+        set: "公共权限设置"
+        player-set: "玩家权限设置"
+        trusted-player: "信任玩家管理"
+        teleport-set: "传送点设置"
+        kick: "踢出玩家"
+        sensitive: "敏感操作"
+
+    # 公共权限设置
+    set:
+      title: "§8领地 §l%s §r§8权限设置"
+
+    # 玩家权限设置
+    player-set:
+
+      # 玩家选择
+      select:
+        title: "§8领地 §l%s §r§8玩家权限设置"
+        dropdown: "在线玩家列表"
+        input1: "如玩家不在线或上方表格不便使用请使用输入框"
+        input2: "需要完整玩家名称(包括大小写)"
+        choose: "请选择玩家"
+
+      # 玩家权限设置菜单
+      set:
+        title: "§8领地 §l%s §r§8玩家 §l%s §r§8的权限设置"
+
+    # 信任玩家管理
+    trusted-player:
+
+      # 信任玩家管理主菜单
+      main:
+        title: "信任玩家管理菜单"
+        content: "当前管理领地: %s^n信任玩家: %s"
+        button: "添加/删除信任玩家"
+
+      # 信任玩家修改
+      change:
+        title: "§8领地 §l%s §r§8信任玩家修改"
+        dropdown: "在线玩家列表"
+        input1: "如玩家不在线或上方表格使用过于麻烦请使用下方输入框"
+        input2: "需要完整玩家名称(包括大小写)"
+        toggle: "模式(关闭为添加,开启为删除)"
+        choose: "请选择玩家"
+
+    # 领地传送点设置
+    teleport-set:
+      title: "传送点设置"
+      content: "将你所在的位置设置为领地传送点^n^n领地: %s^n你的坐标:%s^n^n"
+      buttons:
+        set: "将传送点设置为当前坐标"
+        back: "返回"
+
+    # 领地玩家踢出
+    kick:
+      title: "§8踢出领地 §l%s §r§8内的玩家"
+      dropdown: "在线玩家列表"
+      input1: "如玩家不在线或上方表格使用过于麻烦请使用下方输入框"
+      input2: "需要完整玩家名称"
+      choose: "请选择玩家"
+
+    # 权限不足时显示的菜单
+    no-permission:
+      title: "领地菜单"
+      content: "你没有权限^n^n"
+      button: "返回"
+
+    # 敏感操作
+    sensitive:
+      # 主菜单
+      main:
+        title: "领地管理菜单"
+        content: "当前管理领地: %s"
+        buttons:
+          rename: "重命名领地"
+          expand: "扩展/缩小领地"
+          give: "转移领地"
+          remove: "删除领地"
+
+      # 领地重命名
+      rename:
+        title: "§8领地 §l%s §r§8重命名"
+        input1: "请输入新的领地名称"
+        input2: "支持大小写英文,数字,下划线和连字符"
+        input3: "请再次输入以确认领地名称"
+        input4: "再次输入领地名称"
+
+      # 领地扩展/缩小
+      expand:
+        title: "§8领地扩展/缩小"
+        dropdown: "你当前面对的方向: %s^n^n扩展/缩小的方向"
+        input1: "范围"
+        input2: "数字"
+        toggle: "模式(关闭为扩展,开启为缩小)"
+
+      # 领地转移
+      give:
+        title: "§8领地 §l%s §r§8转移"
+        input1: "请输入玩家名"
+        input2: "完整玩家名(含大小写)"
+        input3: "请再次输入玩家名以确认"
+        input4: "请再次输入玩家名"
+
+      # 领地删除
+      remove:
+        title: "§8领地 §l%s §r§8删除"
+        input1: "请输入领地名"
+        input2: "完整领地名(含大小写)"
+        input3: "请再次输入领地名以确认"
+        input4: "请再次输入领地名"
+
+      # 领地确认菜单
+      confirm:
+        content: "你确定?此操作不可撤回!^n^n"
+        buttons:
+          accept: "确定"
+          deny: "再想想"
+
+  # 领地创建
+  create:
+
+    # 领地创建主菜单
+    main:
+      title: "领地创建菜单"
+      content:
+        title: "当前选区: %s"
+        not-create: "未创建选区"
+        coordinates1: "顶点坐标1: %s"
+        coordinates2: "顶点坐标2: %s"
+        world: "世界: %s"
+        unknown: "未知"
+        x: "长: %s"
+        y: "高: %s"
+        z: "宽: %s"
+        cost: "价格: %s"
+      buttons:
+        auto: "开启/关闭自动选区"
+        select: "以你为中心选区"
+        manual: "手动输入选区坐标"
+        expend: "扩展/缩小选区"
+        create: "创建领地"
+
+    # 以玩家为中心创建领地
+    select:
+      title: "§8以你为中心创建领地"
+      input-x1: "长"
+      input-x2: "数字(整数)"
+      input-y1: "高"
+      input-y2: "数字(整数)"
+      input-z1: "宽"
+      input-z2: "数字(整数)"
+
+    # 手动输入领地选区坐标
+    manual:
+      title: "§8手动输入坐标"
+      input1: "顶点坐标1(格式: X, Y, Z)"
+      input2: "数字"
+      input3: "顶点坐标2(格式: X, Y, Z)"
+      input4: "数字"
+
+    # 领地选区扩展/缩小
+    expand:
+      title: "§8领地选区扩展/缩小"
+      dropdown: "你当前面对的方向: %s^n^n扩展/缩小的方向"
+      input1: "范围"
+      input2: "数字"
+      toggle: "模式(关闭为扩展,开启为缩小)"
+
+    # 创建领地
+    create:
+      title: "§8领地创建"
+      cost: "此次创建将花费: %s 元"
+      input1: "请给你要创建的领地起个名字"
+      input2: "支持大小写英文,数字,下划线和连字符"
+
+  # 领地工具
+  tool:
+    # 领地工具主菜单
+    main:
+      title: "领地菜单"
+      content: "§7领地基岩版菜单 ResidenceForm"
+      buttons:
+        check: "查看当前领地边界"
+        query: "领地信息查询"
+
+    # 领地信息查询
+    check:
+      title: "§8领地信息查询"
+      dropdown: "你可以使用此下拉框"
+      input1: "或使用此输入框"
+      input2: "完整领地名称"
+      choose: "选择领地或使用下方输入框"
+
+  # 领地权限显示格式
+  permission:
+    description: "^n§e%s"
+    name: "§a%s §f权限"
+    state: "^n%s ^n§f权限状态§8"
+    disabled: " §6禁用"
+    not-set: " §6未设置"
+    enable: " §6启用"
+
+  # 方向
+  facing:
+    north: "北"
+    south: "南"
+    west: "西"
+    east: "东"
+    up: "上"
+    down: "下"
+    unknown: "未知"

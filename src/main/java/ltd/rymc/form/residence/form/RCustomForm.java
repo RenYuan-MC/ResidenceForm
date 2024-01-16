@@ -3,6 +3,7 @@ package ltd.rymc.form.residence.form;
 import ltd.rymc.form.residence.ResidenceForm;
 import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.utils.ArraysUtils;
+import ltd.rymc.form.residence.utils.StringUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
@@ -32,15 +33,15 @@ public class RCustomForm implements RForm {
     }
 
     public void input(String s1, String s2, String s3){
-        builder.input(s1, s2, s3);
+        builder.input(StringUtils.handleNewLineChar(s1), StringUtils.handleNewLineChar(s2), StringUtils.handleNewLineChar(s3));
     }
 
     public void input(String s1, String s2){
-        builder.input(s1, s2);
+       input(s1, s2, "");
     }
 
     public void input(String s1){
-        builder.input(s1);
+        input(s1, "", "");
     }
 
     public void title(String title){
@@ -48,25 +49,25 @@ public class RCustomForm implements RForm {
     }
 
     public void toggle(String text){
-        builder.toggle(text);
+        toggle(text, false);
     }
 
     public void toggle(String text,boolean state){
-        builder.toggle(text, state);
+        builder.toggle(StringUtils.handleNewLineChar(text), state);
     }
 
     public void dropdown(String text, String... dropdown){
-        builder.dropdown(text,dropdown);
+        builder.dropdown(StringUtils.handleNewLineChar(text),StringUtils.handleNewLineChar(dropdown));
     }
 
     public void stepSlider(String text, int state, String... states){
-        builder.stepSlider(text, state, states);
+        builder.stepSlider(StringUtils.handleNewLineChar(text), state, StringUtils.handleNewLineChar(states));
     }
 
     public void dropdown(String text,String empty, String... dropdown){
         String[] tmp = ArraysUtils.rotate(dropdown, 1);
         tmp[0] = empty;
-        builder.dropdown(text,tmp);
+        dropdown(text,tmp);
     }
 
     public void onValidResult(CustomForm form, CustomFormResponse response){

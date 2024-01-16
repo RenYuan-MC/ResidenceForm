@@ -1,5 +1,6 @@
 package ltd.rymc.form.residence.forms.setting;
 
+import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
 import org.bukkit.entity.Player;
@@ -10,9 +11,12 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 public class ResidenceNoPermissionForm extends RSimpleForm {
     public ResidenceNoPermissionForm(Player player, RForm previousForm) {
         super(player, previousForm);
-        title("领地菜单");
-        content("你没有权限\n\n");
-        button("返回");
+
+        Language.Forms.Manage.NoPermission language = lang().forms().manage().noPermission();
+
+        title(language.title());
+        content(language.content());
+        button(language.button());
     }
 
     @Override

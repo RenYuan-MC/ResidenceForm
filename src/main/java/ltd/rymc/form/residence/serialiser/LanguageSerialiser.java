@@ -25,14 +25,7 @@ public class LanguageSerialiser implements ValueSerialiser<ConfigManager<Languag
 
     @Override
     public ConfigManager<Language> deserialise(FlexibleType flexibleType) throws BadValueException {
-        String language = flexibleType.getString();
-        if (!availableLanguages.contains(language)) {
-            throw new BadValueException
-                    .Builder()
-                    .key(flexibleType.getAssociatedKey())
-                    .message(generateExceptionMessage(language))
-                    .build();
-        }
+        String language = getValue(flexibleType);
         ResourceConfigManager<Language> configManager = ResourceConfigManager.create(ResidenceForm.getInstance(), language, "lang\\" + language + ".yml", Language.class);
         configManager.reloadConfig();
         return configManager;
@@ -41,6 +34,17 @@ public class LanguageSerialiser implements ValueSerialiser<ConfigManager<Languag
     @Override
     public Object serialise(ConfigManager<Language> value, Decomposer decomposer) {
         return value.getConfigName();
+    }
+
+    private static String getValue(FlexibleType flexibleType) throws BadValueException {
+        String language = flexibleType.getString();
+        if (availableLanguages.contains(language)) return language;
+
+        throw new BadValueException
+                .Builder()
+                .key(flexibleType.getAssociatedKey())
+                .message(generateExceptionMessage(language))
+                .build();
     }
 
     private static String generateExceptionMessage(String language){

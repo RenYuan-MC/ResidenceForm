@@ -2,6 +2,7 @@ package ltd.rymc.form.residence.form;
 
 import ltd.rymc.form.residence.ResidenceForm;
 import ltd.rymc.form.residence.configs.Language;
+import ltd.rymc.form.residence.utils.StringUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.form.SimpleForm;
@@ -29,12 +30,12 @@ public abstract class RSimpleForm implements RForm {
     }
 
     public void button(String string){
-        builder.button(string);
+        builder.button(StringUtils.handleNewLineChar(string));
     }
 
     public void buttons(String... strings){
         for (String string : strings) {
-            builder.button(string);
+            button(string);
         }
     }
 
@@ -46,7 +47,7 @@ public abstract class RSimpleForm implements RForm {
     }
 
     public void content(String content){
-        builder.content(content);
+        builder.content(StringUtils.handleNewLineChar(content));
     }
 
     public void title(String title){
@@ -54,7 +55,7 @@ public abstract class RSimpleForm implements RForm {
     }
 
     public void button(String string, FormImage image){
-        builder.button(string, image);
+        builder.button(StringUtils.handleNewLineChar(string), image);
     }
 
     private void init(){

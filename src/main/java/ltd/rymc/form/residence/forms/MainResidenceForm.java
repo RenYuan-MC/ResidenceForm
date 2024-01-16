@@ -1,9 +1,8 @@
 package ltd.rymc.form.residence.forms;
 
-import ltd.rymc.form.residence.ResidenceForm;
+import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
-import ltd.rymc.form.residence.forms.info.PluginInfoForm;
 import ltd.rymc.form.residence.forms.select.ResidenceCreateSelectForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceSettingSelectForm;
 import ltd.rymc.form.residence.forms.teleport.ResidenceTeleportForm;
@@ -15,16 +14,18 @@ import org.geysermc.cumulus.response.SimpleFormResponse;
 public class MainResidenceForm extends RSimpleForm {
     public MainResidenceForm(Player player, RForm previousForm) {
         super(player, previousForm);
-        title(lang().mainTitle());
-        content(lang().mainContent());
-        buttons(
-                lang().mainTeleport(),
-                lang().mainManage(),
-                lang().mainCreate(),
-                lang().mainTool()
-        );
 
-        if (ResidenceForm.getMainConfig().displayPluginInfo()) button(lang().mainInfo());
+        Language.Forms.Main language = lang().forms().main();
+        Language.Forms.Main.Buttons buttons = language.buttons();
+
+        title(language.title());
+        content(language.content());
+        buttons(
+                buttons.teleport(),
+                buttons.manage(),
+                buttons.create(),
+                buttons.tool()
+        );
     }
 
     @Override
@@ -35,6 +36,5 @@ public class MainResidenceForm extends RSimpleForm {
         else if (id == 1) new ResidenceSettingSelectForm(bukkitPlayer,this).send();
         else if (id == 2) new ResidenceCreateSelectForm(bukkitPlayer,this).send();
         else if (id == 3) new ResidenceToolsForm(bukkitPlayer,this).send();
-        else if (id == 4) new PluginInfoForm(bukkitPlayer,this).send();
     }
 }

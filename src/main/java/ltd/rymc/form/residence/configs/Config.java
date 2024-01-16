@@ -35,16 +35,6 @@ public interface Config {
     ConfigManager<Language> language();
 
     @ConfDefault.DefaultBoolean(true)
-    @ConfKey("display-plugin-info")
-    @ConfComments({
-            "",
-            "# 是否在表单中显示插件信息",
-            "# Whether to display plugin information in the form"
-    })
-    @AnnotationBasedSorter.Order(30)
-    boolean displayPluginInfo();
-
-    @ConfDefault.DefaultBoolean(true)
     @ConfKey("hook-residence")
     @ConfComments({
             "",

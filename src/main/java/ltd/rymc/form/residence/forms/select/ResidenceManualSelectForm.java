@@ -2,6 +2,7 @@ package ltd.rymc.form.residence.forms.select;
 
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.selection.SelectionManager;
+import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
 import org.bukkit.Location;
@@ -14,9 +15,12 @@ public class ResidenceManualSelectForm extends RCustomForm {
     private static final SelectionManager selectionManager = Residence.getInstance().getSelectionManager();
     public ResidenceManualSelectForm(Player player, RForm previousForm) {
         super(player, previousForm);
-        title("§8手动输入坐标");
-        input("顶点坐标1(格式: X, Y, Z)", "数字");
-        input("顶点坐标2(格式: X, Y, Z)", "数字");
+
+        Language.Forms.Create.Manual language = lang().forms().create().manual();
+
+        title(language.title());
+        input(language.input1(), language.input2());
+        input(language.input3(), language.input4());
     }
 
     @Override

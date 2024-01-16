@@ -1,6 +1,7 @@
 package ltd.rymc.form.residence.forms.setting.sensitive;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
+import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
@@ -23,11 +24,12 @@ public class ResidenceExpandAndContractForm extends RCustomForm {
             new ResidenceNoPermissionForm(player,previousForm).send();
             return;
         }
+        Language.Forms.Manage.Sensitive.Expand language = lang().forms().manage().sensitive().expand();
 
-        title("§8领地选区扩展/缩小");
-        dropdown("你当前面对的方向: " + Facing.facing(player.getLocation().getYaw()).getName() + "\n\n扩展/缩小的方向", Facing.facingList());
-        input("扩展范围", "数字,不填则返回上一级菜单");
-        toggle("模式(关闭为扩展,开启为缩小)");
+        title(language.title());
+        dropdown(String.format(language.dropdown(),Facing.facing(player.getLocation().getYaw()).getName()), Facing.facingList());
+        input(language.input1(), language.input2());
+        toggle(language.toggle());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ltd.rymc.form.residence.forms.setting.set;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
+import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
@@ -22,22 +23,22 @@ public class ResidenceTeleportSetForm extends RSimpleForm {
             return;
         }
 
-        title("领地传送点设置");
+        Language.Forms.Manage.TeleportSet language = lang().forms().manage().teleportSet();
+        Language.Forms.Manage.TeleportSet.Buttons buttons = language.buttons();
+
+        title(language.title());
         buttons(
-                "将传送点设置为当前坐标",
-                "返回领地管理"
+                buttons.set(),
+                buttons.back()
         );
     }
 
     @Override
     public void refresh() {
         Location location = bukkitPlayer.getLocation();
-        content("将你所在的位置设置为领地传送点\n" +
-                "\n" +
-                "领地: " + claimedResidence.getName() + "\n" +
-                "你的坐标:" + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + "\n" +
-                "\n"
-        );
+        content(String.format(lang().forms().manage().teleportSet().content(),
+                claimedResidence.getName(),
+                location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ()));
     }
 
     @Override

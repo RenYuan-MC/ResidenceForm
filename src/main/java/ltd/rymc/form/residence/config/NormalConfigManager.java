@@ -99,13 +99,13 @@ public final class NormalConfigManager<C> implements ConfigManager<C> {
         } catch (ConfigFormatSyntaxException ex) {
             configData = configHelper.getFactory().loadDefaults();
             plugin.getLogger().severe("The yaml syntax in your configuration is invalid. "
-                                                           + "Check your YAML syntax with a tool such as https://yaml-online-parser.appspot.com/");
+                                                           + "Query your YAML syntax with a tool such as https://yaml-online-parser.appspot.com/");
             ex.printStackTrace();
 
         } catch (InvalidConfigException ex) {
             configData = configHelper.getFactory().loadDefaults();
             plugin.getLogger().severe("One of the values in your configuration is not valid. "
-                                                     + "Check to make sure you have specified the right data types.");
+                                                     + "Query to make sure you have specified the right data types.");
             ex.printStackTrace();
         }
     }
@@ -199,7 +199,7 @@ public final class NormalConfigManager<C> implements ConfigManager<C> {
 
                 logger.info("Key: " + key + " , Value:" + value + " , Type: " + value.getClass().getName());
 
-                // Check subsection
+                // Query subsection
                 if (!(value instanceof Map<?, ?>)) continue;
 
                 // Print subsection

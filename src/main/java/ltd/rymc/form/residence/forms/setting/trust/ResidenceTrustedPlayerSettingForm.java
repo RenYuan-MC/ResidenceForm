@@ -1,6 +1,7 @@
 package ltd.rymc.form.residence.forms.setting.trust;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
+import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
@@ -23,11 +24,10 @@ public class ResidenceTrustedPlayerSettingForm extends RSimpleForm {
             return;
         }
 
-        title("领地信任玩家管理菜单");
-        buttons(
-                "添加/删除信任玩家",
-                "返回上一级菜单"
-        );
+        Language.Forms.Manage.TrustedPlayer.Main language = lang().forms().manage().trustedPlayer().main();
+
+        title(language.title());
+        button(language.button());
     }
 
     private String generateTrustedPlayerList(){
@@ -42,7 +42,8 @@ public class ResidenceTrustedPlayerSettingForm extends RSimpleForm {
 
     @Override
     public void refresh() {
-        content("当前管理领地: " + claimedResidence.getName() + "\n信任玩家: " + generateTrustedPlayerList());
+        String content = lang().forms().manage().trustedPlayer().main().content();
+        content(String.format(content, claimedResidence.getName(), generateTrustedPlayerList()));
     }
 
     @Override

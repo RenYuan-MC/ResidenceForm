@@ -3,25 +3,248 @@
 # plugin reload
 reload: "Plugin reloaded!"
 
-# 菜单公共部分
-form-dropdown: "你可以使用此下拉框"
-form-input: "或使用此输入框"
-form-full-res-name: "完整领地名称"
-form-choose-res: "选择领地或使用下方输入框"
+forms:
 
-# Main form
-main-title: "领地菜单"
-main-content: "§7领地基岩版菜单 ResidenceForm"
-main-teleport: "领地传送"
-main-manage: "领地管理"
-main-create: "领地创建"
-main-tool: "领地工具"
-main-info: "插件信息"
+  # Main Form
+  main:
+    title: "Residence Form"
+    content: "§7Residence Form"
+    buttons:
+      teleport: "Residence Teleport"
+      manage: "Residence Manage"
+      create: "Residence Create"
+      tool: "Residence Tools"
 
-# Teleport Form
-teleport-title: "§8领地传送"
+  # Teleport Form
+  teleport:
+    title: "§8Residence Teleport"
+    dropdown: "You can use this dropdown box"
+    input1: "or use this input box"
+    input2: "Full residence name"
+    choose: "Select a residence or use the input box below"
 
-# 设置菜单
-setting-select-title: "§8领地传送"
-setting-select-dropdown: "领地列表"
-setting-select-choose: "请选择领地(此项为你所在的领地)"
+  # Residence Manage
+  manage:
+
+    # Residence Select
+    select:
+      title: "§8Residence Select"
+      dropdown: "Residence list"
+      choose: "Select a residence (this is residence your at)"
+
+    # Manage Form - Main Form
+    main:
+      title: "Residence Manage Form"
+      content: "Currently Managing Residence: %s"
+      buttons:
+        set: "Public permission setting"
+        player-set: "Player permission setting"
+        trusted-player: "Trusted player manage"
+        teleport-set: "Teleportation setting"
+        kick: "Kicking players out"
+        sensitive: "Sensitive operations"
+
+    # Public Permission Setting
+    set:
+      title: "§8Residence §l%s §r§8Permission Setting"
+
+    # Player Permission Setting
+    player-set:
+
+      # Player Select
+      select:
+        title: "§8Residence §l%s §r§8Player Permission Setting"
+        dropdown: "Online player list"
+        input1: "Use this input box if the player is not online or the list above is not convenient to use"
+        input2: "Full name required (including case)"
+        choose: "Select a player"
+
+      # Residence Permission Setting Form
+      set:
+        title: "§8Residence §l%s §r§8Player §l%s §r§8's Permission Setting"
+
+    # Trusted Player Manage
+    trusted-player:
+
+      # Trusted Player Manage - Main Form
+      main:
+        title: "Trusted Player Manage Form"
+        content: "Currently Managing Residence: %s^nTrusted Players: %s"
+        button: "Add/Remove trusted players"
+
+      # Trusted Player Change
+      change:
+        title: "§8Residence §l%s §r§8Trusted Player Change"
+        dropdown: "Online player list"
+        input1: "Use this input box if the player is not online or the list above is not convenient to use"
+        input2: "Full name required (including case)"
+        toggle: "Mode (off for add, on for remove)"
+        choose: "Select a player"
+
+    # Residence Teleportation Setting
+    teleport-set:
+      title: "Teleportation Setting"
+      content: "Set your location as a residence teleportation point^n^nResidence: %s^nYour location: %s^n^n"
+      buttons:
+        set: "Set the teleportation point to the current location"
+        back: "Go back"
+
+    # Residence Kick
+    kick:
+      title: "§8Kicking out players in residence §l%s"
+      dropdown: "Online player list"
+      input1: "Use this input box if the player is not online or the list above is not convenient to use"
+      input2: "Full name required"
+      choose: "Select a player"
+
+    # Form displayed when you don't have permission
+    no-permission:
+      title: "Residence Form"
+      content: "You don't have permission^n^n"
+      button: "Go back"
+
+    # Sensitive Operation
+    sensitive:
+      # Sensitive Operation - Main Form
+      main:
+        title: "Residence Manage Form"
+        content: "Currently Managing Residence: %s"
+        buttons:
+          rename: "Rename residence"
+          expand: "Expand/Contract residence"
+          give: "Give residence to others"
+          remove: "Remove residence"
+
+      # Rename Residence
+      rename:
+        title: "§Residence §l%s §r§8Rename"
+        input1: "Please enter the name of your new residence"
+        input2: "Supports English, numbers, underscores and hyphens"
+        input3: "Please enter it again to confirm the name of the residence"
+        input4: "Enter it again"
+
+      # Expand/Contract Residence
+      expand:
+        title: "§8Residence Expand/Contract"
+        dropdown: "The direction you are currently facing: %s^n^nDirection of expand/contract"
+        input1: "Range"
+        input2: "Number"
+        toggle: "Mode (off for expand, on for contract)"
+
+      # Give residence to others
+      give:
+        title: "§8Give residence §l%s §r§8to others"
+        input1: "Enter the target player name"
+        input2: "Full name required (including case)"
+        input3: "Please enter it again to confirm"
+        input4: "Enter it again"
+
+      # Remove Residence
+      remove:
+        title: "§8Residence §l%s §r§8Remove"
+        input1: "Please enter the name of your new residence"
+        input2: "Full name required (including case)"
+        input3: "Please enter it again to confirm the name of the residence"
+        input4: "Enter it again"
+
+
+      # Confirm Form
+      confirm:
+        content: "Are you sure? This operation is irrevocable!^n^n"
+        buttons:
+          accept: "Yes, I'm sure"
+          deny: "Think again"
+
+  # Residence Create
+  create:
+
+    # Residence Create - Main Form
+    main:
+      title: "Residence Create Form"
+      content:
+        title: "Current selection area: %s"
+        not-create: "No selection created"
+        coordinates1: "Vertex coordinate 1: %s"
+        coordinates2: "Vertex coordinate 2: %s"
+        world: "World: %s"
+        unknown: "Unknown"
+        x: "Length: %s"
+        y: "Height: %s"
+        z: "Width: %s"
+        cost: "Cost: %s"
+      buttons:
+        auto: "Enable/disable automatic selection"
+        select: "Select area by your location"
+        manual: "Manually enter selection"
+        expend: "Expand/Contract selection"
+        create: "Create Residence"
+
+    # Select area by player's location
+    select:
+      title: "§8Select Area By Your Location"
+      input-x1: "Length"
+      input-x2: "Number (integer)"
+      input-y1: "Height"
+      input-y2: "Number (integer)"
+      input-z1: "Width"
+      input-z2: "Number (integer)"
+
+    # Manually Enter Selection
+    manual:
+      title: "§8Manually Enter Selection"
+      input1: "Vertex coordinates 1(format: X, Y, Z)"
+      input2: "Number"
+      input3: "Vertex coordinates 2(format: X, Y, Z)"
+      input4: "Number"
+
+    # Expand/Contract Residence Selection
+    expand:
+      title: "§8Expand/Contract Residence Selection"
+      dropdown: "The direction you are currently facing: %s^n^nDirection of expand/contract"
+      input1: "Range"
+      input2: "Number"
+      toggle: "Mode (off for expand, on for contract)"
+
+    # Create Residence
+    create:
+      title: "§8Residence Creation"
+      cost: "This creation will cost: %s"
+      input1: "Please name the residence you want to create"
+      input2: "Supports English, numbers, underscores and hyphens."
+
+  # Residence Tools
+  tool:
+    # Residence Tools - Main Form
+    main:
+      title: "Residence Form"
+      content: "§7Residence Form"
+      buttons:
+        check: "View current residence boundaries"
+        query: "Search for residence information"
+
+    # Residence Information Search
+    query:
+      title: "§8Residence Information Search"
+      dropdown: "You can use this dropdown box"
+      input1: "or use this input box"
+      input2: "Full residence name"
+      choose: "Select a residence or use the input box below"
+
+  # Format of display of residence flags
+  permission:
+    description: "^n§e%s"
+    name: "§a%s §f Flag"
+    state: "^n%s ^n§fFlag State§8"
+    disabled: " §6False"
+    not-set: " §6Remove"
+    enable: " §6True"
+
+  # Facing
+  facing:
+    north: "North"
+    south: "South"
+    west: "West"
+    east: "East"
+    up: "Up"
+    down: "Down"
+    unknown: "Unknown"

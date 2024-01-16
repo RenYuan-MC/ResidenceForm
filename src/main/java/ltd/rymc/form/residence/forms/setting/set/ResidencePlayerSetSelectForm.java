@@ -1,6 +1,7 @@
 package ltd.rymc.form.residence.forms.setting.set;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
+import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
@@ -29,14 +30,16 @@ public class ResidencePlayerSetSelectForm extends RCustomForm {
         }
         players = new ArrayList<>(Bukkit.getOnlinePlayers());
 
-        title("§8领地 §l" + claimedResidence.getName() + " §r§8玩家权限设置");
-        dropdown("在线玩家列表", generatePlayerNameList());
-        input("如玩家不在线或上方表格不便使用请使用输入框", "需要完整玩家名称(包括大小写)");
+        Language.Forms.Manage.PlayerSet.Select language = lang().forms().manage().playerSet().select();
+
+        title(String.format(language.title(), claimedResidence.getName()));
+        dropdown(language.dropdown(), generatePlayerNameList());
+        input(language.input1(), language.input2());
     }
 
     private String[] generatePlayerNameList(){
         String[] playerNameList = ArraysUtils.rotate(PlayerUtils.translateToNameList(players),1);
-        playerNameList[0] = "请选择玩家";
+        playerNameList[0] = lang().forms().manage().playerSet().select().choose();
         return playerNameList;
     }
 

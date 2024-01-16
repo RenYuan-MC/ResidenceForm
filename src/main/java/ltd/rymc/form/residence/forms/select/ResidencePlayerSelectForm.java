@@ -1,5 +1,6 @@
 package ltd.rymc.form.residence.forms.select;
 
+import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
 import org.bukkit.Bukkit;
@@ -11,10 +12,13 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 public class ResidencePlayerSelectForm extends RCustomForm {
     public ResidencePlayerSelectForm(Player player, RForm previousForm) {
         super(player, previousForm);
-        title("§8以你为中心创建领地");
-        input("长", "数字(整数)");
-        input("宽", "数字(整数)");
-        input("高", "数字(整数)");
+
+        Language.Forms.Create.Select language = lang().forms().create().select();
+
+        title(language.title());
+        input(language.inputX1(), language.inputX2());
+        input(language.inputZ1(), language.inputZ2());
+        input(language.inputY1(), language.inputY2());
     }
 
     @Override

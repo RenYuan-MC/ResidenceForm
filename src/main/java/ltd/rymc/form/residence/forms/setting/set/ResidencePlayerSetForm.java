@@ -3,6 +3,7 @@ package ltd.rymc.form.residence.forms.setting.set;
 import com.bekvon.bukkit.residence.containers.Flags;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.FlagPermissions;
+import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
@@ -29,7 +30,8 @@ public class ResidencePlayerSetForm extends RCustomForm {
             new ResidenceNoPermissionForm(player,previousForm).send();
             return;
         }
-        title("§8领地 §l" + claimedResidence.getName() + " §r§8玩家 §l" + targetPlayer + " §r§8的权限设置");
+
+        title(String.format(lang().forms().manage().playerSet().set().title(), claimedResidence.getName(), targetPlayer));
 
         flags = ResidenceUtils.getResidencePlayerFlags(player, targetPlayer, claimedResidence);
         permissionList = new ArrayList<>(flags.keySet());
@@ -38,20 +40,23 @@ public class ResidencePlayerSetForm extends RCustomForm {
     }
 
     private void addPermissionList(){
+
+        Language.Forms.Permission language = lang().forms().permission();
+
         for (String flagName : permissionList) {
 
             int flagPermission = ResidenceUtils.flagToInt(flags.get(flagName));
             Flags flag = Flags.getFlag(flagName);
 
-            String flagDesc = flag != null ? "\n§e" + flag.getDesc() : "";
+            String description = flag != null ? String.format(language.description(), flag.getDesc()) : "";
+            String name = String.format(language.name(), flagName);
 
-            stepSlider("\n" +
-                       "§a" + flagName + " §f权限" + flagDesc + "\n" +
-                       "§f权限状态§8",
+            stepSlider(
+                    String.format(language.state(), name + description),
                     flagPermission,
-                    " §6禁用",
-                    " §6未设置",
-                    " §6启用"
+                    language.disabled(),
+                    language.notSet(),
+                    language.enable()
             );
 
         }
