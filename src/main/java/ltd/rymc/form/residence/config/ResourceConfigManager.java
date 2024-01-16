@@ -149,11 +149,11 @@ public final class ResourceConfigManager<C> implements ConfigManager<C> {
 
         } catch (ConfigFormatSyntaxException ex) {
             configData = loadDefaultsFromResource();
-            plugin.getLogger().severe("The yaml syntax in your configuration is invalid. " + "Query your YAML syntax with a tool such as https://yaml-online-parser.appspot.com/");
+            plugin.getLogger().severe("The yaml syntax in your configuration is invalid. " + "Check your YAML syntax with a tool such as https://yaml-online-parser.appspot.com/");
             ex.printStackTrace();
         } catch (InvalidConfigException ex) {
             configData = loadDefaultsFromResource();
-            plugin.getLogger().severe("One of the values in your configuration is not valid. " + "Query to make sure you have specified the right data types.");
+            plugin.getLogger().severe("One of the values in your configuration is not valid. " + "Check to make sure you have specified the right data types.");
             ex.printStackTrace();
         }
     }
@@ -247,7 +247,7 @@ public final class ResourceConfigManager<C> implements ConfigManager<C> {
 
                 logger.info("Key: " + key + " , Value:" + value + " , Type: " + value.getClass().getName());
 
-                // Query subsection
+                // Check subsection
                 if (!(value instanceof Map<?, ?>)) continue;
 
                 // Print subsection
