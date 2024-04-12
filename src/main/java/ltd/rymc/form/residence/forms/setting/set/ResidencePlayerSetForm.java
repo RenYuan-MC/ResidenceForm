@@ -3,10 +3,10 @@ package ltd.rymc.form.residence.forms.setting.set;
 import com.bekvon.bukkit.residence.containers.Flags;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.FlagPermissions;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.ResidenceUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
@@ -31,7 +31,8 @@ public class ResidencePlayerSetForm extends RCustomForm {
             return;
         }
 
-        title(String.format(lang().forms().manage().playerSet().set().title(), claimedResidence.getName(), targetPlayer));
+
+        title(String.format(text("forms.manage.player-set.set.title"), claimedResidence.getName(), targetPlayer));
 
         flags = ResidenceUtils.getResidencePlayerFlags(player, targetPlayer, claimedResidence);
         permissionList = new ArrayList<>(flags.keySet());
@@ -41,24 +42,22 @@ public class ResidencePlayerSetForm extends RCustomForm {
 
     private void addPermissionList(){
 
-        Language.Forms.Permission language = lang().forms().permission();
+        Language.Section permission = section("forms.permission");
 
         for (String flagName : permissionList) {
-
             int flagPermission = ResidenceUtils.flagToInt(flags.get(flagName));
             Flags flag = Flags.getFlag(flagName);
 
-            String description = flag != null ? String.format(language.description(), flag.getDesc()) : "";
-            String name = String.format(language.name(), flagName);
+            String description = flag != null ? String.format(permission.text("description"), flag.getDesc()) : "";
+            String name = String.format(permission.text("name"), flagName);
 
             stepSlider(
-                    String.format(language.state(), name + description),
+                    String.format(permission.text("state"), name + description),
                     flagPermission,
-                    language.disabled(),
-                    language.notSet(),
-                    language.enable()
+                    permission.text("disabled"),
+                    permission.text("not-set"),
+                    permission.text("enable")
             );
-
         }
     }
 

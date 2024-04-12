@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("rform|residenceform")
 @Description("领地Form菜单")
+@SuppressWarnings("unused")
 public class ResidenceFormCommand extends BaseCommand {
 
     @Default
@@ -25,9 +26,10 @@ public class ResidenceFormCommand extends BaseCommand {
     }
 
     @Subcommand("reload")
-    @CommandPermission("tpaform.reload")
+    @CommandPermission("rform.reload")
     public void reload(CommandSender sender){
         ResidenceForm.getMainConfigManager().reloadConfig();
-        sender.sendMessage(ResidenceForm.getLanguage().reload());
+        sender.sendMessage(ResidenceForm.getLanguage().text("reload"));
     }
+
 }

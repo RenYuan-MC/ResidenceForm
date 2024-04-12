@@ -1,9 +1,10 @@
-package ltd.rymc.form.residence.configs;
+package ltd.rymc.form.residence.language;
 
 import space.arim.dazzleconf.annote.ConfKey;
 import space.arim.dazzleconf.annote.SubSection;
 
-public interface Language {
+@SuppressWarnings("unused")
+public interface LanguageConfig {
 
     @ConfKey("reload")
     String reload();

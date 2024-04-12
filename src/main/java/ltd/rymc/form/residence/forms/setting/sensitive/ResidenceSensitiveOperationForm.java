@@ -1,10 +1,10 @@
 package ltd.rymc.form.residence.forms.setting.sensitive;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
+import ltd.rymc.form.residence.language.Language;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
@@ -21,16 +21,16 @@ public class ResidenceSensitiveOperationForm extends RSimpleForm {
             return;
         }
 
-        Language.Forms.Manage.Sensitive.Main language = lang().forms().manage().sensitive().main();
-        Language.Forms.Manage.Sensitive.Main.Buttons buttons = language.buttons();
+        Language.Section sensitiveMain = section("forms.manage.sensitive.main");
+        Language.Section sensitiveMainButtons = sensitiveMain.section("buttons");
 
-        title(language.title());
-        content(String.format(language.content(), claimedResidence.getName()));
+        title(sensitiveMain.text("title"));
+        content(String.format(sensitiveMain.text("content"), claimedResidence.getName()));
         buttons(
-                buttons.rename(),
-                buttons.expand(),
-                buttons.give(),
-                buttons.remove()
+                sensitiveMainButtons.text("rename"),
+                sensitiveMainButtons.text("expand"),
+                sensitiveMainButtons.text("give"),
+                sensitiveMainButtons.text("remove")
         );
     }
 

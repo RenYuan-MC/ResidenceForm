@@ -1,7 +1,6 @@
 package ltd.rymc.form.residence.forms.setting;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
 import ltd.rymc.form.residence.forms.setting.sensitive.ResidenceSensitiveOperationForm;
@@ -9,6 +8,7 @@ import ltd.rymc.form.residence.forms.setting.set.ResidencePlayerSetSelectForm;
 import ltd.rymc.form.residence.forms.setting.set.ResidenceSetForm;
 import ltd.rymc.form.residence.forms.setting.set.ResidenceTeleportSetForm;
 import ltd.rymc.form.residence.forms.setting.trust.ResidenceTrustedPlayerSettingForm;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.ResidenceUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
@@ -26,17 +26,17 @@ public class ResidenceSettingForm extends RSimpleForm {
             return;
         }
 
-        Language.Forms.Manage.Main language = lang().forms().manage().main();
-        Language.Forms.Manage.Main.Buttons buttons = language.buttons();
+        Language.Section manageMain = section("forms.manage.main");
+        Language.Section buttons = manageMain.section("buttons");
 
-        title(language.title());
+        title(manageMain.text("title"));
         buttons(
-                buttons.set(),
-                buttons.playerSet(),
-                buttons.trustedPlayer(),
-                buttons.teleportSet(),
-                buttons.kick(),
-                buttons.sensitive()
+                buttons.text("set"),
+                buttons.text("player-set"),
+                buttons.text("trusted-player"),
+                buttons.text("teleport-set"),
+                buttons.text("kick"),
+                buttons.text("sensitive")
         );
     }
 
@@ -54,7 +54,7 @@ public class ResidenceSettingForm extends RSimpleForm {
 
     @Override
     public void refresh() {
-        content(String.format(lang().forms().manage().main().content(), claimedResidence.getName()));
+        content(String.format(text("forms.manage.main.content"), claimedResidence.getName()));
     }
 
     @Override

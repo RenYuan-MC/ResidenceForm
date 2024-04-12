@@ -3,9 +3,9 @@ package ltd.rymc.form.residence.forms.select;
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.permissions.PermissionGroup;
 import com.bekvon.bukkit.residence.protection.CuboidArea;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.InputUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,10 +18,11 @@ public class ResidenceCreateForm extends RCustomForm {
     public ResidenceCreateForm(Player player, RForm previousForm) {
         super(player, previousForm);
 
-        Language.Forms.Create.ResCreate language = lang().forms().create().create();
 
-        title(language.title());
-        input(String.format(language.cost(), getCost()) + "\n\n" + language.input1(), language.input2());
+        Language.Section create = section("forms.create.create");
+
+        title(create.text("title"));
+        input(String.format(create.text("cost"), getCost()) + "\n\n" + create.text("input1"), create.text("input2"));
     }
 
     private double getCost(){

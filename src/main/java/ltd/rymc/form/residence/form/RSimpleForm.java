@@ -1,7 +1,7 @@
 package ltd.rymc.form.residence.form;
 
 import ltd.rymc.form.residence.ResidenceForm;
-import ltd.rymc.form.residence.configs.Language;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.StringUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.component.ButtonComponent;
@@ -84,8 +84,11 @@ public abstract class RSimpleForm implements RForm {
         previousForm.send();
     }
 
-    public Language lang(){
-        return ResidenceForm.getLanguage();
+    public String text(String key) {
+        return ResidenceForm.getLanguage().text(key);
     }
 
+    public Language.Section section(String key) {
+        return ResidenceForm.getLanguage().section(key);
+    }
 }

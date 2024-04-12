@@ -1,17 +1,17 @@
 package ltd.rymc.form.residence.forms.tools;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.ArraysUtils;
 import ltd.rymc.form.residence.utils.InputUtils;
+import ltd.rymc.form.residence.utils.ResidenceUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
-import ltd.rymc.form.residence.utils.ResidenceUtils;
 
 import java.util.HashMap;
 
@@ -23,16 +23,16 @@ public class ResidenceInfoForm extends RCustomForm {
         residenceMap = ResidenceUtils.getNormalResidenceList(player);
         names = generateResidenceNames();
 
-        Language.Forms.Teleport language = lang().forms().teleport();
+        Language.Section info = section("forms.info");
 
-        title(language.title());
-        dropdown(language.dropdown(), names);
-        input(language.input1(), language.input2());
+        title(info.text("title"));
+        dropdown(info.text("dropdown"), names);
+        input(info.text("input1"), info.text("input2"));
     }
 
     private String[] generateResidenceNames(){
         String[] names = ArraysUtils.rotate(residenceMap.keySet().toArray(new String[0]),1);
-        names[0] = lang().forms().tool().query().choose();
+        names[0] = text("forms.tool.query.choose");
         return names;
     }
 

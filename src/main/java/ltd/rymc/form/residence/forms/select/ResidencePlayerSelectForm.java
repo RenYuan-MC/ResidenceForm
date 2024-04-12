@@ -1,8 +1,8 @@
 package ltd.rymc.form.residence.forms.select;
 
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
+import ltd.rymc.form.residence.language.Language;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
@@ -13,12 +13,13 @@ public class ResidencePlayerSelectForm extends RCustomForm {
     public ResidencePlayerSelectForm(Player player, RForm previousForm) {
         super(player, previousForm);
 
-        Language.Forms.Create.Select language = lang().forms().create().select();
 
-        title(language.title());
-        input(language.inputX1(), language.inputX2());
-        input(language.inputZ1(), language.inputZ2());
-        input(language.inputY1(), language.inputY2());
+        Language.Section createSelect = section("forms.create.select");
+
+        title(createSelect.text("title"));
+        input(createSelect.text("input-x1"), createSelect.text("input-x2"));
+        input(createSelect.text("input-z1"), createSelect.text("input-z2"));
+        input(createSelect.text("input-y1"), createSelect.text("input-y2"));
     }
 
     @Override

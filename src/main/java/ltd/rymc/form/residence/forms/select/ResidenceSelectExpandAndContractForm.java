@@ -1,10 +1,10 @@
 package ltd.rymc.form.residence.forms.select;
 
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
-import ltd.rymc.form.residence.utils.facing.Facing;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.InputUtils;
+import ltd.rymc.form.residence.utils.facing.Facing;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -15,12 +15,12 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 public class ResidenceSelectExpandAndContractForm extends RCustomForm {
     public ResidenceSelectExpandAndContractForm(Player player, RForm previousForm) {
         super(player, previousForm);
-        Language.Forms.Create.Expand language = lang().forms().create().expand();
+        Language.Section createExpand = section("forms.create.expand");
 
-        title(language.title());
-        dropdown(String.format(language.dropdown(), Facing.facing(player.getLocation().getYaw()).getName()), Facing.facingList());
-        input(language.input1(), language.input2());
-        toggle(language.toggle());
+        title(createExpand.text("title"));
+        dropdown(String.format(createExpand.text("dropdown"), Facing.facing(player.getLocation().getYaw()).getName()), Facing.facingList());
+        input(createExpand.text("input1"), createExpand.text("input2"));
+        toggle(createExpand.text("toggle"));
     }
 
     @Override

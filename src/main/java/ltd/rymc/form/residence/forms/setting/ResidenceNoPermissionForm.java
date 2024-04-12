@@ -1,8 +1,8 @@
 package ltd.rymc.form.residence.forms.setting;
 
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
+import ltd.rymc.form.residence.language.Language;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
@@ -12,11 +12,12 @@ public class ResidenceNoPermissionForm extends RSimpleForm {
     public ResidenceNoPermissionForm(Player player, RForm previousForm) {
         super(player, previousForm);
 
-        Language.Forms.Manage.NoPermission language = lang().forms().manage().noPermission();
 
-        title(language.title());
-        content(language.content());
-        button(language.button());
+        Language.Section noPermission = section("forms.manage.no-permission");
+
+        title(noPermission.text("title"));
+        content(noPermission.text("content"));
+        button(noPermission.text("button"));
     }
 
     @Override

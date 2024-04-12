@@ -1,10 +1,10 @@
 package ltd.rymc.form.residence.forms.setting.trust;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.ArraysUtils;
 import ltd.rymc.form.residence.utils.InputUtils;
 import ltd.rymc.form.residence.utils.PlayerUtils;
@@ -32,17 +32,18 @@ public class ResidenceTrustedPlayerChangeForm extends RCustomForm {
 
         players = new ArrayList<>(Bukkit.getOnlinePlayers());
 
-        Language.Forms.Manage.TrustedPlayer.Change language = lang().forms().manage().trustedPlayer().change();
 
-        title(String.format(language.title(), claimedResidence.getName()));
-        dropdown(language.dropdown(), generatePlayerNameList());
-        input(language.input1(), language.input2());
-        toggle(language.toggle());
+        Language.Section trustedPlayerChange = section("forms.manage.trusted-player.change");
+
+        title(String.format(trustedPlayerChange.text("title"), claimedResidence.getName()));
+        dropdown(trustedPlayerChange.text("dropdown"), generatePlayerNameList());
+        input(trustedPlayerChange.text("input1"), trustedPlayerChange.text("input2"));
+        toggle(trustedPlayerChange.text("toggle"));
     }
 
     private String[] generatePlayerNameList(){
         String[] playerNameList = ArraysUtils.rotate(PlayerUtils.translateToNameList(players),1);
-        playerNameList[0] = lang().forms().manage().trustedPlayer().change().choose();
+        playerNameList[0] = text("forms.manage.trusted-player.change.choose");
         return playerNameList;
     }
 

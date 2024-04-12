@@ -3,9 +3,9 @@ package ltd.rymc.form.residence.forms.select;
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.permissions.PermissionGroup;
 import com.bekvon.bukkit.residence.selection.SelectionManager;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
+import ltd.rymc.form.residence.language.Language;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -18,16 +18,16 @@ public class ResidenceCreateSelectForm extends RSimpleForm {
     public ResidenceCreateSelectForm(Player player, RForm previousForm) {
         super(player, previousForm);
 
-        Language.Forms.Create.Main language = lang().forms().create().main();
-        Language.Forms.Create.Main.Buttons buttons = language.buttons();
+        Language.Section createMain = section("forms.create.main");
+        Language.Section createMainButtons = createMain.section("buttons");
 
-        title(language.title());
+        title(createMain.text("title"));
         buttons(
-                buttons.auto(),
-                buttons.select(),
-                buttons.manual(),
-                buttons.expend(),
-                buttons.create()
+                createMainButtons.text("auto"),
+                createMainButtons.text("select"),
+                createMainButtons.text("manual"),
+                createMainButtons.text("expend"),
+                createMainButtons.text("create")
         );
     }
 
@@ -36,19 +36,19 @@ public class ResidenceCreateSelectForm extends RSimpleForm {
         PermissionGroup group = residence.getPlayerManager().getResidencePlayer(bukkitPlayer).getGroup();
         SelectionManager.Selection selection = residence.getSelectionManager().getSelection(bukkitPlayer);
 
-        Language.Forms.Create.Main.Content language = lang().forms().create().main().content();
+        Language.Section content = section("forms.create.main.content");
 
         Location loc1 = selection.getBaseLoc1(), loc2 = selection.getBaseLoc2();
-        if (loc1 == null || loc2 == null) return String.format("\n\n" + language.title(), "\n" + language.notCreate() + "\n\n");
+        if (loc1 == null || loc2 == null) return String.format("\n\n" + content.text("title"), "\n" + content.text("not-create") + "\n\n");
 
-        return  String.format("\n\n"+ language.title(), "\n" +
-                String.format(language.coordinates1(), blockLocToString(loc1)) + "\n" +
-                String.format(language.coordinates2(), blockLocToString(loc2)) + "\n" +
-                String.format(language.world(), (loc1.getWorld() == null ? language.unknown() : loc1.getWorld().getName())) + "\n" +
-                String.format(language.x(), selection.getBaseArea().getXSize()) + "\n" +
-                String.format(language.z(), selection.getBaseArea().getZSize())  + "\n" +
-                String.format(language.y(), selection.getBaseArea().getYSize())  + "\n" +
-                String.format(language.cost(), selection.getBaseArea().getCost(group)) + "\n\n");
+        return String.format("\n\n"+ content.text("title"), "\n" +
+               String.format(content.text("coordinates1"), blockLocToString(loc1)) + "\n" +
+               String.format(content.text("coordinates2"), blockLocToString(loc2)) + "\n" +
+               String.format(content.text("world"), (loc1.getWorld() == null ? content.text("unknown") : loc1.getWorld().getName())) + "\n" +
+               String.format(content.text("x"), selection.getBaseArea().getXSize()) + "\n" +
+               String.format(content.text("z"), selection.getBaseArea().getZSize()) + "\n" +
+               String.format(content.text("y"), selection.getBaseArea().getYSize()) + "\n" +
+               String.format(content.text("cost"), selection.getBaseArea().getCost(group)) + "\n\n");
     }
 
     private String blockLocToString(Location location) {

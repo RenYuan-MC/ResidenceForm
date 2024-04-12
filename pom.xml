@@ -6,7 +6,7 @@
 
     <groupId>ltd.rymc</groupId>
     <artifactId>ResidenceForm</artifactId>
-    <version>2.1.2</version>
+    <version>2.2.0</version>
     <packaging>jar</packaging>
 
     <name>ResidenceForm</name>

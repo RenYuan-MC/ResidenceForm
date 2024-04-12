@@ -223,7 +223,7 @@ public final class ResourceConfigManager<C> implements ConfigManager<C> {
         private void setData(Map<String, Object> rawMap, Queue<String> queue, Object data) {
             String key = queue.remove();
 
-            if (queue.size() == 0) {
+            if (queue.isEmpty()) {
                 rawMap.remove(key);
                 rawMap.put(key, data);
                 return;

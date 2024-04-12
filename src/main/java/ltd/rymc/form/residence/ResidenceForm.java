@@ -6,7 +6,7 @@ import ltd.rymc.form.residence.commands.ResidenceFormCommand;
 import ltd.rymc.form.residence.config.ConfigManager;
 import ltd.rymc.form.residence.config.NormalConfigManager;
 import ltd.rymc.form.residence.configs.Config;
-import ltd.rymc.form.residence.configs.Language;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.metrics.Metrics;
 import ltd.rymc.form.residence.utils.LanguageUtils;
 import ltd.rymc.form.residence.utils.hook.ResidenceHook;
@@ -53,7 +53,7 @@ public final class ResidenceForm extends JavaPlugin {
     }
 
     public static Language getLanguage(){
-        return mainConfigManager.getConfigData().language().getConfigData();
+        return mainConfigManager.getConfigData().language();
     }
 
     private void loadConfig() {
@@ -64,8 +64,8 @@ public final class ResidenceForm extends JavaPlugin {
 
         if (firstLoad) mainConfigManager.getRawDataHelper().setData("language", LanguageUtils.translateLanguage(LanguageUtils.getSystemLanguage()));
 
-        ConfigManager<Language> languageConfigManager = mainConfigManager.getConfigData().language();
-        getLogger().info("Language: " + languageConfigManager.getConfigName());
+        Language language = mainConfigManager.getConfigData().language();
+        getLogger().info("LanguageConfig: " + language.getConfigManager().getConfigName());
     }
 
     private void loadMetrics(boolean load) {
