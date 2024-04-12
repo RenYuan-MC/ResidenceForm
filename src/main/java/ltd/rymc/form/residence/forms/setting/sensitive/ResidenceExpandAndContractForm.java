@@ -1,12 +1,12 @@
 package ltd.rymc.form.residence.forms.setting.sensitive;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
-import ltd.rymc.form.residence.utils.facing.Facing;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.InputUtils;
+import ltd.rymc.form.residence.utils.facing.Facing;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -24,12 +24,13 @@ public class ResidenceExpandAndContractForm extends RCustomForm {
             new ResidenceNoPermissionForm(player,previousForm).send();
             return;
         }
-        Language.Forms.Manage.Sensitive.Expand language = lang().forms().manage().sensitive().expand();
 
-        title(language.title());
-        dropdown(String.format(language.dropdown(),Facing.facing(player.getLocation().getYaw()).getName()), Facing.facingList());
-        input(language.input1(), language.input2());
-        toggle(language.toggle());
+        Language.Section sensitiveExpand = section("forms.manage.sensitive.expand");
+
+        title(sensitiveExpand.text("title"));
+        dropdown(String.format(sensitiveExpand.text("dropdown"), Facing.facing(player.getLocation().getYaw()).getName()), Facing.facingList());
+        input(sensitiveExpand.text("input1"), sensitiveExpand.text("input2"));
+        toggle(sensitiveExpand.text("toggle"));
     }
 
     @Override

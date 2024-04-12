@@ -85,7 +85,7 @@ forms:
     # 领地传送点设置
     teleport-set:
       title: "传送点设置"
-      content: "将你所在的位置设置为领地传送点^n^n领地: %s^n你的坐标:%s^n^n"
+      content: "将你所在的位置设置为领地传送点^n^n领地: %s^n你的坐标: %s^n^n"
       buttons:
         set: "将传送点设置为当前坐标"
         back: "返回"
@@ -217,7 +217,7 @@ forms:
     # 领地工具主菜单
     main:
       title: "领地菜单"
-      content: "§7领地基岩版菜单 ResidenceForm"
+      content: "§7领地基岩版菜单"
       buttons:
         check: "查看当前领地边界"
         query: "领地信息查询"

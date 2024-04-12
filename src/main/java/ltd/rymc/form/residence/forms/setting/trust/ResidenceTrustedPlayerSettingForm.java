@@ -1,10 +1,10 @@
 package ltd.rymc.form.residence.forms.setting.trust;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.ResidenceUtils;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
@@ -24,10 +24,11 @@ public class ResidenceTrustedPlayerSettingForm extends RSimpleForm {
             return;
         }
 
-        Language.Forms.Manage.TrustedPlayer.Main language = lang().forms().manage().trustedPlayer().main();
 
-        title(language.title());
-        button(language.button());
+        Language.Section trustedPlayerMain = section("forms.manage.trusted-player.main");
+
+        title(trustedPlayerMain.text("title"));
+        button(trustedPlayerMain.text("button"));
     }
 
     private String generateTrustedPlayerList(){
@@ -42,7 +43,7 @@ public class ResidenceTrustedPlayerSettingForm extends RSimpleForm {
 
     @Override
     public void refresh() {
-        String content = lang().forms().manage().trustedPlayer().main().content();
+        String content = text("forms.manage.trusted-player.main.content");
         content(String.format(content, claimedResidence.getName(), generateTrustedPlayerList()));
     }
 

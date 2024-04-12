@@ -1,7 +1,7 @@
 package ltd.rymc.form.residence.utils.facing;
 
 import ltd.rymc.form.residence.ResidenceForm;
-import ltd.rymc.form.residence.configs.Language;
+import ltd.rymc.form.residence.language.Language;
 import org.bukkit.Location;
 
 public enum Facing {
@@ -65,22 +65,22 @@ public enum Facing {
     }
 
     public String getName() {
-        Language.Forms.Facing language = ResidenceForm.getLanguage().forms().facing();
+        Language language = ResidenceForm.getLanguage();
         switch (this) {
             case North:
-                return language.north();
+                return language.text("forms.facing.north");
             case South:
-                return language.south();
+                return language.text("forms.facing.south");
             case West:
-                return language.west();
+                return language.text("forms.facing.west");
             case East:
-                return language.east();
+                return language.text("forms.facing.east");
             case Up:
-                return language.up();
+                return language.text("forms.facing.up");
             case Down:
-                return language.down();
+                return language.text("forms.facing.down");
             default:
-                return language.unknown();
+                return language.text("forms.facing.unknown");
         }
 
     }

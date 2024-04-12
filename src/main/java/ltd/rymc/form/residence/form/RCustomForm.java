@@ -1,7 +1,7 @@
 package ltd.rymc.form.residence.form;
 
 import ltd.rymc.form.residence.ResidenceForm;
-import ltd.rymc.form.residence.configs.Language;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.ArraysUtils;
 import ltd.rymc.form.residence.utils.StringUtils;
 import org.bukkit.entity.Player;
@@ -11,7 +11,7 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.floodgate.api.FloodgateApi;
 import org.geysermc.floodgate.api.player.FloodgatePlayer;
 
-public class RCustomForm implements RForm {
+public abstract class RCustomForm implements RForm {
 
     protected CustomForm.Builder builder;
     protected final Player bukkitPlayer;
@@ -91,7 +91,11 @@ public class RCustomForm implements RForm {
         previousForm.send();
     }
 
-    public Language lang(){
-        return ResidenceForm.getLanguage();
+    public String text(String key) {
+        return ResidenceForm.getLanguage().text(key);
+    }
+
+    public Language.Section section(String key) {
+        return ResidenceForm.getLanguage().section(key);
     }
 }

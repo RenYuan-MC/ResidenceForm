@@ -1,9 +1,9 @@
 package ltd.rymc.form.residence.forms.teleport;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.ArraysUtils;
 import ltd.rymc.form.residence.utils.InputUtils;
 import ltd.rymc.form.residence.utils.ResidenceUtils;
@@ -23,16 +23,16 @@ public class ResidenceTeleportForm extends RCustomForm {
         residenceMap = ResidenceUtils.getNormalResidenceList(player);
         names = generateResidenceNames();
 
-        Language.Forms.Teleport language = lang().forms().teleport();
+        Language.Section teleport = section("forms.teleport");
 
-        title(language.title());
-        dropdown(language.dropdown(), names);
-        input(language.input1(), language.input2());
+        title(teleport.text("title"));
+        dropdown(teleport.text("dropdown"), names);
+        input(teleport.text("input1"), teleport.text("input2"));
     }
 
     private String[] generateResidenceNames(){
         String[] names = ArraysUtils.rotate(residenceMap.keySet().toArray(new String[0]),1);
-        names[0] = lang().forms().teleport().choose();
+        names[0] = text("forms.teleport.choose");
         return names;
     }
 

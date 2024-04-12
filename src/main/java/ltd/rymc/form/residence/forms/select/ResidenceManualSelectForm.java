@@ -2,9 +2,9 @@ package ltd.rymc.form.residence.forms.select;
 
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.selection.SelectionManager;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
+import ltd.rymc.form.residence.language.Language;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
@@ -16,11 +16,11 @@ public class ResidenceManualSelectForm extends RCustomForm {
     public ResidenceManualSelectForm(Player player, RForm previousForm) {
         super(player, previousForm);
 
-        Language.Forms.Create.Manual language = lang().forms().create().manual();
+        Language.Section createManual = section("forms.create.manual");
 
-        title(language.title());
-        input(language.input1(), language.input2());
-        input(language.input3(), language.input4());
+        title(createManual.text("title"));
+        input(createManual.text("input1"), createManual.text("input2"));
+        input(createManual.text("input3"), createManual.text("input4"));
     }
 
     @Override

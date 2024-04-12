@@ -1,8 +1,8 @@
 package ltd.rymc.form.residence.forms.setting.sensitive;
 
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
+import ltd.rymc.form.residence.language.Language;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
@@ -14,14 +14,14 @@ public class ResidenceConfirmForm extends RSimpleForm {
         super(player, previousForm);
         this.runnable = runnable;
 
-        Language.Forms.Manage.Sensitive.Confirm language = lang().forms().manage().sensitive().confirm();
-        Language.Forms.Manage.Sensitive.Confirm.Buttons buttons = language.buttons();
+        Language.Section sensitiveConfirm = section("forms.manage.sensitive.confirm");
+        Language.Section sensitiveConfirmButtons = sensitiveConfirm.section("buttons");
 
         title(title);
-        content(language.content());
+        content(sensitiveConfirm.text("content"));
         buttons(
-                buttons.accept(),
-                buttons.deny()
+                sensitiveConfirmButtons.text("accept"),
+                sensitiveConfirmButtons.text("deny")
         );
     }
 

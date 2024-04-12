@@ -1,12 +1,12 @@
 package ltd.rymc.form.residence.forms;
 
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
 import ltd.rymc.form.residence.forms.select.ResidenceCreateSelectForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceSettingSelectForm;
 import ltd.rymc.form.residence.forms.teleport.ResidenceTeleportForm;
 import ltd.rymc.form.residence.forms.tools.ResidenceToolsForm;
+import ltd.rymc.form.residence.language.Language;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
@@ -15,16 +15,16 @@ public class MainResidenceForm extends RSimpleForm {
     public MainResidenceForm(Player player, RForm previousForm) {
         super(player, previousForm);
 
-        Language.Forms.Main language = lang().forms().main();
-        Language.Forms.Main.Buttons buttons = language.buttons();
+        Language.Section main = section("forms.main");
+        Language.Section buttons = main.section("buttons");
 
-        title(language.title());
-        content(language.content());
+        title(main.text("title"));
+        content(main.text("content"));
         buttons(
-                buttons.teleport(),
-                buttons.manage(),
-                buttons.create(),
-                buttons.tool()
+                buttons.text("teleport"),
+                buttons.text("manage"),
+                buttons.text("create"),
+                buttons.text("tool")
         );
     }
 

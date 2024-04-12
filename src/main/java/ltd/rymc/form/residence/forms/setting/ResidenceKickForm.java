@@ -1,9 +1,9 @@
 package ltd.rymc.form.residence.forms.setting;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.ArraysUtils;
 import ltd.rymc.form.residence.utils.InputUtils;
 import ltd.rymc.form.residence.utils.PlayerUtils;
@@ -27,16 +27,16 @@ public class ResidenceKickForm extends RCustomForm {
         }
         players = claimedResidence.getPlayersInResidence();
 
-        Language.Forms.Manage.Kick language = lang().forms().manage().kick();
+        Language.Section kick = section("forms.manage.kick");
 
-        title(String.format(language.title(),claimedResidence.getName()));
-        dropdown(language.dropdown(), generatePlayerNameList());
-        input(language.input1(), language.input2());
+        title(String.format(kick.text("title"), claimedResidence.getName()));
+        dropdown(kick.text("dropdown"), generatePlayerNameList());
+        input(kick.text("input1"), kick.text("input2"));
     }
 
     private String[] generatePlayerNameList(){
         String[] playerNameList = ArraysUtils.rotate(PlayerUtils.translateToNameList(players),1);
-        playerNameList[0] = lang().forms().manage().kick().choose();
+        playerNameList[0] = text("forms.manage.kick.choose");
         return playerNameList;
     }
 

@@ -1,8 +1,9 @@
 package ltd.rymc.form.residence.forms.tools;
 
-import ltd.rymc.form.residence.configs.Language;
+
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
+import ltd.rymc.form.residence.language.Language;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
@@ -13,14 +14,14 @@ public class ResidenceToolsForm extends RSimpleForm {
     public ResidenceToolsForm(Player player, RForm previousForm) {
         super(player, previousForm);
 
-        Language.Forms.Tool.Main language = lang().forms().tool().main();
-        Language.Forms.Tool.Main.Buttons buttons = language.buttons();
+        Language.Section toolMain = section("forms.tool.main");
+        Language.Section buttons = toolMain.section("buttons");
 
-        title(language.title());
-        content(language.content());
+        title(toolMain.text("title"));
+        content(toolMain.text("content"));
         buttons(
-                buttons.check(),
-                buttons.query()
+                buttons.text("check"),
+                buttons.text("query")
         );
     }
 

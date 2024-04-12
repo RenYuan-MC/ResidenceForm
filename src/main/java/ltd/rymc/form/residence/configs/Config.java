@@ -1,7 +1,7 @@
 package ltd.rymc.form.residence.configs;
 
-import ltd.rymc.form.residence.config.ConfigManager;
-import ltd.rymc.form.residence.serialiser.LanguageSerialiser;
+import ltd.rymc.form.residence.language.Language;
+import ltd.rymc.form.residence.language.LanguageSerialiser;
 import space.arim.dazzleconf.annote.ConfComments;
 import space.arim.dazzleconf.annote.ConfDefault;
 import space.arim.dazzleconf.annote.ConfHeader;
@@ -32,7 +32,7 @@ public interface Config {
             "# Language settings, currently available languages: en_US, zh_CN"
     })
     @AnnotationBasedSorter.Order(20)
-    ConfigManager<Language> language();
+    Language language();
 
     @ConfDefault.DefaultBoolean(true)
     @ConfKey("hook-residence")

@@ -1,10 +1,10 @@
 package ltd.rymc.form.residence.forms.setting.set;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.form.RSimpleForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.ResidenceUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -23,20 +23,21 @@ public class ResidenceTeleportSetForm extends RSimpleForm {
             return;
         }
 
-        Language.Forms.Manage.TeleportSet language = lang().forms().manage().teleportSet();
-        Language.Forms.Manage.TeleportSet.Buttons buttons = language.buttons();
 
-        title(language.title());
+        Language.Section teleportSet = section("forms.manage.teleport-set");
+        Language.Section teleportSetButtons = teleportSet.section("buttons");
+
+        title(teleportSet.text("title"));
         buttons(
-                buttons.set(),
-                buttons.back()
+                teleportSetButtons.text("set"),
+                teleportSetButtons.text("back")
         );
     }
 
     @Override
     public void refresh() {
         Location location = bukkitPlayer.getLocation();
-        content(String.format(lang().forms().manage().teleportSet().content(),
+        content(String.format(text("forms.manage.teleport-set.content"),
                 claimedResidence.getName(),
                 location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ()));
     }

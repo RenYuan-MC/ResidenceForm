@@ -2,9 +2,9 @@ package ltd.rymc.form.residence.forms.setting;
 
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
-import ltd.rymc.form.residence.configs.Language;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
+import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.ArraysUtils;
 import ltd.rymc.form.residence.utils.ResidenceUtils;
 import org.bukkit.entity.Player;
@@ -23,15 +23,15 @@ public class ResidenceSettingSelectForm extends RCustomForm {
         residenceMap = ResidenceUtils.getResidenceList(player);
         names = generateResidenceNames();
 
-        Language.Forms.Manage.Select language = lang().forms().manage().select();
+        Language.Section manageSelect = section("forms.manage.select");
 
-        title(language.title());
-        dropdown(language.dropdown(), names);
+        title(manageSelect.text("title"));
+        dropdown(manageSelect.text("dropdown"), names);
     }
 
     private String[] generateResidenceNames(){
         String[] names = ArraysUtils.rotate(residenceMap.keySet().toArray(new String[0]),1);
-        names[0] = lang().forms().manage().select().choose();
+        names[0] = text("forms.manage.select.choose");
         return names;
     }
 
