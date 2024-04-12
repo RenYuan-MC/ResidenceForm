@@ -29,7 +29,7 @@ public interface Config {
     @ConfComments({
             "",
             "# 语言设置,目前可用语言: en_US, zh_CN",
-            "# Language settings, currently available languages: en_US, zh_CN"
+            "# LanguageConfig settings, currently available languages: en_US, zh_CN"
     })
     @AnnotationBasedSorter.Order(20)
     Language language();
