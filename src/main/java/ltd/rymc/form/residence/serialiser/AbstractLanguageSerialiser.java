@@ -36,7 +36,7 @@ public abstract class AbstractLanguageSerialiser implements ValueSerialiser<Lang
     @Override
     public Language deserialise(FlexibleType flexibleType) throws BadValueException {
         String language = getValue(flexibleType);
-        ConfigManager<?> configManager = ResourceConfigManager.create(ResidenceForm.getInstance(), language, "lang\\" + language + ".yml", getTargetConfig());
+        ConfigManager<?> configManager = ResourceConfigManager.create(ResidenceForm.getInstance(), language, "lang" + File.separator + language + ".yml", getTargetConfig());
         configManager.reloadConfig();
         return Language.of(configManager, getTargetConfig());
     }
