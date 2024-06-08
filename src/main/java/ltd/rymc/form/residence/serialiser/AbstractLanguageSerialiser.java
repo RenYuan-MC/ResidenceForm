@@ -9,6 +9,7 @@ import space.arim.dazzleconf.serialiser.Decomposer;
 import space.arim.dazzleconf.serialiser.FlexibleType;
 import space.arim.dazzleconf.serialiser.ValueSerialiser;
 
+import java.io.File;
 import java.util.List;
 
 public abstract class AbstractLanguageSerialiser implements ValueSerialiser<Language> {
@@ -36,7 +37,7 @@ public abstract class AbstractLanguageSerialiser implements ValueSerialiser<Lang
     @Override
     public Language deserialise(FlexibleType flexibleType) throws BadValueException {
         String language = getValue(flexibleType);
-        ConfigManager<?> configManager = ResourceConfigManager.create(ResidenceForm.getInstance(), language, "lang\\" + language + ".yml", getTargetConfig());
+        ConfigManager<?> configManager = ResourceConfigManager.create(ResidenceForm.getInstance(), language, "lang" + File.separator + language + ".yml", getTargetConfig());
         configManager.reloadConfig();
         return Language.of(configManager, getTargetConfig());
     }
