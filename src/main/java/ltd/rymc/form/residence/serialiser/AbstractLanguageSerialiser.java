@@ -9,6 +9,7 @@ import space.arim.dazzleconf.serialiser.Decomposer;
 import space.arim.dazzleconf.serialiser.FlexibleType;
 import space.arim.dazzleconf.serialiser.ValueSerialiser;
 
+import java.io.File;
 import java.util.List;
 
 public abstract class AbstractLanguageSerialiser implements ValueSerialiser<Language> {
