@@ -2,6 +2,7 @@ package ltd.rymc.form.residence;
 
 import co.aikar.commands.PaperCommandManager;
 import com.bekvon.bukkit.residence.commands.form;
+import com.neteasemc.spigotmaster.SpigotMaster;
 import ltd.rymc.form.residence.commands.ResidenceFormCommand;
 import ltd.rymc.form.residence.config.ConfigManager;
 import ltd.rymc.form.residence.config.NormalConfigManager;
@@ -10,6 +11,7 @@ import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.metrics.Metrics;
 import ltd.rymc.form.residence.utils.LanguageUtils;
 import ltd.rymc.form.residence.utils.hook.ResidenceHook;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -37,6 +39,10 @@ public final class ResidenceForm extends JavaPlugin {
         loadResidenceHook(config.hookResidence());
 
         commandManager.registerCommand(new ResidenceFormCommand());
+    }
+
+    public static SpigotMaster getSpigotMaster() {
+        return (SpigotMaster) Bukkit.getPluginManager().getPlugin("SpigotMaster");
     }
 
     public static PaperCommandManager getCommandManager() {

@@ -2,7 +2,7 @@ name: ResidenceForm
 version: '${project.version}'
 main: ltd.rymc.form.residence.ResidenceForm
 api-version: 1.13
-depend: [ floodgate, Residence ]
+depend: [ SpigotMaster, Residence ]
 authors: [ RENaa_FD ]
 description: 领地Form菜单支持
 website: https://rymc.ltd/

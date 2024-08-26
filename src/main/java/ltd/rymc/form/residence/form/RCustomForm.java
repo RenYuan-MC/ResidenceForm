@@ -8,22 +8,18 @@ import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
-import org.geysermc.floodgate.api.FloodgateApi;
-import org.geysermc.floodgate.api.player.FloodgatePlayer;
 
 public abstract class RCustomForm implements RForm {
+
 
     protected CustomForm.Builder builder;
     protected final Player bukkitPlayer;
     protected final RForm previousForm;
-    protected final FloodgatePlayer player;
 
     public RCustomForm(Player player, RForm previousForm){
         this.bukkitPlayer = player;
-        this.player = FloodgateApi.getInstance().getPlayer(bukkitPlayer.getUniqueId());
         this.builder = CustomForm.builder();
         this.previousForm = previousForm;
-        if (this.player == null) return;
         init();
     }
 
@@ -81,13 +77,13 @@ public abstract class RCustomForm implements RForm {
 
     @Override
     public void send() {
-        if (player == null) return;
-        player.sendForm(builder);
+        if (bukkitPlayer == null) return;
+        ResidenceForm.getSpigotMaster().sendForm(bukkitPlayer, builder);
     }
 
     @Override
     public void sendPrevious() {
-        if (player == null || previousForm == null) return;
+        if (bukkitPlayer == null || previousForm == null) return;
         previousForm.send();
     }
 

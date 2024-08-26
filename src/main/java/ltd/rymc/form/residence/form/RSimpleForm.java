@@ -9,23 +9,19 @@ import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormImage;
-import org.geysermc.floodgate.api.FloodgateApi;
-import org.geysermc.floodgate.api.player.FloodgatePlayer;
 
 public abstract class RSimpleForm implements RForm {
 
     protected SimpleForm.Builder builder;
     protected final Player bukkitPlayer;
     protected final RForm previousForm;
-    protected final FloodgatePlayer player;
 
 
     public RSimpleForm(Player player, RForm previousForm){
         this.bukkitPlayer = player;
-        this.player = FloodgateApi.getInstance().getPlayer(bukkitPlayer.getUniqueId());
         this.builder = SimpleForm.builder();
         this.previousForm = previousForm;
-        if (this.player == null) return;
+        if (this.bukkitPlayer == null) return;
         init();
     }
 
@@ -74,13 +70,13 @@ public abstract class RSimpleForm implements RForm {
     }
 
     public void send(){
-        if (player == null) return;
+        if (bukkitPlayer == null) return;
         refresh();
-        player.sendForm(builder);
+        ResidenceForm.getSpigotMaster().sendForm(bukkitPlayer, builder);
     }
 
     public void sendPrevious(){
-        if (player == null || previousForm == null) return;
+        if (bukkitPlayer == null || previousForm == null) return;
         previousForm.send();
     }
 

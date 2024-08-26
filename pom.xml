@@ -6,7 +6,7 @@
 
     <groupId>ltd.rymc</groupId>
     <artifactId>ResidenceForm</artifactId>
-    <version>2.2.1</version>
+    <version>2.2.1-N</version>
     <packaging>jar</packaging>
 
     <name>ResidenceForm</name>
@@ -71,8 +71,13 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>opencollab-snapshot</id>
-            <url>https://repo.opencollab.dev/maven-snapshots/</url>
+            <id>opencollab-repo</id>
+            <url>https://repo.opencollab.dev/maven-releases</url>
+        </repository>
+        <repository>
+            <id>nexus</id>
+            <name>Lumine Releases</name>
+            <url>https://mvn.lumine.io/repository/maven-public/</url>
         </repository>
         <repository>
             <id>aikar-repo</id>
@@ -88,6 +93,19 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.geysermc.cumulus</groupId>
+            <artifactId>cumulus</artifactId>
+            <version>1.1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.neteasemc</groupId>
+            <artifactId>SpigotMaster</artifactId>
+            <version>1.3.13-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/SpigotMaster-1.3.13-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>com.Zirps</groupId>
             <artifactId>CMILib</artifactId>
             <version>1.4.1.0</version>
@@ -100,12 +118,6 @@
             <version>5.0.3.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/Residence5.0.3.0.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.geysermc.floodgate</groupId>
-            <artifactId>api</artifactId>
-            <version>2.2.0-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>co.aikar</groupId>
