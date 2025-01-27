@@ -1,0 +1,250 @@
+# 語言檔案 ResidenceForm Lang zh_TW ver 2.1.0 by ChunghwaMC
+
+# 插件重載
+reload: "插件已重載！"
+
+forms:
+
+  # 主選單
+  main:
+    title: "領地選單"
+    content: "§7領地基岩版選單"
+    buttons:
+      teleport: "領地傳送"
+      manage: "領地管理"
+      create: "領地新增"
+      tool: "領地工具"
+      info: "插件資訊"
+
+  # 傳送選單
+  teleport:
+    title: "§8領地傳送"
+    dropdown: "你可以使用此下拉選單"
+    input1: "或使用此輸入框"
+    input2: "完整領地名稱"
+    choose: "選擇領地或使用下方輸入框"
+
+  # 管理選單
+  manage:
+
+    # 領地選擇
+    select:
+      title: "§8領地選擇"
+      dropdown: "領地清單"
+      choose: "請選擇領地(此項為你所在的領地)"
+
+    # 管理選單主選單
+    main:
+      title: "領地管理選單"
+      content: "目前管理領地: %s"
+      buttons:
+        set: "公共權限設定"
+        player-set: "玩家權限設定"
+        trusted-player: "信任玩家管理"
+        teleport-set: "傳送點設定"
+        kick: "踢出玩家"
+        sensitive: "敏感操作"
+
+    # 公共權限設定
+    set:
+      title: "§8領地 §l%s §r§8權限設定"
+
+    # 玩家權限設定
+    player-set:
+
+      # 玩家選擇
+      select:
+        title: "§8領地 §l%s §r§8玩家權限設定"
+        dropdown: "線上玩家清單"
+        input1: "如玩家不在線上或上方表格不方便使用請使用輸入框"
+        input2: "需要完整玩家名稱(包括大小寫)"
+        choose: "請選擇玩家"
+
+      # 玩家權限設定選單
+      set:
+        title: "§8領地 §l%s §r§8玩家 §l%s §r§8的權限設定"
+
+    # 信任玩家管理
+    trusted-player:
+
+      # 信任玩家管理主選單
+      main:
+        title: "信任玩家管理選單"
+        content: "目前管理領地: %s^n信任玩家: %s"
+        button: "新增/刪除信任玩家"
+
+      # 信任玩家修改
+      change:
+        title: "§8領地 §l%s §r§8信任玩家修改"
+        dropdown: "線上玩家清單"
+        input1: "如玩家不在線上或上方表格不方便使用請使用輸入框"
+        input2: "需要完整玩家名稱(包括大小寫)"
+        toggle: "模式(關閉為新增,開啟為刪除)"
+        choose: "請選擇玩家"
+
+    # 領地傳送點設定
+    teleport-set:
+      title: "傳送點設定"
+      content: "將你所在的位置設定為領地傳送點^n^n領地: %s^n你的座標: %s^n^n"
+      buttons:
+        set: "將傳送點設定為目前座標"
+        back: "回上頁"
+
+    # 領地玩家踢出
+    kick:
+      title: "§8踢出領地 §l%s §r§8內的玩家"
+      dropdown: "線上玩家清單"
+      input1: "如玩家不在線上或上方表格不方便使用請使用輸入框"
+      input2: "需要完整玩家名稱"
+      choose: "請選擇玩家"
+
+    # 權限不足時顯示的選單
+    no-permission:
+      title: "領地選單"
+      content: "你沒有權限^n^n"
+      button: "回上頁"
+
+    # 敏感操作
+    sensitive:
+      # 主選單
+      main:
+        title: "領地管理選單"
+        content: "目前管理領地: %s"
+        buttons:
+          rename: "重新命名領地"
+          expand: "擴大/縮小領地"
+          give: "轉贈領地"
+          remove: "刪除領地"
+
+      # 領地重新命名
+      rename:
+        title: "§8領地 §l%s §r§8重新命名"
+        input1: "請輸入新的領地名稱"
+        input2: "可大小寫英文,數字,下底線和連接號"
+        input3: "請再次輸入以確認領地名稱"
+        input4: "再次輸入領地名稱"
+
+      # 領地擴大/縮小/
+      expand:
+        title: "§8領地擴大/縮小"
+        dropdown: "你目前面對的方向: %s^n^n擴大/縮小的方向"
+        input1: "範圍"
+        input2: "數字"
+        toggle: "模式(關閉為擴大,開啟為縮小)"
+
+      # 領地轉贈
+      give:
+        title: "§8領地 §l%s §r§8轉贈"
+        input1: "請輸入玩家名"
+        input2: "完整玩家名(含大小寫)"
+        input3: "請再次輸入玩家名以確認"
+        input4: "請再次輸入玩家名"
+
+      # 領地刪除
+      remove:
+        title: "§8領地 §l%s §r§8刪除"
+        input1: "請輸入領地名"
+        input2: "完整領地名(含大小寫)"
+        input3: "請再次輸入領地名以確認"
+        input4: "請再次輸入領地名"
+
+      # 領地確認選單
+      confirm:
+        content: "你確定嗎?此操作不可復原!^n^n"
+        buttons:
+          accept: "確定"
+          deny: "再想想"
+
+  # 領地新增
+  create:
+
+    # 領地新增主選單
+    main:
+      title: "領地新增選單"
+      content:
+        title: "目前選區: %s"
+        not-create: "未新增選區"
+        coordinates1: "頂點座標1: %s"
+        coordinates2: "頂點座標2: %s"
+        world: "世界: %s"
+        unknown: "未知"
+        x: "長: %s"
+        y: "高: %s"
+        z: "寬: %s"
+        cost: "價格: %s"
+      buttons:
+        auto: "開啟/關閉自動選區"
+        select: "以你為中心選區"
+        manual: "手動輸入選區座標"
+        expend: "擴大/縮小選區"
+        create: "新增領地"
+
+    # 以玩家為中心新增領地
+    select:
+      title: "§8以你為中心新增領地"
+      input-x1: "長"
+      input-x2: "數字(整數)"
+      input-y1: "高"
+      input-y2: "數字(整數)"
+      input-z1: "寬"
+      input-z2: "數字(整數)"
+
+    # 手動輸入領地選區座標
+    manual:
+      title: "§8手動輸入座標"
+      input1: "頂點座標1(格式: X, Y, Z)"
+      input2: "數字"
+      input3: "頂點座標2(格式: X, Y, Z)"
+      input4: "數字"
+
+    # 領地選區擴大/縮小
+    expand:
+      title: "§8領地選區擴大/縮小"
+      dropdown: "你目前面對的方向: %s^n^n擴大/縮小的方向"
+      input1: "範圍"
+      input2: "數字"
+      toggle: "模式(關閉為擴大,開啟為縮小)"
+
+    # 領地新增
+    create:
+      title: "§8領地新增"
+      cost: "建立此領地需花費: %s 元"
+      input1: "請給你要新增的領地取個名字"
+      input2: "可大小寫英文,數字,下底線和連接號"
+
+  # 領地工具
+  tool:
+    # 領地工具主選單
+    main:
+      title: "領地選單"
+      content: "§7領地基岩版選單"
+      buttons:
+        check: "查看目前領地邊界"
+        query: "領地資訊查詢"
+
+    # 領地資訊查詢
+    query:
+      title: "§8領地資訊查詢"
+      dropdown: "你可以使用此下拉選單"
+      input1: "或使用此輸入框"
+      input2: "完整領地名稱"
+      choose: "選擇領地或使用下方輸入框"
+
+  # 領地權限顯示格式
+  permission:
+    description: "^n§e%s"
+    name: "§a%s §f權限"
+    state: "^n%s ^n§f權限狀態§8"
+    disabled: " §6禁用"
+    not-set: " §6未設定"
+    enable: " §6啟用"
+
+  # 方向
+  facing:
+    north: "北"
+    south: "南"
+    west: "西"
+    east: "東"
+    up: "上"
+    down: "下"
+    unknown: "未知"
