@@ -19,7 +19,7 @@ public interface Config {
     @ConfComments({
             "",
             "# 启用数据统计",
-            "# 啟用資料統計",
+            "# 啟用統計資料",
             "# Enable metrics"
     })
     @AnnotationBasedSorter.Order(10)
