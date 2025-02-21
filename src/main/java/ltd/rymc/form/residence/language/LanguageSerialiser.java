@@ -14,6 +14,6 @@ public class LanguageSerialiser extends AbstractLanguageSerialiser {
 
     @Override
     protected List<String> getAvailableLanguages() {
-        return Arrays.asList("zh_CN", "en_US");
+        return Arrays.asList("zh_TW", "zh_CN", "en_US");
     }
 }
