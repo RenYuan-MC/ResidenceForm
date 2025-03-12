@@ -611,17 +611,17 @@ public interface LanguageConfig {
                     @ConfKey("check")
                     String check();
 
-                    @ConfKey("query")
-                    String query();
+                    @ConfKey("info")
+                    String info();
 
                 }
             }
 
             @SubSection
-            @ConfKey("query")
-            Query query();
+            @ConfKey("info")
+            Info info();
 
-            interface Query {
+            interface Info {
                 @ConfKey("title")
                 String title();
 

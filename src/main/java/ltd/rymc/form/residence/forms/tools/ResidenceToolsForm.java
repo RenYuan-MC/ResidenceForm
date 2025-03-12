@@ -21,7 +21,7 @@ public class ResidenceToolsForm extends RSimpleForm {
         content(toolMain.text("content"));
         buttons(
                 buttons.text("check"),
-                buttons.text("query")
+                buttons.text("info")
         );
     }
 

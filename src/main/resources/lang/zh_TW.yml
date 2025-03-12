@@ -223,7 +223,7 @@ forms:
         query: "領地資訊查詢"
 
     # 領地資訊查詢
-    query:
+    info:
       title: "§8領地資訊查詢"
       dropdown: "你可以使用此下拉選單"
       input1: "或使用此輸入框"

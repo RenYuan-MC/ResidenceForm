@@ -223,7 +223,7 @@ forms:
         query: "Search for residence information"
 
     # Residence Information Search
-    query:
+    info:
       title: "§8Residence Information Search"
       dropdown: "You can use this dropdown box"
       input1: "or use this input box"

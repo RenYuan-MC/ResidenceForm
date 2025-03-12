@@ -32,7 +32,7 @@ public class ResidenceInfoForm extends RCustomForm {
 
     private String[] generateResidenceNames(){
         String[] names = ArraysUtils.rotate(residenceMap.keySet().toArray(new String[0]),1);
-        names[0] = text("forms.tool.query.choose");
+        names[0] = text("forms.tool.info.choose");
         return names;
     }
 
