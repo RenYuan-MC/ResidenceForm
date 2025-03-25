@@ -6,6 +6,7 @@ import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
 import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.utils.InputUtils;
+import ltd.rymc.form.residence.utils.TeleportUtil;
 import ltd.rymc.form.residence.utils.facing.Facing;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -44,11 +45,15 @@ public class ResidenceExpandAndContractForm extends RCustomForm {
 
         String command = response.asToggle(2) ? "contract" : "expand";
         Location location = bukkitPlayer.getLocation();
-        bukkitPlayer.teleport(Facing.translateLocation(location, Facing.facing(response.asDropdown(0))));
-        Bukkit.dispatchCommand(bukkitPlayer, "res " + command + " " + claimedResidence.getName() + " " + input.trim());
-        bukkitPlayer.teleport(location);
+        TeleportUtil.Instance instance = TeleportUtil.getInstance();
 
-        sendPrevious();
+        Location translatedLocation = Facing.translateLocation(location, Facing.facing(response.asDropdown(0)));
+        instance.teleport(bukkitPlayer, translatedLocation).whenComplete((result, throwable) -> {
+            if (!result) return;
+            Bukkit.dispatchCommand(bukkitPlayer, "res " + command + " " + claimedResidence.getName() + " " + input.trim());
+            instance.teleport(bukkitPlayer, location).whenComplete((backResult, backThrowable) -> sendPrevious());
+        });
+
     }
 
     @Override
