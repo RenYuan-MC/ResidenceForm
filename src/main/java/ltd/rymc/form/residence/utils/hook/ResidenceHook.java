@@ -39,18 +39,24 @@ public class ResidenceHook {
     public static boolean hook(cmd command, int priority){
         if (!state) return false;
 
-        if (!checkCommand(command)){
-            Bukkit.getLogger().warning("Residence hook failed: command package name should start with com.bekvon.bukkit.residence.commands");
+        try {
+            if (!checkCommand(command)){
+                Bukkit.getLogger().warning("Residence hook failed: command package name should start with com.bekvon.bukkit.residence.commands");
+                return false;
+            }
+
+            String name = command.getClass().getSimpleName();
+
+            hookCommandList(name, priority);
+            hookLanguage(command, name);
+            hookResidenceHelp();
+
+            return true;
+        } catch (Exception e){
+            Bukkit.getLogger().warning("Residence hook failed: " + e.getMessage());
             return false;
         }
 
-        String name = command.getClass().getSimpleName();
-
-        hookCommandList(name, priority);
-        hookLanguage(command, name);
-        hookResidenceHelp();
-
-        return true;
     }
 
     private static boolean checkCommand(cmd command) {
@@ -77,6 +83,6 @@ public class ResidenceHook {
 
     private static void hookResidenceHelp(){
         // Now we only implement hook by reloading this part
-        residence.parseHelpEntries();
+        LocaleManager.parseHelpEntries();
     }
 }
