@@ -21,6 +21,6 @@
 * 领地创建 ( res create )
 ## 前置
 * Floodgate (2.2.0版本以上) - 用于基岩版菜单
-* Residence (5.0版本以上) - 领地插件
+* Residence (6.0版本以上) - 领地插件
 ## 数据统计
 ![](https://bstats.org/signatures/bukkit/ResidenceForm.svg)
