@@ -5,17 +5,13 @@ import com.bekvon.bukkit.residence.containers.Flags;
 import com.bekvon.bukkit.residence.containers.ResidencePlayer;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.FlagPermissions;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class ResidenceUtils {
@@ -28,7 +24,7 @@ public class ResidenceUtils {
      * @param residence 领地
      * @return 领地权限列表
      */
-    public static HashMap<String, FlagPermissions.FlagState> getResidenceFlags(Player player, ClaimedResidence residence) {
+    public static Map<String, FlagPermissions.FlagState> getResidenceFlags(Player player, ClaimedResidence residence) {
 
         // TODO: 检查res admin项
         List<String> flags = residence.getPermissions().getPossibleFlags(player, true, false);
@@ -76,7 +72,7 @@ public class ResidenceUtils {
      * @param residence    领地
      * @return 领地玩家权限列表
      */
-    public static HashMap<String, FlagPermissions.FlagState> getResidencePlayerFlags(Player player, String targetPlayer, ClaimedResidence residence) {
+    public static Map<String, FlagPermissions.FlagState> getResidencePlayerFlags(Player player, String targetPlayer, ClaimedResidence residence) {
         Map<String, Boolean> globalFlags = new HashMap<>();
         for (Flags oneFlag : Flags.values()) {
             globalFlags.put(oneFlag.toString(), oneFlag.isEnabled());
@@ -160,41 +156,29 @@ public class ResidenceUtils {
         return FlagPermissions.FlagState.NEITHER;
     }
 
-    public static HashMap<String, ClaimedResidence> getResidenceList(Player player) {
-        HashMap<String, ClaimedResidence> hashMap = new HashMap<>();
-        for (Map.Entry<String, ClaimedResidence> entry : getNormalResidenceList(player).entrySet()) {
-            if (hasManagePermission(player, entry.getValue())) hashMap.put(entry.getKey(), entry.getValue());
-        }
-        return hashMap;
+    public static Map<String, ClaimedResidence> getResidenceList(Player player) {
+        Map<String, ClaimedResidence> map = getNormalResidenceList(player);
+        map.entrySet().removeIf((entry) -> !hasManagePermission(player, entry.getValue()));
+        return map;
     }
 
-    public static HashMap<String, ClaimedResidence> getNormalResidenceList(Player player) {
+    public static Map<String, ClaimedResidence> getNormalResidenceList(Player player) {
         Residence res = Residence.getInstance();
-        TreeMap<String, ClaimedResidence> ownedResidences = res.getPlayerManager().getResidencesMap(player.getName(), true, false, null);
-        ownedResidences.putAll(res.getRentManager().getRentsMap(player.getName(), false, null));
-        ownedResidences.putAll(res.getPlayerManager().getTrustedResidencesMap(player.getName(), true, false, null));
-        return new HashMap<>(ownedResidences);
+        Map<String, ClaimedResidence> ownedResidences = res.getPlayerManager().getResidencesMap(player.getUniqueId(), true, false, null);
+        ownedResidences.putAll(res.getRentManager().getRentsMap(player.getUniqueId(), false, null));
+        ownedResidences.putAll(res.getPlayerManager().getTrustedResidencesMap(player.getUniqueId(), true, false, null));
+        return ownedResidences;
     }
 
     public static boolean hasManagePermission(Player player, ClaimedResidence residence) {
         return residence.isOwner(player.getUniqueId()) || residence.getPermissions().playerHas(player, Flags.admin, false);
     }
 
-    public static List<ResidencePlayer> getResTrustedPlayer(ClaimedResidence residence) {
-        return new ArrayList<>(residence.getTrustedPlayers());
-    }
-
     public static List<String> getResTrustedPlayerString(ClaimedResidence residence) {
-        List<String> list = new ArrayList<>();
-        for (ResidencePlayer player : getResTrustedPlayer(residence)) {
-            list.add(Bukkit.getOfflinePlayer(UUID.fromString(player.getName())).getName());
-        }
-        return list;
-    }
+        return residence.getTrustedPlayers()
+                .stream()
+                .map(ResidencePlayer::getName)
+                .collect(Collectors.toList());
 
-    public static void kickPlayer(String targetPlayer, ClaimedResidence residence) {
-        Player player = PlayerUtils.getPlayerExtract(targetPlayer);
-        if (player == null) return;
-        residence.kickFromResidence(player);
     }
 }

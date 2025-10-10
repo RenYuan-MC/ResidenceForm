@@ -13,10 +13,10 @@ import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class ResidenceInfoForm extends RCustomForm {
-    HashMap<String, ClaimedResidence> residenceMap;
+    Map<String, ClaimedResidence> residenceMap;
     String[] names;
     public ResidenceInfoForm(Player player, RForm previousForm) {
         super(player, previousForm);

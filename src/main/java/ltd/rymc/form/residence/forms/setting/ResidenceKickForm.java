@@ -57,14 +57,18 @@ public class ResidenceKickForm extends RCustomForm {
 
     @Override
     public void onValidResult(CustomForm form, CustomFormResponse response) {
-        String targetPlayer = getPlayerName(response);
+        String targetPlayerName = getPlayerName(response);
 
-        if(targetPlayer == null){
+        if(targetPlayerName == null){
             sendPrevious();
             return;
         }
 
-        ResidenceUtils.kickPlayer(targetPlayer, claimedResidence);
+        Player targetPlayer = PlayerUtils.getPlayerExtract(targetPlayerName);
+
+        if (targetPlayer != null) {
+            claimedResidence.kickFromResidence(targetPlayer);
+        }
 
         sendPrevious();
     }

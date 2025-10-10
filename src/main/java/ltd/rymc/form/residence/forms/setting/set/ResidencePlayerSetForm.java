@@ -14,13 +14,13 @@ import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ResidencePlayerSetForm extends RCustomForm {
     private final String targetPlayer;
     private final ClaimedResidence claimedResidence;
-    HashMap<String, FlagPermissions.FlagState> flags;
+    Map<String, FlagPermissions.FlagState> flags;
     List<String> permissionList;
     public ResidencePlayerSetForm(Player player, RForm previousForm, ClaimedResidence claimedResidence, String targetPlayer) {
         super(player, previousForm);
