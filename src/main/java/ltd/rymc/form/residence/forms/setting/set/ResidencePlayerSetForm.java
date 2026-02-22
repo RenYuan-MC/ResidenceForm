@@ -1,6 +1,7 @@
 package ltd.rymc.form.residence.forms.setting.set;
 
 import com.bekvon.bukkit.residence.containers.Flags;
+import com.bekvon.bukkit.residence.containers.ResidencePlayer;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.FlagPermissions;
 import ltd.rymc.form.residence.form.RCustomForm;
@@ -16,27 +17,23 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class ResidencePlayerSetForm extends RCustomForm {
-    private final String targetPlayer;
+
+    private final UUID targetPlayer;
     private final ClaimedResidence claimedResidence;
-    Map<String, FlagPermissions.FlagState> flags;
-    List<String> permissionList;
-    public ResidencePlayerSetForm(Player player, RForm previousForm, ClaimedResidence claimedResidence, String targetPlayer) {
+    private final Map<String, FlagPermissions.FlagState> flags;
+    private final List<String> permissionList;
+
+    public ResidencePlayerSetForm(Player player, RForm previousForm, ClaimedResidence claimedResidence, UUID targetPlayer) {
         super(player, previousForm);
         this.targetPlayer = targetPlayer;
         this.claimedResidence = claimedResidence;
-        if (!ResidenceUtils.hasManagePermission(player, claimedResidence) && !player.isOp()) {
-            new ResidenceNoPermissionForm(player,previousForm).send();
-            return;
-        }
-
+        this.flags = ResidenceUtils.getResidencePlayerFlags(player, targetPlayer, claimedResidence);
+        this.permissionList = new ArrayList<>(flags.keySet());
 
         title(String.format(text("forms.manage.player-set.set.title"), claimedResidence.getName(), targetPlayer));
-
-        flags = ResidenceUtils.getResidencePlayerFlags(player, targetPlayer, claimedResidence);
-        permissionList = new ArrayList<>(flags.keySet());
-
         addPermissionList();
     }
 
@@ -61,6 +58,15 @@ public class ResidencePlayerSetForm extends RCustomForm {
         }
     }
 
+    @Override
+    public void send() {
+        if (!ResidenceUtils.hasManagePermission(bukkitPlayer, claimedResidence) && !bukkitPlayer.isOp()) {
+            new ResidenceNoPermissionForm(bukkitPlayer, previousForm).send();
+            return;
+        }
+
+        super.send();
+    }
 
     @Override
     public void onValidResult(CustomForm form, CustomFormResponse response) {

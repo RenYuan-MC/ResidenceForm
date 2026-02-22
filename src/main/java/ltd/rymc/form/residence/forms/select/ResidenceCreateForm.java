@@ -14,10 +14,11 @@ import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceCreateForm extends RCustomForm {
+
     private static final Residence residence = Residence.getInstance();
+
     public ResidenceCreateForm(Player player, RForm previousForm) {
         super(player, previousForm);
-
 
         Language.Section create = section("forms.create.create");
 
@@ -36,7 +37,7 @@ public class ResidenceCreateForm extends RCustomForm {
     public void onValidResult(CustomForm form, CustomFormResponse response) {
         String input = response.asInput(0);
 
-        if (!InputUtils.checkInput(input)) {
+        if (!InputUtils.isValid(input)) {
             sendPrevious();
             return;
         }

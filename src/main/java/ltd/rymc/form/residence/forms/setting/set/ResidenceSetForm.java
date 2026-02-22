@@ -18,23 +18,18 @@ import java.util.List;
 import java.util.Map;
 
 public class ResidenceSetForm extends RCustomForm {
-    Map<String, FlagPermissions.FlagState> flags;
-    List<String> permissionList;
 
+    private final Map<String, FlagPermissions.FlagState> flags;
+    private final List<String> permissionList;
     private final ClaimedResidence claimedResidence;
+
     public ResidenceSetForm(Player player, RForm previousForm, ClaimedResidence claimedResidence) {
         super(player, previousForm);
         this.claimedResidence = claimedResidence;
-        if (!ResidenceUtils.hasManagePermission(player, claimedResidence) && !player.isOp()) {
-            new ResidenceNoPermissionForm(player,previousForm).send();
-            return;
-        }
+        this.flags = ResidenceUtils.getResidenceFlags(player, claimedResidence);
+        this.permissionList = new ArrayList<>(flags.keySet());
 
         title(String.format(text("forms.manage.set.title"), claimedResidence.getName()));
-
-        flags = ResidenceUtils.getResidenceFlags(player, claimedResidence);
-        permissionList = new ArrayList<>(flags.keySet());
-
         addPermissionList();
     }
 
@@ -57,6 +52,16 @@ public class ResidenceSetForm extends RCustomForm {
                     permission.text("enable")
             );
         }
+    }
+
+    @Override
+    public void send() {
+        if (!ResidenceUtils.hasManagePermission(bukkitPlayer, claimedResidence) && !bukkitPlayer.isOp()) {
+            new ResidenceNoPermissionForm(bukkitPlayer, previousForm).send();
+            return;
+        }
+
+        super.send();
     }
 
     @Override

@@ -43,7 +43,6 @@ public final class ResidenceForm extends JavaPlugin {
         return commandManager;
     }
 
-
     public static ConfigManager<Config> getMainConfigManager() {
         return mainConfigManager;
     }

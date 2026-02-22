@@ -14,7 +14,9 @@ import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceCreateSelectForm extends RSimpleForm {
+
     private static final Residence residence = Residence.getInstance();
+
     public ResidenceCreateSelectForm(Player player, RForm previousForm) {
         super(player, previousForm);
 

@@ -9,6 +9,7 @@ import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceNoPermissionForm extends RSimpleForm {
+
     public ResidenceNoPermissionForm(Player player, RForm previousForm) {
         super(player, previousForm);
 

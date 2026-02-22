@@ -11,15 +11,12 @@ import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceSensitiveOperationForm extends RSimpleForm {
+
     private final ClaimedResidence claimedResidence;
+
     public ResidenceSensitiveOperationForm(Player player, RForm previousForm, ClaimedResidence claimedResidence) {
         super(player, previousForm);
         this.claimedResidence = claimedResidence;
-
-        if (!claimedResidence.isOwner(player) && !player.isOp()) {
-            new ResidenceNoPermissionForm(player,previousForm).send();
-            return;
-        }
 
         Language.Section sensitiveMain = section("forms.manage.sensitive.main");
         Language.Section sensitiveMainButtons = sensitiveMain.section("buttons");
@@ -32,6 +29,16 @@ public class ResidenceSensitiveOperationForm extends RSimpleForm {
                 sensitiveMainButtons.text("give"),
                 sensitiveMainButtons.text("remove")
         );
+    }
+
+    @Override
+    public void send() {
+        if (!claimedResidence.isOwner(bukkitPlayer) && !bukkitPlayer.isOp()) {
+            new ResidenceNoPermissionForm(bukkitPlayer,previousForm).send();
+            return;
+        }
+
+        super.send();
     }
 
     @Override

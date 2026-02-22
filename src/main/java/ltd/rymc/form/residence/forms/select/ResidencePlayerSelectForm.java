@@ -10,9 +10,9 @@ import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidencePlayerSelectForm extends RCustomForm {
+
     public ResidencePlayerSelectForm(Player player, RForm previousForm) {
         super(player, previousForm);
-
 
         Language.Section createSelect = section("forms.create.select");
 

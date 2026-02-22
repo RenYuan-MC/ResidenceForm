@@ -1,6 +1,9 @@
 package ltd.rymc.form.residence.forms.setting.set;
 
+import com.bekvon.bukkit.residence.Residence;
+import com.bekvon.bukkit.residence.containers.ResidencePlayer;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
+import com.bekvon.bukkit.residence.protection.PlayerManager;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
@@ -19,16 +22,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResidencePlayerSetSelectForm extends RCustomForm {
+
+    private static final PlayerManager playerManager = Residence.getInstance().getPlayerManager();
+
     private final ClaimedResidence claimedResidence;
-    List<Player> players;
+    private final List<Player> players;
+
     public ResidencePlayerSetSelectForm(Player player, RForm previousForm, ClaimedResidence claimedResidence) {
         super(player, previousForm);
         this.claimedResidence = claimedResidence;
-        if (!ResidenceUtils.hasManagePermission(player, claimedResidence) && !player.isOp()) {
-            new ResidenceNoPermissionForm(player,previousForm).send();
-            return;
-        }
-        players = new ArrayList<>(Bukkit.getOnlinePlayers());
+        this.players = new ArrayList<>(Bukkit.getOnlinePlayers());
 
         Language.Section playerSetSelect = section("forms.manage.player-set.select");
 
@@ -43,22 +46,41 @@ public class ResidencePlayerSetSelectForm extends RCustomForm {
         return playerNameList;
     }
 
-    @Override
-    public void onValidResult(CustomForm form, CustomFormResponse response) {
+    private ResidencePlayer getResidencePlayer(CustomFormResponse response) {
         String input = response.asInput(1);
         int dropdown = response.asDropdown(0);
 
-        if (InputUtils.checkInput(input) && !input.trim().contains(" ")) {
-            new ResidencePlayerSetForm(bukkitPlayer, previousForm, claimedResidence, input).send();
-            return;
+        if (InputUtils.isValid(input) && !input.trim().contains(" ")) {
+            return playerManager.getResidencePlayer(input.trim());
         }
 
         if (dropdown != 0) {
-            new ResidencePlayerSetForm(bukkitPlayer, previousForm, claimedResidence, players.get(dropdown - 1).getName()).send();
+            return playerManager.getResidencePlayer(players.get(dropdown - 1));
+        }
+
+        return null;
+    }
+
+    @Override
+    public void send() {
+        if (!ResidenceUtils.hasManagePermission(bukkitPlayer, claimedResidence) && !bukkitPlayer.isOp()) {
+            new ResidenceNoPermissionForm(bukkitPlayer, previousForm).send();
             return;
         }
 
-        sendPrevious();
+        super.send();
+    }
+
+    @Override
+    public void onValidResult(CustomForm form, CustomFormResponse response) {
+        ResidencePlayer targetPlayer = getResidencePlayer(response);
+
+        if (targetPlayer == null) {
+            sendPrevious();
+            return;
+        }
+
+        new ResidencePlayerSetForm(bukkitPlayer, previousForm, claimedResidence, targetPlayer.getUniqueId()).send();
     }
 
     @Override

@@ -16,8 +16,10 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 import java.util.Map;
 
 public class ResidenceInfoForm extends RCustomForm {
-    Map<String, ClaimedResidence> residenceMap;
-    String[] names;
+
+    private final Map<String, ClaimedResidence> residenceMap;
+    private final String[] names;
+
     public ResidenceInfoForm(Player player, RForm previousForm) {
         super(player, previousForm);
         residenceMap = ResidenceUtils.getNormalResidenceList(player);
@@ -40,7 +42,7 @@ public class ResidenceInfoForm extends RCustomForm {
         String input = response.asInput(1);
         int dropdown = response.asDropdown(0);
 
-        if (InputUtils.checkInput(input) && !input.trim().contains(" ")) {
+        if (InputUtils.isValid(input) && !input.trim().contains(" ")) {
             return input.trim();
         }
 

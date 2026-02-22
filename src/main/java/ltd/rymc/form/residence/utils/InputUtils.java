@@ -3,11 +3,11 @@ package ltd.rymc.form.residence.utils;
 
 public class InputUtils {
 
-    public static boolean checkInput(String input) {
+    public static boolean isValid(String input) {
         return input != null && !input.trim().isEmpty();
     }
 
-    public static boolean checkInput(String input, String input1){
+    public static boolean isMismatch(String input, String input1){
         return !(
                 input != null &&
                 !input.trim().isEmpty() &&

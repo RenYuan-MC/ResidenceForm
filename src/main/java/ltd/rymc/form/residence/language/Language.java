@@ -1,5 +1,6 @@
 package ltd.rymc.form.residence.language;
 
+import ltd.rymc.form.residence.ResidenceForm;
 import ltd.rymc.form.residence.config.ConfigManager;
 import space.arim.dazzleconf.annote.ConfKey;
 import space.arim.dazzleconf.annote.SubSection;
@@ -8,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class Language {
     private final ConfigManager<?> manager;
@@ -43,8 +45,7 @@ public class Language {
 
     private Map<String, String> getCacheFromData(Object data, String parentKey, Class<?> configClass){
         if (data == null) {
-            return new HashMap<>();
-            // TODO: Throw exception
+            throw new IllegalStateException("Config data is null");
         }
 
         Method[] methods = configClass.getDeclaredMethods();
@@ -53,8 +54,8 @@ public class Language {
         for (Method method : methods){
             ConfKey confKey = method.getAnnotation(ConfKey.class);
             if (confKey == null) {
+                ResidenceForm.getInstance().getLogger().log(Level.WARNING, "Method " + method.getName() + " in " + configClass.getName() + " has no @ConfKey annotation");
                 continue;
-                // TODO: Print warning
             }
             String key = (parentKey.isEmpty() ? "" : parentKey + ".") + confKey.value();
 
@@ -70,8 +71,8 @@ public class Language {
 
             boolean isReturnString = method.getReturnType().equals(String.class);
             if (!isReturnString){
+                ResidenceForm.getInstance().getLogger().log(Level.WARNING, "Method " + method.getName() + " in " + configClass.getName() + " does not return String");
                 continue;
-                // TODO: Print warning
             }
 
             String text;

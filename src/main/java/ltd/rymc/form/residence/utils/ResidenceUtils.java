@@ -12,21 +12,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class ResidenceUtils {
 
-    /**
-     * 获取领地权限
-     * 参考实现 com.bekvon.bukkit.residence.gui.setFlagInfo#recalculateResidence()
-     *
-     * @param player    操作者
-     * @param residence 领地
-     * @return 领地权限列表
-     */
     public static Map<String, FlagPermissions.FlagState> getResidenceFlags(Player player, ClaimedResidence residence) {
+        // Reference from com.bekvon.bukkit.residence.gui.setFlagInfo#recalculateResidence()
 
-        // TODO: 检查res admin项
         List<String> flags = residence.getPermissions().getPossibleFlags(player, true, false);
 
         Map<String, Boolean> resFlags = new HashMap<>();
@@ -63,22 +56,15 @@ public class ResidenceUtils {
         return sortByKeyASC(TempPermMap);
     }
 
-    /**
-     * 获取领地玩家权限
-     * 参考实现 com.bekvon.bukkit.residence.gui.setFlagInfo#recalculatePlayer()
-     *
-     * @param player       操作者
-     * @param targetPlayer 目标玩家
-     * @param residence    领地
-     * @return 领地玩家权限列表
-     */
-    public static Map<String, FlagPermissions.FlagState> getResidencePlayerFlags(Player player, String targetPlayer, ClaimedResidence residence) {
+
+    public static Map<String, FlagPermissions.FlagState> getResidencePlayerFlags(Player player, UUID targetPlayer, ClaimedResidence residence) {
+        // Reference from com.bekvon.bukkit.residence.gui.setFlagInfo#recalculatePlayer()
+
         Map<String, Boolean> globalFlags = new HashMap<>();
         for (Flags oneFlag : Flags.values()) {
             globalFlags.put(oneFlag.toString(), oneFlag.isEnabled());
         }
 
-        // TODO: 检查res admin项
         List<String> flags = residence.getPermissions().getPossibleFlags(player, false, false);
 
         Map<String, Boolean> resFlags = new HashMap<>();
@@ -124,13 +110,6 @@ public class ResidenceUtils {
 
     }
 
-    /**
-     * 比 Residence.getInstance().getSortingManager().sortByKeyASC() 更好且泛型支持的排序
-     *
-     * @param <T>       值类型
-     * @param unsortMap 待排序Map
-     * @return 已排序Map
-     */
     public static <T> LinkedHashMap<String, T> sortByKeyASC(Map<String, T> unsortMap) {
         return unsortMap.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())

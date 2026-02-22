@@ -16,16 +16,14 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 import java.util.List;
 
 public class ResidenceKickForm extends RCustomForm {
+
     private final ClaimedResidence claimedResidence;
-    List<Player> players;
+    private final List<Player> players;
+
     public ResidenceKickForm(Player player, RForm previousForm, ClaimedResidence claimedResidence) {
         super(player, previousForm);
         this.claimedResidence = claimedResidence;
-        if (!ResidenceUtils.hasManagePermission(player, claimedResidence) && !player.isOp()) {
-            new ResidenceNoPermissionForm(player,previousForm).send();
-            return;
-        }
-        players = claimedResidence.getPlayersInResidence();
+        this.players = claimedResidence.getPlayersInResidence();
 
         Language.Section kick = section("forms.manage.kick");
 
@@ -44,7 +42,7 @@ public class ResidenceKickForm extends RCustomForm {
         String input = response.asInput(1);
         int dropdown = response.asDropdown(0);
 
-        if (InputUtils.checkInput(input) && !input.trim().contains(" ")) {
+        if (InputUtils.isValid(input) && !input.trim().contains(" ")) {
             return input;
         }
 
@@ -53,6 +51,16 @@ public class ResidenceKickForm extends RCustomForm {
         }
 
         return null;
+    }
+
+    @Override
+    public void send() {
+        if (!ResidenceUtils.hasManagePermission(bukkitPlayer, claimedResidence) && !bukkitPlayer.isOp()) {
+            new ResidenceNoPermissionForm(bukkitPlayer, previousForm).send();
+            return;
+        }
+
+        super.send();
     }
 
     @Override
