@@ -7,6 +7,9 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.annotation.Subcommand;
 import ltd.rymc.form.residence.ResidenceForm;
+import ltd.rymc.form.residence.form.RForm;
+import ltd.rymc.form.residence.forms.MainResidenceForm;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -30,6 +33,27 @@ public class ResidenceFormCommand extends BaseCommand {
     public void reload(CommandSender sender){
         ResidenceForm.getMainConfigManager().reloadConfig();
         sender.sendMessage(ResidenceForm.getLanguage().text("reload"));
+    }
+
+    @Subcommand("asback")
+    @CommandPermission("rform.asback")
+    public void asBack(CommandSender sender, String[] backCommandArgs){
+        if (!(sender instanceof Player)) {
+            return;
+        }
+
+        Player player = (Player) sender;
+        String backCommand = String.join(" ", backCommandArgs);
+
+        new MainResidenceForm(player, new RForm() {
+            @Override
+            public void send() {
+                Bukkit.dispatchCommand(player, backCommand);
+            }
+
+            @Override public void sendPrevious() {}
+            @Override public void refresh() {}
+        }).send();
     }
 
 }
