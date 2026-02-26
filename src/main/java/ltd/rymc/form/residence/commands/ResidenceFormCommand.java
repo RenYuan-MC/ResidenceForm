@@ -7,11 +7,8 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.annotation.Subcommand;
 import ltd.rymc.form.residence.ResidenceForm;
-import ltd.rymc.form.residence.forms.MainResidenceForm;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.function.Function;
 
 @CommandAlias("rform|residenceform")
 @Description("领地Form菜单")
