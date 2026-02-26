@@ -6,7 +6,7 @@ plugins {
 build.dependsOn shadowJar
 
 group = 'ltd.rymc'
-version = '2.3.0-SNAPSHOT-7'
+version = '2.3.1'
 description = '领地Form菜单支持'
 
 java {
