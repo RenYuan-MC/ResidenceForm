@@ -16,15 +16,12 @@ import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceExpandAndContractForm extends RCustomForm {
+
     private final ClaimedResidence claimedResidence;
+
     public ResidenceExpandAndContractForm(Player player, RForm previousForm, ClaimedResidence claimedResidence) {
         super(player, previousForm);
         this.claimedResidence = claimedResidence;
-
-        if (!claimedResidence.isOwner(player) && !player.isOp()) {
-            new ResidenceNoPermissionForm(player,previousForm).send();
-            return;
-        }
 
         Language.Section sensitiveExpand = section("forms.manage.sensitive.expand");
 
@@ -35,10 +32,20 @@ public class ResidenceExpandAndContractForm extends RCustomForm {
     }
 
     @Override
+    public void send() {
+        if (!claimedResidence.isOwner(bukkitPlayer) && !bukkitPlayer.isOp()) {
+            new ResidenceNoPermissionForm(bukkitPlayer, previousForm).send();
+            return;
+        }
+
+        super.send();
+    }
+
+    @Override
     public void onValidResult(CustomForm form, CustomFormResponse response) {
         String input = response.asInput(1);
 
-        if (!InputUtils.checkInput(input) || input.trim().contains(" ")) {
+        if (!InputUtils.isValid(input) || input.trim().contains(" ")) {
             sendPrevious();
             return;
         }

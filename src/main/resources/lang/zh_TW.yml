@@ -220,7 +220,7 @@ forms:
       content: "§7領地基岩版選單"
       buttons:
         check: "查看目前領地邊界"
-        query: "領地資訊查詢"
+        info: "領地資訊查詢"
 
     # 領地資訊查詢
     info:

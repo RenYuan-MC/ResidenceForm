@@ -12,7 +12,9 @@ import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceManualSelectForm extends RCustomForm {
+
     private static final SelectionManager selectionManager = Residence.getInstance().getSelectionManager();
+
     public ResidenceManualSelectForm(Player player, RForm previousForm) {
         super(player, previousForm);
 

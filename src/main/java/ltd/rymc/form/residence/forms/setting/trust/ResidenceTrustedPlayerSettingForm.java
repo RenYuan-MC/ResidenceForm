@@ -14,16 +14,12 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 import java.util.List;
 
 public class ResidenceTrustedPlayerSettingForm extends RSimpleForm {
+
     private final ClaimedResidence claimedResidence;
+
     public ResidenceTrustedPlayerSettingForm(Player player, RForm previousForm, ClaimedResidence claimedResidence) {
         super(player, previousForm);
         this.claimedResidence = claimedResidence;
-
-        if (!ResidenceUtils.hasManagePermission(player, claimedResidence) && !player.isOp()) {
-            new ResidenceNoPermissionForm(player,previousForm).send();
-            return;
-        }
-
 
         Language.Section trustedPlayerMain = section("forms.manage.trusted-player.main");
 
@@ -39,6 +35,16 @@ public class ResidenceTrustedPlayerSettingForm extends RSimpleForm {
             stringBuilder.append(playerName).append(i == trustedPlayersSize - 1 ? "" : ", ");
         }
         return stringBuilder.toString();
+    }
+
+    @Override
+    public void send() {
+        if (!ResidenceUtils.hasManagePermission(bukkitPlayer, claimedResidence) && !bukkitPlayer.isOp()) {
+            new ResidenceNoPermissionForm(bukkitPlayer,previousForm).send();
+            return;
+        }
+
+        super.send();
     }
 
     @Override

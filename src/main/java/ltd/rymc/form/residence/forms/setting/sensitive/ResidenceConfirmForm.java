@@ -9,7 +9,9 @@ import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceConfirmForm extends RSimpleForm {
+
     private final Runnable runnable;
+
     public ResidenceConfirmForm(Player player, RForm previousForm, String title, Runnable runnable) {
         super(player, previousForm);
         this.runnable = runnable;

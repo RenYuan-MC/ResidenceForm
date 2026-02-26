@@ -10,8 +10,10 @@ import ltd.rymc.form.residence.language.Language;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class MainResidenceForm extends RSimpleForm {
+
     public MainResidenceForm(Player player, RForm previousForm) {
         super(player, previousForm);
 
@@ -36,5 +38,10 @@ public class MainResidenceForm extends RSimpleForm {
         else if (id == 1) new ResidenceSettingSelectForm(bukkitPlayer,this).send();
         else if (id == 2) new ResidenceCreateSelectForm(bukkitPlayer,this).send();
         else if (id == 3) new ResidenceToolsForm(bukkitPlayer,this).send();
+    }
+
+    @Override
+    public void onClosedOrInvalidResult(SimpleForm form, FormResponseResult<SimpleFormResponse> response) {
+        sendPrevious();
     }
 }

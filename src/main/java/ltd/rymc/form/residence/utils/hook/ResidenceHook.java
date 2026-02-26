@@ -11,11 +11,14 @@ import org.bukkit.Bukkit;
 
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ResidenceHook {
 
     private static final Residence residence = Residence.getInstance();
     private static final LocaleManager locale = residence.getLocaleManager();
+    private static final Logger logger = ResidenceForm.getInstance().getLogger();
     private static boolean state;
     private static Map<String, CommandStatus> commands;
 
@@ -30,27 +33,33 @@ public class ResidenceHook {
             Map<String, CommandStatus> commands0 = (Map<String, CommandStatus>) commandListField.get(commandFiller);
             commands = commands0;
             state = true;
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (Throwable t) {
             state = false;
-            ResidenceForm.getInstance().getLogger().warning("An error occurred while using reflection for Residence, unable to hook Residence \n" + e.getMessage());
+            logger.log(Level.WARNING, "An error occurred while using reflection for Residence, unable to hook Residence: ", t);
         }
     }
 
     public static boolean hook(cmd command, int priority){
         if (!state) return false;
 
-        if (!checkCommand(command)){
-            Bukkit.getLogger().warning("Residence hook failed: command package name should start with com.bekvon.bukkit.residence.commands");
+        try {
+            if (!checkCommand(command)){
+                logger.warning("Residence hook failed: command package name should start with com.bekvon.bukkit.residence.commands");
+                return false;
+            }
+
+            String name = command.getClass().getSimpleName();
+
+            hookCommandList(name, priority);
+            hookLanguage(command, name);
+            hookResidenceHelp();
+
+            return true;
+        } catch (Throwable t){
+            logger.log(Level.WARNING, "Residence hook failed: ", t);
             return false;
         }
 
-        String name = command.getClass().getSimpleName();
-
-        hookCommandList(name, priority);
-        hookLanguage(command, name);
-        hookResidenceHelp();
-
-        return true;
     }
 
     private static boolean checkCommand(cmd command) {
@@ -77,6 +86,6 @@ public class ResidenceHook {
 
     private static void hookResidenceHelp(){
         // Now we only implement hook by reloading this part
-        residence.parseHelpEntries();
+        LocaleManager.parseHelpEntries();
     }
 }

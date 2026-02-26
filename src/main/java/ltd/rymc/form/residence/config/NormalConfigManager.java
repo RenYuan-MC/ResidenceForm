@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class NormalConfigManager<C> implements ConfigManager<C> {
@@ -43,7 +44,7 @@ public final class NormalConfigManager<C> implements ConfigManager<C> {
             fromRawMap.setAccessible(true);
             toRawMap.setAccessible(true);
         } catch (NoSuchMethodException | ClassNotFoundException | NoSuchFieldException e) {
-            e.printStackTrace();
+            throw new ExceptionInInitializerError("Failed to initialize reflection for dazzleconf: " + e.getMessage());
         }
     }
 
@@ -98,15 +99,13 @@ public final class NormalConfigManager<C> implements ConfigManager<C> {
 
         } catch (ConfigFormatSyntaxException ex) {
             configData = configHelper.getFactory().loadDefaults();
-            plugin.getLogger().severe("The yaml syntax in your configuration is invalid. "
-                                                           + "Check your YAML syntax with a tool such as https://yaml-online-parser.appspot.com/");
-            ex.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "The yaml syntax in your configuration is invalid. "
+                    + "Check your YAML syntax with a tool such as https://yaml-online-parser.appspot.com/", ex);
 
         } catch (InvalidConfigException ex) {
             configData = configHelper.getFactory().loadDefaults();
-            plugin.getLogger().severe("One of the values in your configuration is not valid. "
-                                                     + "Check to make sure you have specified the right data types.");
-            ex.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "One of the values in your configuration is not valid. "
+                    + "Check to make sure you have specified the right data types.", ex);
         }
     }
 

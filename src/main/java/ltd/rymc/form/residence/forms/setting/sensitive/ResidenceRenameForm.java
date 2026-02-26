@@ -13,15 +13,12 @@ import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceRenameForm extends RCustomForm {
+
     private final ClaimedResidence claimedResidence;
+
     public ResidenceRenameForm(Player player, RForm previousForm, ClaimedResidence claimedResidence) {
         super(player, previousForm);
         this.claimedResidence = claimedResidence;
-
-        if (!claimedResidence.isOwner(player) && !player.isOp()) {
-            new ResidenceNoPermissionForm(player,previousForm).send();
-            return;
-        }
 
         Language.Section sensitiveRename = section("forms.manage.sensitive.rename");
 
@@ -31,11 +28,21 @@ public class ResidenceRenameForm extends RCustomForm {
     }
 
     @Override
+    public void send() {
+        if (!claimedResidence.isOwner(bukkitPlayer) && !bukkitPlayer.isOp()) {
+            new ResidenceNoPermissionForm(bukkitPlayer,previousForm).send();
+            return;
+        }
+
+        super.send();
+    }
+
+    @Override
     public void onValidResult(CustomForm form, CustomFormResponse response) {
         String input = response.asInput(0);
         String input1 = response.asInput(1);
 
-        if (InputUtils.checkInput(input, input1)){
+        if (InputUtils.isMismatch(input, input1)){
             sendPrevious();
             return;
         }

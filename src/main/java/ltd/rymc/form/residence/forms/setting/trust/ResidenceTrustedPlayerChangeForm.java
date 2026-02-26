@@ -1,6 +1,11 @@
 package ltd.rymc.form.residence.forms.setting.trust;
 
+import com.bekvon.bukkit.residence.Residence;
+import com.bekvon.bukkit.residence.containers.ResidencePlayer;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
+import com.bekvon.bukkit.residence.protection.FlagPermissions;
+import com.bekvon.bukkit.residence.protection.PlayerManager;
+import com.bekvon.bukkit.residence.protection.ResidencePermissions;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
@@ -17,21 +22,19 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ResidenceTrustedPlayerChangeForm extends RCustomForm {
+
+    private static final PlayerManager playerManager = Residence.getInstance().getPlayerManager();
+
     private final ClaimedResidence claimedResidence;
-    List<Player> players;
+    private final List<Player> players;
+
     public ResidenceTrustedPlayerChangeForm(Player player, RForm previousForm, ClaimedResidence claimedResidence) {
         super(player, previousForm);
         this.claimedResidence = claimedResidence;
-
-        if (!ResidenceUtils.hasManagePermission(player, claimedResidence) && !player.isOp()) {
-            new ResidenceNoPermissionForm(player,previousForm).send();
-            return;
-        }
-
-        players = new ArrayList<>(Bukkit.getOnlinePlayers());
-
+        this.players = new ArrayList<>(Bukkit.getOnlinePlayers());
 
         Language.Section trustedPlayerChange = section("forms.manage.trusted-player.change");
 
@@ -47,32 +50,47 @@ public class ResidenceTrustedPlayerChangeForm extends RCustomForm {
         return playerNameList;
     }
 
-    private String getPlayerName(CustomFormResponse response){
+    private ResidencePlayer getResidencePlayer(CustomFormResponse response) {
         String input = response.asInput(1);
         int dropdown = response.asDropdown(0);
 
-        if (InputUtils.checkInput(input) && !input.trim().contains(" ")) {
-            return input;
+        if (InputUtils.isValid(input) && !input.trim().contains(" ")) {
+            return playerManager.getResidencePlayer(input.trim());
         }
 
         if (dropdown != 0) {
-            return players.get(dropdown - 1).getName();
+            return playerManager.getResidencePlayer(players.get(dropdown - 1));
         }
 
         return null;
     }
 
     @Override
-    public void onValidResult(CustomForm form, CustomFormResponse response) {
-        String playerName = getPlayerName(response);
+    public void send() {
+        if (!ResidenceUtils.hasManagePermission(bukkitPlayer, claimedResidence) && !bukkitPlayer.isOp()) {
+            new ResidenceNoPermissionForm(bukkitPlayer,previousForm).send();
+            return;
+        }
 
-        if (playerName == null){
+        super.send();
+    }
+
+    @Override
+    public void onValidResult(CustomForm form, CustomFormResponse response) {
+        ResidencePlayer targetPlayer = getResidencePlayer(response);
+
+        if (targetPlayer == null){
             sendPrevious();
             return;
         }
 
-        String flagState = response.asToggle(2) ? "remove" : "true";
-        claimedResidence.getPermissions().setPlayerFlag(bukkitPlayer, playerName, "trusted", flagState, false, false);
+        ResidencePermissions permissions = claimedResidence.getPermissions();
+        if (response.asToggle(2)) {
+            permissions.removeAllPlayerFlags(bukkitPlayer, targetPlayer.getUniqueId(), false);
+        } else {
+            permissions.setPlayerFlag(bukkitPlayer, targetPlayer.getUniqueId(), "trusted", FlagPermissions.FlagState.TRUE, false, false);
+        }
+
         sendPrevious();
     }
 

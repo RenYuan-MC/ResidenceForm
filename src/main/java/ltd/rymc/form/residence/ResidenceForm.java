@@ -6,13 +6,16 @@ import ltd.rymc.form.residence.commands.ResidenceFormCommand;
 import ltd.rymc.form.residence.config.ConfigManager;
 import ltd.rymc.form.residence.config.NormalConfigManager;
 import ltd.rymc.form.residence.configs.Config;
+import ltd.rymc.form.residence.forms.MainResidenceForm;
 import ltd.rymc.form.residence.language.Language;
 import ltd.rymc.form.residence.metrics.Metrics;
 import ltd.rymc.form.residence.utils.LanguageUtils;
 import ltd.rymc.form.residence.utils.hook.ResidenceHook;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.function.Function;
 
 public final class ResidenceForm extends JavaPlugin {
 
@@ -22,6 +25,16 @@ public final class ResidenceForm extends JavaPlugin {
 
     public static ResidenceForm getInstance() {
         return instance;
+    }
+
+    private static Function<Player, MainResidenceForm> mainFormConstructor = (player) -> new MainResidenceForm(player, null);
+
+    public static void setMainFormConstructor(Function<Player, MainResidenceForm> builder) {
+        mainFormConstructor = builder;
+    }
+
+    public static Function<Player, MainResidenceForm> getMainFormConstructor() {
+        return mainFormConstructor;
     }
 
     @Override
@@ -42,7 +55,6 @@ public final class ResidenceForm extends JavaPlugin {
     public static PaperCommandManager getCommandManager() {
         return commandManager;
     }
-
 
     public static ConfigManager<Config> getMainConfigManager() {
         return mainConfigManager;

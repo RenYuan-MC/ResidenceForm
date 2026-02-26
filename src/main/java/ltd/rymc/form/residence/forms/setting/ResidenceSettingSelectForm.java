@@ -12,12 +12,15 @@ import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class ResidenceSettingSelectForm extends RCustomForm {
+
     private static final Residence residence = Residence.getInstance();
-    HashMap<String, ClaimedResidence> residenceMap;
-    String[] names;
+
+    private final Map<String, ClaimedResidence> residenceMap;
+    private final String[] names;
+
     public ResidenceSettingSelectForm(Player player, RForm previousForm) {
         super(player, previousForm);
         residenceMap = ResidenceUtils.getResidenceList(player);

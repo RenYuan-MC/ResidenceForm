@@ -7,7 +7,6 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.annotation.Subcommand;
 import ltd.rymc.form.residence.ResidenceForm;
-import ltd.rymc.form.residence.forms.MainResidenceForm;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -16,13 +15,14 @@ import org.bukkit.entity.Player;
 @SuppressWarnings("unused")
 public class ResidenceFormCommand extends BaseCommand {
 
+
     @Default
     public void form(CommandSender sender){
         if (!(sender instanceof Player)) {
             return;
         }
 
-        new MainResidenceForm((Player) sender, null).send();
+        ResidenceForm.getMainFormConstructor().apply((Player) sender).send();
     }
 
     @Subcommand("reload")

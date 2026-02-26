@@ -13,6 +13,7 @@ import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceSelectExpandAndContractForm extends RCustomForm {
+
     public ResidenceSelectExpandAndContractForm(Player player, RForm previousForm) {
         super(player, previousForm);
         Language.Section createExpand = section("forms.create.expand");
@@ -27,7 +28,7 @@ public class ResidenceSelectExpandAndContractForm extends RCustomForm {
     public void onValidResult(CustomForm form, CustomFormResponse response) {
         String input = response.asInput(1);
 
-        if (!InputUtils.checkInput(input) || input.trim().contains(" ")) {
+        if (!InputUtils.isValid(input) || input.trim().contains(" ")) {
             sendPrevious();
             return;
         }

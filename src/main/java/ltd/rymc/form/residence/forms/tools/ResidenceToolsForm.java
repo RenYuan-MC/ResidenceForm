@@ -11,6 +11,7 @@ import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceToolsForm extends RSimpleForm {
+
     public ResidenceToolsForm(Player player, RForm previousForm) {
         super(player, previousForm);
 

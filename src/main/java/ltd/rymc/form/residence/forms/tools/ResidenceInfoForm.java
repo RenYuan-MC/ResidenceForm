@@ -13,17 +13,19 @@ import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class ResidenceInfoForm extends RCustomForm {
-    HashMap<String, ClaimedResidence> residenceMap;
-    String[] names;
+
+    private final Map<String, ClaimedResidence> residenceMap;
+    private final String[] names;
+
     public ResidenceInfoForm(Player player, RForm previousForm) {
         super(player, previousForm);
         residenceMap = ResidenceUtils.getNormalResidenceList(player);
         names = generateResidenceNames();
 
-        Language.Section info = section("forms.info");
+        Language.Section info = section("forms.tool.info");
 
         title(info.text("title"));
         dropdown(info.text("dropdown"), names);
@@ -40,7 +42,7 @@ public class ResidenceInfoForm extends RCustomForm {
         String input = response.asInput(1);
         int dropdown = response.asDropdown(0);
 
-        if (InputUtils.checkInput(input) && !input.trim().contains(" ")) {
+        if (InputUtils.isValid(input) && !input.trim().contains(" ")) {
             return input.trim();
         }
 

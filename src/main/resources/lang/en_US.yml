@@ -220,7 +220,7 @@ forms:
       content: "§7Residence Form"
       buttons:
         check: "View current residence boundaries"
-        query: "Search for residence information"
+        info: "Search for residence information"
 
     # Residence Information Search
     info:

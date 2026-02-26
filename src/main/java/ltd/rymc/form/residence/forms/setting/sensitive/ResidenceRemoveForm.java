@@ -14,17 +14,13 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceRemoveForm extends RCustomForm {
 
-    private final ClaimedResidence claimedResidence;
     private static final Residence residence = Residence.getInstance();
+
+    private final ClaimedResidence claimedResidence;
 
     public ResidenceRemoveForm(Player player, RForm previousForm, ClaimedResidence claimedResidence) {
         super(player, previousForm);
         this.claimedResidence = claimedResidence;
-
-        if (!claimedResidence.isOwner(player) && !player.isOp()) {
-            new ResidenceNoPermissionForm(player,previousForm).send();
-            return;
-        }
 
         Language.Section sensitiveRemove = section("forms.manage.sensitive.remove");
 
@@ -33,12 +29,21 @@ public class ResidenceRemoveForm extends RCustomForm {
         input(sensitiveRemove.text("input3"), sensitiveRemove.text("input4"));
     }
 
+    @Override
+    public void send() {
+        if (!claimedResidence.isOwner(bukkitPlayer) && !bukkitPlayer.isOp()) {
+            new ResidenceNoPermissionForm(bukkitPlayer, previousForm).send();
+            return;
+        }
+
+        super.send();
+    }
 
     @Override
     public void onValidResult(CustomForm form, CustomFormResponse response) {
         String input = response.asInput(0);
 
-        if (InputUtils.checkInput(input,claimedResidence.getName())) {
+        if (InputUtils.isMismatch(input,claimedResidence.getName())) {
             sendPrevious();
             return;
         }

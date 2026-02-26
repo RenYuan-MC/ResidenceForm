@@ -13,16 +13,12 @@ import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
 public class ResidenceTeleportSetForm extends RSimpleForm {
+
     private final ClaimedResidence claimedResidence;
+
     public ResidenceTeleportSetForm(Player player, RForm previousForm, ClaimedResidence claimedResidence) {
         super(player, previousForm);
         this.claimedResidence = claimedResidence;
-
-        if (!ResidenceUtils.hasManagePermission(player, claimedResidence) && !player.isOp()) {
-            new ResidenceNoPermissionForm(player,previousForm).send();
-            return;
-        }
-
 
         Language.Section teleportSet = section("forms.manage.teleport-set");
         Language.Section teleportSetButtons = teleportSet.section("buttons");
@@ -32,6 +28,16 @@ public class ResidenceTeleportSetForm extends RSimpleForm {
                 teleportSetButtons.text("set"),
                 teleportSetButtons.text("back")
         );
+    }
+
+    @Override
+    public void send() {
+        if (!ResidenceUtils.hasManagePermission(bukkitPlayer, claimedResidence) && !bukkitPlayer.isOp()) {
+            new ResidenceNoPermissionForm(bukkitPlayer, previousForm).send();
+            return;
+        }
+
+        super.send();
     }
 
     @Override
