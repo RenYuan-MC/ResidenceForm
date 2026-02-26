@@ -4,6 +4,7 @@ import com.bekvon.bukkit.residence.LocaleManager;
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.containers.CommandAnnotation;
 import com.bekvon.bukkit.residence.containers.cmd;
+import ltd.rymc.form.residence.ResidenceForm;
 import ltd.rymc.form.residence.forms.MainResidenceForm;
 import net.Zrips.CMILib.FileHandler.ConfigReader;
 import org.bukkit.command.CommandSender;
@@ -34,7 +35,7 @@ public class form implements cmd {
             return false;
         }
 
-        new MainResidenceForm((Player) sender, null).send();
+        ResidenceForm.getMainFormConstructor().apply((Player) sender).send();
         return true;
     }
 

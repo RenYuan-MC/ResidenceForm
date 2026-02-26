@@ -11,10 +11,13 @@ import ltd.rymc.form.residence.forms.MainResidenceForm;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.function.Function;
+
 @CommandAlias("rform|residenceform")
 @Description("领地Form菜单")
 @SuppressWarnings("unused")
 public class ResidenceFormCommand extends BaseCommand {
+
 
     @Default
     public void form(CommandSender sender){
@@ -22,7 +25,7 @@ public class ResidenceFormCommand extends BaseCommand {
             return;
         }
 
-        new MainResidenceForm((Player) sender, null).send();
+        ResidenceForm.getMainFormConstructor().apply((Player) sender).send();
     }
 
     @Subcommand("reload")
