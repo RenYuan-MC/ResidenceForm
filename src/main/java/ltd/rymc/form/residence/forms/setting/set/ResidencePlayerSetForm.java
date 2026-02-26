@@ -17,23 +17,22 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class ResidencePlayerSetForm extends RCustomForm {
 
-    private final UUID targetPlayer;
+    private final ResidencePlayer targetPlayer;
     private final ClaimedResidence claimedResidence;
     private final Map<String, FlagPermissions.FlagState> flags;
     private final List<String> permissionList;
 
-    public ResidencePlayerSetForm(Player player, RForm previousForm, ClaimedResidence claimedResidence, UUID targetPlayer) {
+    public ResidencePlayerSetForm(Player player, RForm previousForm, ClaimedResidence claimedResidence, ResidencePlayer targetPlayer) {
         super(player, previousForm);
         this.targetPlayer = targetPlayer;
         this.claimedResidence = claimedResidence;
-        this.flags = ResidenceUtils.getResidencePlayerFlags(player, targetPlayer, claimedResidence);
+        this.flags = ResidenceUtils.getResidencePlayerFlags(player, targetPlayer.getUniqueId(), claimedResidence);
         this.permissionList = new ArrayList<>(flags.keySet());
 
-        title(String.format(text("forms.manage.player-set.set.title"), claimedResidence.getName(), targetPlayer));
+        title(String.format(text("forms.manage.player-set.set.title"), claimedResidence.getName(), targetPlayer.getName()));
         addPermissionList();
     }
 
@@ -79,7 +78,7 @@ public class ResidencePlayerSetForm extends RCustomForm {
                 continue;
             }
 
-            claimedResidence.getPermissions().setPlayerFlag(targetPlayer, flagName, flagState);
+            claimedResidence.getPermissions().setPlayerFlag(targetPlayer.getUniqueId(), flagName, flagState);
         }
 
         sendPrevious();

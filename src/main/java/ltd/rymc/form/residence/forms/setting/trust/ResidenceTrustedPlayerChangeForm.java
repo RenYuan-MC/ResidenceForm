@@ -5,6 +5,7 @@ import com.bekvon.bukkit.residence.containers.ResidencePlayer;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.FlagPermissions;
 import com.bekvon.bukkit.residence.protection.PlayerManager;
+import com.bekvon.bukkit.residence.protection.ResidencePermissions;
 import ltd.rymc.form.residence.form.RCustomForm;
 import ltd.rymc.form.residence.form.RForm;
 import ltd.rymc.form.residence.forms.setting.ResidenceNoPermissionForm;
@@ -21,6 +22,7 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ResidenceTrustedPlayerChangeForm extends RCustomForm {
 
@@ -82,8 +84,13 @@ public class ResidenceTrustedPlayerChangeForm extends RCustomForm {
             return;
         }
 
-        FlagPermissions.FlagState flagState = response.asToggle(2) ? FlagPermissions.FlagState.FALSE : FlagPermissions.FlagState.TRUE;
-        claimedResidence.getPermissions().setPlayerFlag(bukkitPlayer, targetPlayer.getUniqueId(), "trusted", flagState, false, false);
+        ResidencePermissions permissions = claimedResidence.getPermissions();
+        if (response.asToggle(2)) {
+            permissions.removeAllPlayerFlags(bukkitPlayer, targetPlayer.getUniqueId(), false);
+        } else {
+            permissions.setPlayerFlag(bukkitPlayer, targetPlayer.getUniqueId(), "trusted", FlagPermissions.FlagState.TRUE, false, false);
+        }
+
         sendPrevious();
     }
 

@@ -80,7 +80,7 @@ public class ResidencePlayerSetSelectForm extends RCustomForm {
             return;
         }
 
-        new ResidencePlayerSetForm(bukkitPlayer, previousForm, claimedResidence, targetPlayer.getUniqueId()).send();
+        new ResidencePlayerSetForm(bukkitPlayer, previousForm, claimedResidence, targetPlayer).send();
     }
 
     @Override

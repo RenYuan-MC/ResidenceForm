@@ -25,7 +25,7 @@ public class ResidenceInfoForm extends RCustomForm {
         residenceMap = ResidenceUtils.getNormalResidenceList(player);
         names = generateResidenceNames();
 
-        Language.Section info = section("forms.info");
+        Language.Section info = section("forms.tool.info");
 
         title(info.text("title"));
         dropdown(info.text("dropdown"), names);
