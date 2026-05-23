@@ -34,7 +34,7 @@ public enum Facing {
         if (45.0 < yaw && yaw <= 135.0) return Facing.West;
         if (-45.0 < yaw && yaw <= 45.0) return Facing.South;
         if (-135.0 < yaw && yaw <= -45.0) return Facing.East;
-        if (135.0 < yaw && yaw <= -135.0) return Facing.North;
+        if (135.0 < yaw || yaw <= -135.0) return Facing.North;
         return Facing.Unknown;
     }
 
